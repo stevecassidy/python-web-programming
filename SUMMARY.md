@@ -1,7 +1,32 @@
 # Summary
 
 * [Python Web Programming](README.md)
-* [What is the World Wide Web?](what_is_the_world_wide_web.md)
-* [TCP/IP and DNS](tcpip_and_dns.md)
-* [HTTP](http.md)
-* [Uniform Resource Locators: URL](uniform_resource_locators_url.md)
+
+## The World Wide Web
+
+* [How the Web Works](web/webworks.md)
+* [Content, Style and Behaviour](web/content-style-behaviour.md)
+* [A View of HTML](web/html.md)
+* [Introducing CSS](web/intro-css.md)
+* [Designing for Usability](web/usability.md)
+
+## Python
+
+* [Basic Python](python/basic-python.md)
+* [A Little More Python](python/more-python.md)
+* [Object Oriented Python](python/classes.md)
+* [Python Modules](python/modules.md)
+* [Testing Python Programs](python/unittest.md)
+* [Python and the SQLite Database Engine](python/pysqlite.md)
+
+## Python Web Applications
+
+* [Python Web Applications](bottle/python-webapps.md)
+* [Generating HTML with Templates](bottle/templating.md)
+* [Handling HTML Forms](bottle/forms-processing.md)
+* [Cookies](bottle/cookies.md)
+* [Using SQLite in an Application](bottle/bottle-sqlite.md)
+* [Handling Users - login and sessions](bottle/sessions.md)
+* [Uploading Files](bottle/file-upload.md)
+
+## Javascript
