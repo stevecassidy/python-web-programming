@@ -1,19 +1,15 @@
-
-
 Javascript
 ==========
-
-
 
 The Language
 ------------
 
-Javascript is an object oriented language which is primarily used as an
-embedded scripting langauge within a web browser. It was developed first
+Javascript is an object oriented language which started life as an
+embedded scripting language within a web browser. It was developed first
 by Netscape (and called LiveScript) for use in the Navigator browser,
 had it's name changed when Sun Microsystems became involved and was soon
-copied by Microsoft (as JScript). The langauge was later standardised by
-ECMA as ECMAScript which is perhaps the 'proper' name of the langauge
+copied by Microsoft (as JScript). The language was later standardised by
+ECMA as ECMAScript which is perhaps the 'proper' name of the language
 but everyone calls it Javascript.
 
 The name Javascript is confusing (perhaps by design) because the
@@ -22,29 +18,43 @@ language. The syntax is somewhat similar in that they both share the
 core syntax of C-like languages, but the design philosophy behind them
 is very different and they are useful for different tasks.
 
-Javascript is a loosly typed language, meaning that you don't need to
+Javascript is a *dynamically typed* language, meaning that you don't
 declare the types of variables (just like Python). A variable can hold
 any type of data and it's up to the programmer to ensure that they know
 what the type of a variable is to avoid errors. Errors such as trying to
-add a string to a number will be discovered only at run-time; whereas in
-a strongly typed language like Java they would be found at compile time.
+add an array to an integer will be discovered only at run-time; whereas in
+a statically typed language like Java they would be found at compile time.
+Dynamically typed languages are generally thought to be easier for non-expert
+programmers to learn and lend themselves to quick scripts to solve specific
+problems.  Writing larger applications and ensuring code is bug-free can
+be more difficult unless programmers are very careful. 
 
-Javascript is an object oriented language, but unlike Python or Java,
-objects in Javascript aren't based on predefined class definitions.
+Javascript is an *object oriented* language, but unlike Python or Java,
+objects in Javascript are not based on predefined class definitions.
 Instead they are built around the idea of *prototypes* (objects inherit
 from other prototype objects) and new fields and methods can be added at
 run-time as needed. Objects can be thought of as general purpose
-containers with 'slots' which can hold either data of any type or
+containers with _slots_ which can hold either data of any type or
 functions which act like methods. This is a bit different to the way of
 thinking in Java and Python but has some interesting consequences that
 are exploited in the way that Javascript programs are written.
 
-The main execution environment for Javascript is the web browser. It is
-possible to run a standalone Javascript run-time environment and there
-are a number of projects building server-side infrastructure with
-Javascript (for example [node.js]()). For present purposes we will limit
-the discussion to client-side Javascript in the web browser. In this
-context, the main resource that a Javascript program has access to is
+The most common environment to run Javascript code is the web browser. All modern
+web browsers come with a Javascript execution component that will run code
+embedded in web pages that are being viewed.  However, in recent years, the
+use of Javascript as a _server side_ language is becoming more common.  The
+[node.js](https://nodejs.org/en/) project provides a runtime environment for 
+Javascript that does not rely on a browser and can be used to write general
+purpose scripts including server-side web applications.  The popularity of
+Javascript outside the browser can perhaps be attributed to the rise of
+the front-end developer who knows Javascript and therefore wants to use it
+to perform scripting and write server-side code.   The node.js eco-system is
+now very well established and any practicing web developer needs to have 
+some familiarity with Node and the NPM package manager that is used to
+distribute Javascript software. 
+
+When Javascript is running in the web browser, 
+the main resource that a Javascript program has access to is
 the data structure corresponding to the HTML page currently being
 viewed. Javascript programs are able to interact with this data
 structure, querying it and updating it and so affect the content that is
@@ -54,96 +64,231 @@ element, clicking on a link or entering text into a form. In this way,
 Javascript is used to enhance the user experience and build interactive
 applications within the web browser.
 
-This chapter might one day expand to be a proper Javascript tutorial but
+These chapter might one day expand to be a proper Javascript tutorial but
 at the moment the goal is just to give a flavour of the language. There
 are lots of resources on the net for learning about Javascript but if
 you are already a programmer, the best way is to try to write some code
 and use reference materials and code examples to work things out.
 
 
-
-
-
-Running Javascript
+Running Javascript in the Browser
 ------------------
 
-JavaScript code is embedded in web page headers within
-`<script></script>` tags. Either embed the script directly (note the use
-of HTML and Javascript comments):
+To associate JavaScript code with a web page, the code is embedded in the page or
+linked to with
+`<script></script>` tags. 
+
+We can embed the script directly:
 
 ```javascript
-<head>
-  <title> ...</title>
   <script language="Javascript">
-<!--
-// your script goes here
-
-//-->
+    // your script goes here
+    alert('Hello World')
   </script>
-</head>
     
 ```
-
-Or refer to an external script file:
+This tag can go anywhere in the HTML page and there can be many script tags in one
+page.  The code is written directly inside the tag so this is only really suitable for
+short fragments of code.  **In practice, you would almost never use this way of embedding
+Javascript in a real application.**  Instead you would refer to an external script:
 
 ```
-  <script language="Javascript" src="sample.js">
-    
+  <script src="/static/sample.js">
 ```
-
 Either of these methods of including Javascript has the same effect, the
 code is loaded and executed directly. A script tag can be placed at any
-point in the page, either in the head or body. If there is output from
-the script (via a call to `document.write`) then it is inserted at the
-same point in the document.
+point in the page, either in the head or body. The code is able to modify
+the current page *up to that point* via the DOM (see below) and it can 
+insert content into the current page with `document.write`.   
 
-Since Javascript code is executed as soon as it appears in the page, it
-is common to place script tags that load large libraries right at the
-end of the file, just before the end body tag. This means that most of
-the page can be rendered before the Javascript is loaded, thus speeding
-up the page load as far as the user is concerned.
-
-
+For this reason,
+whenever a `<script>` tag is seen, the rendering of the HTML page is halted
+while the script is executed and then resumed when it is done.    This can 
+slow down the loading of a page if there are many scripts or if running some 
+scripts takes a long time.   For this reason it is common to put all
+script tags that load external Javascript at the *end of the body section* of
+the HTML page.  In this way, the page is fully loaded before the Javascript is
+downloaded and executed.  (Note that there are 
+[alternatives to this](https://www.html5rocks.com/en/tutorials/speed/script-loading/)
+but that browser support is still not 100% and so they can't be relied on).
 
 
 
 Elements of Javascript
 ----------------------
 
-Here's a sample of code to illustrate a few langauge features:
+This text does not attempt to teach you everything about the Javascript language.
+The goal is to point out some important features and show you how to 
+achieve some common tasks with Javascript.  You should refer to 
+other sources to learn the language itself. 
+E.g. [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+
+
+### Functions
+
+Functions can be defined in Javascript much like any other procedural
+language:
 
 ```javascript
-var months = new Array('January','February',
-            'March','April','May','June','July','August',
-            'September','October','November','December');
+function write_times(message, count) {
+  for (var j=0; j<count; j++) {
+    document.write(message)
+  }
+}
 
-var theDate= new Date();
-var day = theDate.getDate();
-
-var textdate = 0;
-
-if (theDate.getYear() < 2000)
-  textdate = 1900;
-
-textdate = months[theDate.getMonth()] + ' ' + day + ', '
-                    + (theDate.getYear() + textdate);
-
-document.write(textdate);
+write_times('hello', 10)
 ```
 
-The first line shows the declaration of a variable with `var`, this is
-optional when creating a variable - if it isn't present, Javascript will
+Note that the input arguments are not typed as they would be in Java or
+C. The final line shows the newly defined function
+in use.
+
+This function also illustrates the use of the `for` loop which has the same syntax
+as in C++ or Java with the exception of the variable declaration using var instead
+of a type specifier.  
+
+Functions in Javascript can also be anonymous - defined without a name. Also, since
+functions are just values in the program (in the same way as in Python) they can be
+assigned to variables. So we can achieve the same as the above with the following code:
+
+```javascript
+var write_times = function (message, count) {
+    for (var j=0; j<count; j++) {
+      document.write(message)
+    }
+}
+```
+
+This might seem a little odd but there are some common uses of this 
+idiom in Javascript so it is important to understand it.
+
+### Debugging Output
+
+Since your Javascript program is running in the web browser, we need a way to 
+log messages so that we can see them for debugging or other purposes.  In Python
+we would insert a `print` statement in code. In Javascript we use `console.log` 
+and the output appears in the browser Javascript console which can be 
+found via the browser developer tools.
+
+All modern browsers also have a very good interactive debugger that can be 
+used to step through your code and place breakpoints.  Get to know your 
+developer tools!
+
+### Variables and Scope
+
+Variables in Javascript should be introduced with the `var` keyword.  
+This is optional when creating a variable - if it isn't present, Javascript will
 look for an existing variable in the current scope (eg. within a
-funciton) and if it doesn't find it, look in the next level until it
+function) and if it does not find it, look in the next level until it
 gets to global scope - if it never finds a variable of that name it will
 be created in global scope. So, without the `var` keyword you are
 effectively using global variables inside your functions. Best practice
 is to always use `var` to make a new variable.
 
-The variable declared in the second line is given the value of an array
-of strings created as an object of type `Array`. This is an example of
-objects as containers in Javascript. The same code could have been
-written as:
+One place you might forget to use `var` is in a for loop:
+
+```javascript
+function counter() {
+    for(i = 0; i<10; i++) {
+        console.log(i);
+    }
+}
+```
+
+While this code will work ok, it is silently creating or referring to a global
+variable `i` as the loop counter.  Since Javascript can run asynchronously (many
+threads at once) it is possible that some other function will also be modifying
+`i` at the same time, causing this loop to behave oddly.  So, always use `var` in
+writing your for loop:
+
+```javascript
+function counter() {
+    for(var i = 0; i<10; i++) {
+        console.log(i);
+    }
+}
+```
+
+Scope can sometimes be confusing in Javascript and there is a real danger of 
+bugs caused by conflicting global variable and function names if two 
+Javascript files are loaded that both create names in global scope. 
+If two files define a function called `render`, then the file that is 
+loaded last will overwrite the first definition.  Even more problematic
+can be code that creates global variables -- if two functions rely on the same
+global variable that could result in very subtle bugs that are hard to track down.
+
+To avoid this kind of problem, it is common to use one of a number of methods to
+avoid using global scope.  These are all ways of working around the fact that 
+Javascript does not provide an official way to define modules that do not 
+clash with each other.  In Python for example we can define functions inside
+one file (module) and we need to import these into another module to use them. 
+In Javascript, every file that is loaded comes into the global namespace. 
+
+One method, which we will use in this text, is to enclose code in an anonymous function
+that is immediately called.  Here's an example:
+
+```javascript
+(function() {
+    var name = 'Steve';
+    
+    function sayhello(who) {
+        console.log("Hello" + who);
+    }
+    sayhello(name);
+})()
+```
+This code defines an anonymous function with no arguments `(function() {...})`.
+The body of the function
+is the code we want to run, it defines a variable and a function and then calls the 
+function which will output 'Hello Steve' on the browser console.  Immediately after
+defining the function we call it - notice the parentheses right after the code block
+`(function() {...})()`.  Since we call the function, the body of code inside
+will be executed but the variable and function we defined will only exist within
+the function, not in the global scope.  So, the overall effect of this is to
+allow us to define and use some variables and functions without polluting the global
+scope and causing possible name collisions. 
+
+So once again the pattern is:
+
+```javascript
+(funciton() {
+    // your code here
+})()
+```
+Note that we can't use this if we want to define functions that are to be used
+by other code blocks.  In that case we sometimes do want to have functions defined in global
+scope. However, there are alternatives which we will see later in some examples.
+
+
+### Arrays and Strings
+
+Strings in Javascript are similar to those in Python. Both single and 
+double quotes can be used (but Python's triple quote notation is not
+supported).  They can contain unicode characters with special symbols if
+you wish.
+
+```javascript
+var s1 = "Hello World!"
+var s2 = 'Hello World!'
+var s3 = 'Hola món!'
+var s4 = 'မင်္ဂလာပါကမ္ဘာလောက'
+```
+
+Strings are objects and can be operated on with methods (just like Python) and 
+then can be subscripted with the square bracket notation.
+
+```javascript
+console.log(s1[3])
+// methods do not modify the string 
+console.log(s1.toUpperCase())
+console.log(s1)
+// just say hello
+console.log(s1.substr(0, 5))
+// note that length is a property, not a function
+console.log(s1.length)
+```
+
+Here is the definition of an array of strings in Javascript:
 
 ```javascript
 var months = ['January','February',
@@ -157,164 +302,148 @@ are just the same as those in most other languages (they're called lists
 in Python); they can be indexed with a number starting from zero and
 they have various methods to manipulate the contents.
 
-The second line creates an instance of a Date object using the `new`
-operator - this is similar to Java's object creation except that Date is
-an object rather than a class name (a minor detail unless you're going
-to go deeper into Javascript). The Date object can be used as an
-interface to the system date as can be seen in the next line when we
-retrieve the current date with `date.getDate()`.
+Arrays in Javascript (just like Python but not like Java) can contain 
+different _typed_ data. So I can have an array that contains both
+numbers and strings.
 
-The next statment makes another variable called `textdate` and
-initialises it to zero, an if statment then checks to see whether the
-current year as returned by the `getYear` method on the date object is
-less than 2000 and if so sets the textdate to 1900. Note that this
-variable is holding an integer value at this point. The next line
-performs a string concatenation operation to make up a string
-representation of the current date. The `+` operator applied to strings
-does concatenation but note that here one of the values `textdate` is an
-integer. Javascript automatically converts the integer to a string in
-this context so that the concatenation operation makes sense. The first
-part of the resulting string is made from an entry in the `months` array
-we made earlier; the index is the number of the current month as
-returned from `getMonth` method on the date object.
-
-The final line in the example calls `document.write` which is a method
-of adding content to the current HTML page at the point where the
-`script` tag occurs. This is the simplest method for modifying the page.
-
-Functions can be defined in Javascript much like any other procedural
-langauge:
-
-```
-function raiseP(x,y) {
-  var total = 1;
-  for (var j=0; j<y; j++) {
-    total*=x;
-  }
-  return total; //result of x raised to y power
-}
-
-z = 10 + raiseP(10,20);
-```
-
-Note that the input arguments aren't typed as they would be in Java or
-C. The function makes use of a local variable `total` which is declared
-using the `var` keyword. The final line shows the newly defined function
-in use.
-
-
-
-
-
-The Document Object Model
--------------------------
-
-Javascript running in the web browser has access to the currently
-displayed web page via an interface called the Document Object Model or
-DOM. The DOM interface is object based as it's name suggests and allows
-a script to locate any part of the page, read the contents and update it
-either by changing text or adding new elements to the page. There are
-various ways to traverse the data structure that makes up the DOM and I
-refer you to other resources for the details (eg. [W3Schools HTML DOM
-tutorial](http://www.w3schools.com/htmldom/)). I'll give one basic
-example here.
-
-    // get the first h1 in the document
-    header = document.getElementsByTagName("h1").item(0)
-
-    // modify the contents
-    header.innerHTML = "New Heading"
-
-    // get the element with the id "info"
-    info = document.getElementById("info")
-    // get the text value of the first child element of this node
-    text = info.firstChild.nodeValue
-
-           
-
-This example illustrates the use of the pre-defined `document` object
-which is the representation of the current web page being displayed by
-the browser. The first example uses `getElementByTagName` to find all of
-the `h1` elements in the page and then selects the first of these using
-the `item` method. The second line shows the modification of the content
-of this element using the `innerHTML` property; setting this to a new
-value directly affects the page being displayed. In the second example
-we use a different method to find an element with a given id attribute.
-We then use the `firstChild` property to find the first child node (the
-first element enclosed in this element) and the `nodeValue` property to
-get the text value of that node.
-
-This is just a brief example of what can be done with the DOM. It
-provides a complete interface to querying and updating the displayed
-HTML page and is the key to Javascript's ability to build fully
-interactive applications in the browser.
-
-
-
-
-
-Javascript Events
-=================
-
-One of the ways to run Javascript code is in response to actions taken
-by the user on the page. Javascript supports a number of event handlers
-that are triggered by user interaction. Examples are the `click` event
-handler which can be added to any element to trigger a fragment of code
-to run when the user clicks on that element.
-
-The easiest way to add a handler for an event is to use a HTML attribute
-inline in the page. The attributes for each event are prefixed by the
-word 'on', so to set a `click` event handler I would add an `onClick`
-attribute to an element:
-
-```HTML
-<img src='foo.jpg' onClick="alert('this is a test');">
-        
-```
-
-In this case the fragment of javascript code would run if the user
-clicked on this image. Any javascript can be included in an attribute
-value but it is best to keep this brief and just call a handler function
-that is defined in a script block elsewhere on the page.
-
-Another way to add handlers is via the `addEventListener` method for a
-DOM element. This has the advantage that it can be done from within a
-code block running elsewhere in the page and that it can add multiple
-handlers for a single event to an element. Here's an example from the
-[Mozilla Developer Network]() on using this method:
+Note that arrays in Javascript are objects that have methods, just like
+in Python. So I can operate on an array using these methods:
 
 ```javascript
-// Function to change the content of t2
-function modifyText(new_text) {
-  var t2 = document.getElementById("t2");
-  t2.firstChild.nodeValue = new_text;    
+// get the name of the month from a month number
+function getMonth(N) {
+    return months[N+1]
 }
-  
-// Function to add event listener to table
-var el = document.getElementById("outside");
-el.addEventListener("click", function(){modifyText("four")}, false);
-        
+
+// confuse things by reversing the array - note that this modifies it in place
+months.reverse()
+// and sort it in place too
+months.sort()
+// remove the last element
+var last = months.pop()
+// and the first
+var first = months.shift()
+// get the first three remaining months
+var three = months.slice(0, 3)
 ```
 
-The sample code defines a handler function `modifyText` which is then
-attached to the element with id "outside". Note that the second argument
-given to `addEventListener` is an anonymous function that calls the
-handler with a given argument and returns false.
+Strings can be concatenated using the `+` operator:
 
-There's a good list of the different events and the browsers that
-support them on [this quirksmode
-page](http://www.quirksmode.org/dom/events/index.html).
+```javascript
+var newstring = s1 + 'How are you today!'
+```
 
 
+### Javascript Objects
 
+Like Python, Java and C++, Javascript is an object oriented language but
+the way that objects work in Javascript is very different from any
+of those languages.  
 
+Javascript objects are _prototype based_.  So, rather than defining
+a class in source code and then creating instances of that class we
+just create an object and then add data and methods to it. 
+Javascript objects can change at run time, getting new properties
+and new methods.  Here's an example:
 
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+```javascript
+var myCar = new Object()
+myCar.make = 'Holden'
+myCar.model = 'Astra'
+myCar.year = 2009
+myCar.describe = function() {
+    return 'Car: ' + this.make + ', ' + this.model + ', ' + this.year
+}
+```
+
+The first line creates a new instance of `Object` which is the top 
+of the class hierarchy in Javascript (everything is an `Object`).  The
+remaining lines add three properties and a method `describe` that 
+returns a description of the car.  
+
+Note that the method uses the variable name `this` to refer to 
+the instance (like `self` in Python).   Properties can be accessed
+using the dot notation `myCar.year`, or alternately using 
+square brackets `myCar['year']`.   Note that this is then quite
+similar to a Python dictionary - a collection of properties and 
+values - and in fact objects in Javascript can be thought of as 
+a kind of associative array of keys and values, some of which can
+be functions.  This is more obvious if we use an alternate syntax for
+making the object:
+
+```javascript
+var myCar = {
+    make: 'Holden',
+    model: 'Astra',
+    year: 2009,
+    describe: function() {
+            return 'Car: ' + this.make + ', ' + this.model + ', ' + this.year
+    } 
+}
+```
+This looks very similar to a Python dictionary with the exception that property
+names (keys) don't need to be in quotes and you can't have a comma after the last
+key-value pair.
+
+This way of working with objects is not going to be the most useful -- there needs
+to be a way to define methods for all cars, rather than doing it one car
+at a time.  Javascript manages this via _prototypes_.  A prototype is an
+object that is used as a kind of template for making new objects.  The way that 
+a prototype is defined looks odd to anyone familiar with other object oriented
+languages.  Here's an example:
+
+```javascript
+function Car(make, model, year) {
+    this.make = make
+    this.model = model
+    this.year = year
+}
+
+Car.prototype.display = function() {
+    return 'Car: ' + this.make + ', ' + this.model + ', ' + this.year
+}
+
+// create a new car
+myCar = new Car("Holden", "Astra", 2009)
+// call the display method
+console.log(myCar.display())
+```
+
+The first part of this definition is a function called `Car` that acts as
+the constructor for the object.  This is just a regular function, the difference
+is how it is used.  To create a new instance of this prototype we use the
+`new` keyword and call the constructor function.  This has the effect of
+creating the new object and making it available to the function via the
+variable `this`.  The constructor in this case sets the object properties. 
+
+The second part of the definition is to assign a function to the property
+`Car.prototype.display`.   `Car.prototype` is an object itself that is the
+prototype for all cars.  Any methods that are defined on this object will 
+be available to all instances of `Car`.  
+
+### Built In Objects
+
+Javascript comes with a large collection of built in object prototypes that
+you can make use of in your code.   Consult
+ [a good reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript) 
+to get a
+list of all of them.  You'll see many of these in examples in later parts 
+of this text.   One useful example is the `Date` prototype:
+
+```javascript
+var today = new Date();
+var birthday = new Date("Dec 25, 1993")
+//show the date
+console.log(today.toString())
+// show the date in GMT timezone
+console.log(today.toGMTString())
+```
+
+## Summary
+
+There is a lot more to Javascript than this chapter has covered. You should refer to other
+sources to learn the details of the language.  What I've tried to do here is
+to point out some highlights and points of difference with other languages
+that you might be familiar with.  The goal of this text is to give one view of how
+Javascript is used in developing modern web applications.  Most of the important 
+detail is in _how_ it is used and how the application works in the browser.  

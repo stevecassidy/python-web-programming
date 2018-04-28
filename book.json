@@ -1,3 +1,10 @@
 {
-  "plugins": [ "page-toc", "code"]
+  "plugins": [ "page-toc", "code", "packt-fontsettings"],
+  "pluginsConfig": {
+    "fontsettings": {
+      "family": "serif",
+      "theme": "white",
+      "size": 2
+    }
+  }
 }

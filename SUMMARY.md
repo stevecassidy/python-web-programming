@@ -7,6 +7,8 @@
 * [How the Web Works](web/webworks.md)
 * [Content, Style and Behaviour](web/content-style-behaviour.md)
 * [A View of HTML](web/html.md)
+* [The Hypertext Transfer Protocol](web/http.md)
+* [The Uniform Resource Locator](web/urls.md)
 * [Introducing CSS](web/intro-css.md)
 * [Designing for Usability](web/usability.md)
 
@@ -30,3 +32,29 @@
 * [Uploading Files](bottle/file-upload.md)
 
 ## Javascript
+
+* [Introducing Javascript](javascript/javascript.md)
+* [Document Object Model](javascript/dom.md)
+* [Javascript Events](javascript/events.md)
+* [AJAX](javascript/ajax.md)
+* [AJAX Example](javascript/ajaxexample.md)
+* [Javascript Security](javascript/security.md)
+
+## Web Security and Privacy
+
+* [Web Security](security/security.md)
+
+## Data on the Web
+
+* [Crawling the HTML Web](data/crawling.md)
+* [Scripting Forms](data/scripting-forms.md)
+* [Web Data for Machines](data/machinedata.md)
+* [Building a Web API](data/webapi.md)
+
+## Advanced Web Topics
+
+* [Authentication](advanced/authentication.md)
+* [Mobile Web Development](advanced/mobileweb.md)
+* [Deploying Web Applications](advanced/deployment.md)
+* [Deploying Python Applications on Virtual Servers](advanced/virtualserver.md)
+

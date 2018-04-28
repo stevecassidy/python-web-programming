@@ -114,7 +114,7 @@ will crash rendering the server unusable.
 Another common kind of attack is a Buffer Overflow attack. In this case,
 the server software has been written to use a fixed size buffer to
 process input; for example, it has set aside an array of 100 characters
-to receive the email address of a message recipient. In a langauge like
+to receive the email address of a message recipient. In a language like
 C or C++, it has been common to allocate such fixed-size arrays in code
 directly and the result is that the storage for the email address sits
 next to the storage used for the program code. Another way to allocate

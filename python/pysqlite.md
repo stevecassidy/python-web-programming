@@ -88,7 +88,7 @@ The most common use of SQLite is from application programs as an
 embedded datbase. SQLite itself is written as a system library in C
 which means that it is relatively easy to port to new environments (eg.
 your mobile phone) and can be linked into applications written in many
-langauges. For our purposes, the Python SQLite interface is most
+languages. For our purposes, the Python SQLite interface is most
 relevant and there are a number of alternatives to choose from. We will
 make use of the most popular of these which is
 [pysqlite](http://pysqlite.org/).

@@ -1,5 +1,3 @@
-
-
 The HTTP Protocol
 =================
 
@@ -10,9 +8,6 @@ servers](http://imgs.xkcd.com/comics/server_attention_span.png)](http://xkcd.com
 Server Attention Span by xkcd
 
 
-
-
-
 The HTTP Protocol
 -----------------
 
@@ -21,9 +16,6 @@ The HTTP Protocol
 -   Simple format: request header, blank line, possible payload
 -   Symmetrical: allows data to be sent and recieved
 -   Very easy to implement but scales very well
-
-
-
 
 
 Example HTTP Request

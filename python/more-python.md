@@ -181,7 +181,7 @@ This is generally fine but if you ever wanted to import the above module
 into another program, the Python interpreter would still run the
 commands - so you would get your printed explanation whenever the module
 was imported. To guard against this, there is a convention in Python
-programs to put the *main* part of your program inside an if statment
+programs to put the *main* part of your program inside an if statement
 like so:
 
 ```

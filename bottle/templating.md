@@ -190,6 +190,34 @@ quoting of HTML tags:
 '<p>hello world</p>'
 ```
 
+### Conditionals
+
+You may want to have part of your template to vary based on some input
+variable. To achieve this you can use an if statement.  For example,
+if we pass in a variable `is_staff` which is true if the user is a 
+staff member, and we want to display a link to the admin site for
+those users. The template code would be:
+
+```html
+
+% if is_staff:
+<a href="/admin/">Admin Page</a>
+% end
+```
+It is also possible to include an else clause to switch between different
+content based on an input variable.  So if we want to include a subscription
+form for new users and a link to the profile for existing users we might say:
+
+```html
+% if status='registered':
+<a href="/profile/">Your profile</a>
+% else:
+<form action="/subscribe/" method="POST">
+    <input type="text" name="email">
+    <input type="submit">
+</form>
+% end
+```
 
 ### Loops
 
@@ -269,10 +297,7 @@ might include:
          <h2>By {{post[1]}} on {{post[0]}}</h2>
 
          {{!post[2]}}
-
-     
      % end
- 
 {% endraw %}
 ```
 

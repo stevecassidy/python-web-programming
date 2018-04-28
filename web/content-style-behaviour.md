@@ -352,7 +352,7 @@ page.
     -   the name of a book that you are citing in an essay
     -   a fragment of computer code, eg. a bit of Python
     -   an abbreviation or acronym and it's expansion (e.g. HTML -
-        Hypertext Markup Langauge)
+        Hypertext Markup language)
 
 Extending the Semantics of HTML
 -------------------------------
@@ -463,7 +463,7 @@ One final note about the use of classes to convey new semantics. It is
 possible to use more than one class name where that is appropriate to
 convey more specialisations. For example, all of the code examples in
 this text are marked up as `PRE` tags with the class `code` and another
-class to denote the langauge the code is written in, so on this page I
+class to denote the language the code is written in, so on this page I
 have examples like:
 
 ```HTML

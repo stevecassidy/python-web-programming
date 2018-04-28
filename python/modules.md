@@ -270,7 +270,7 @@ complicated patterns.
 
 ### More on Regular Expression Patterns
 
-Here are the most useful parts of the regular expression langauge. A
+Here are the most useful parts of the regular expression language. A
 more complete reference can be found [in the Python
 documentation](http://docs.python.org/library/re.html#regular-expression-syntax).
 

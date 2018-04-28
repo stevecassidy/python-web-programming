@@ -80,9 +80,9 @@ small part of HTML and much more interesting are all the other parts of
 the language that allows us to produce useful documents for the web.
 
 HTML is based on an earlier standard called SGML (Standard Generalised
-Markup Langauge) which had a successor called XML (eXtensible Markup
+Markup language) which had a successor called XML (eXtensible Markup
 Language). SGML and XML are both languages for defining markup
-languages, that is they define the syntax of a markup langauge but allow
+languages, that is they define the syntax of a markup language but allow
 you to develop your own language for a specific purpose. The syntax is
 the angle brackets containing start and end tags &lt;p&gt; and
 &lt;/p&gt; that you will be familiar with (and a number of other rules).
@@ -94,7 +94,7 @@ later by the W3C as a language to encode pages of content for the web.
 Importantly, HTML is a *markup language* not a *programming language*.
 The job of a markup language is to record the structure of a document;
 that structure can then be interpreted by a program to generate some
-output. A programming langauge contains instructions that will be
+output. A programming language contains instructions that will be
 executed (or interpreted) to carry out some action or compute some
 result.
 
@@ -112,7 +112,7 @@ The evolution of HTML has been quite gradual and at times part of
 intense competition between browser vendors (look up the [Browser
 Wars](http://en.wikipedia.org/wiki/Browser_wars) to get the full story).
 The Internet Engineering Task Force (IETF) and later the World Wide Web
-Consortium (W3C) tried to standardise the langauge but it took some time
+Consortium (W3C) tried to standardise the language but it took some time
 for industry practice to align with the W3C standards. Luckily now we
 are in a period of relative stability where the standards process aligns
 well with what the major browsers are able to understand.
@@ -188,3 +188,20 @@ unstructured collection of tagged text. Permissive parsers such as
 and [Tagsoup](http://home.ccil.org/~cowan/XML/tagsoup/) (Java) were
 developed to cope with the messy markup and give the developer as much
 detail as possible from the page.
+
+HTML5
+=====
+
+The most recent version of HTML is HTML5 - note the name with no spaces
+which is quite different to earlier versions.  HTML5 was a big change in
+the way that the standard was put together and followed a long break in
+the development of standards for HTML: HTML 4.0.1 was last updated in 2000,
+HTML5 was finally released in 2012. The goal of HTML5 was to standardise
+current practice in browsers, rather than to define new structures or limit
+what was possible.   The W3C worked with the browser developers to 
+agree on standards for new technologies that they had introduced. For example, 
+being able to include audio and video elements in HTML had been possible 
+in some browsers; HTML5 defined a standard for these that all browser
+vendors could agree on and implement. 
+
+

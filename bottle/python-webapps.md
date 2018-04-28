@@ -266,7 +266,7 @@ name to the URL to get a custom page; try the following:
 `http://127.0.0.1:8080/people/Steve`,
 `http://127.0.0.1:8080/people/Steve%20Cassidy`,
 `http://127.0.0.1:8080/people/a`,
-`http://127.0.0.1:8088/person/%3Cb%3Ehello`. Note that we can include
+`http://127.0.0.1:8080/people/%3Cb%3Ehello`. Note that we can include
 special characters in a URL by encoding them via the % code numbers.
 `%20` is a space character; what are the characters in the final
 example? Can you explain what appears in your browser?
