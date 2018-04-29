@@ -48,4 +48,26 @@ handler with a given argument and returns false.
 There's a good list of the different events and the browsers that
 support them on [this MDN page](https://developer.mozilla.org/en-US/docs/Web/Events).
 
+## `this` in Event Listeners
+
+The variable `this` in Javascript is used in object methods to refer to the
+object instance that the method was called on.  It behaves like the
+`self` argument used in Python but it is defined implicitly rather than
+having to be included as a parameter.  We can also use `this` in the context
+of an event handler because of the way that events are managed in the DOM.  
+In an event handler `this` refers to the element that captured or triggered
+the event that the handler is responding to.  Generally this is the element 
+that the event listener has been added to.   Here's an example:
+
+```javascript
+var el = document.getElementById("outside")
+el.addEventListener("click", function(){
+    this.css("color", "red")
+})
+```
+In the `click` handler defined here as an anonymous function, `this` will refer to
+whatever element received the click event. As the handler was bound to the element
+with id `outside`, then `this` will refer to that element. 
+
+
 

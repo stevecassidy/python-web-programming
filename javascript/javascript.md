@@ -439,6 +439,91 @@ console.log(today.toString())
 console.log(today.toGMTString())
 ```
 
+
+### Javascript Gotchas
+
+Javascript is an odd language, there are many things about it that don't seem
+to make sense if you are used to other languages and can be the source of
+bugs.  There are some useful guides to a number of non-obvious features:
+* [Seven Javascript Quirks](https://developer.telerik.com/featured/seven-javascript-quirks-i-wish-id-known-about/)
+* [12 Javascript Quirks](http://2ality.com/2013/04/12quirks.html)
+
+I'll go over a few of these here.  
+
+#### Equality Testing
+
+The first issue relates to comparison operators.  Javascript has both double and triple
+equals operators to compare whether two values are the same but these behave quite
+differently.  The double equals operator `==` will try as hard as it can to make
+the values be equal by converting the type of a value if necessary.  So comparing
+the string `"1"` to the integer `1` will succeed:
+
+```javascript
+var x = 1
+if (x == "1") {
+    console.log("They are the same!")
+}
+```
+
+This can be exactly what you want but it can also be a source of bugs when two things
+you thought would be different end up being the same.  If you use the triple equal 
+operator `===` the type coercion will not happen and the comparison will succeed only
+if the values really are the same.  So this code will print the message in the else clause:
+
+```javascript
+var x = 1
+if (x === "1") {
+    console.log("The are the same")
+} else {
+    console.log("Not the same because of triple equals!")
+}
+```
+
+Since the odd behaviour of double equals can be a source of bugs, best practice in Javascript is
+to always use triple equals when comparing values. 
+
+#### Two kinds of nothing
+
+Javascript has two special values that sort of mean nothing.   Python for example has
+the special value `None` and Java has `null`, these are used to indicate when a
+variable holds nothing or a function returns no value.   Javascript has the special 
+value `null` for this purpose and it has more or less the same meaning.  However, 
+Javascript also has the special value `undefined` which is the result of evaluating
+a variable that is undefined.  In other languages this would throw an error, but Javascript
+just returns this special value.  
+
+#### Implicit conversion
+
+Similar to the double equals comparison, there are other times when Javascript converts
+the type of values without being asked.  One of these is with boolean tests. The following
+values will convert implicitly to `false`:
+
+* `undefined` or `null`
+* `false`
+* Numbers `+0`, `-0` and `NaN` (Not a Number - eg. Math.sqrt(-1))
+* the empty string `''`
+
+everything else is considered to be `true`.  So I can use these values directly in an if
+statement:
+
+```javascript
+var x = ''
+if (x) {
+    /* this will not run because '' is false */
+}
+```
+
+Another case that can trip you up is the implicit conversion of types to strings.  If I write
+the following:
+
+```javascript
+x = '5'  /* a string */
+console.log( x + 1 )
+```
+the output will be `51` rather than `6` because the number `1` was converted to a string and
+we then get a string concatenation operation `'5' + '1'` rather than an addition.
+
+
 ## Summary
 
 There is a lot more to Javascript than this chapter has covered. You should refer to other
@@ -447,3 +532,4 @@ to point out some highlights and points of difference with other languages
 that you might be familiar with.  The goal of this text is to give one view of how
 Javascript is used in developing modern web applications.  Most of the important 
 detail is in _how_ it is used and how the application works in the browser.  
+

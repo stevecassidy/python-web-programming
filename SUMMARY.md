@@ -36,6 +36,7 @@
 * [Introducing Javascript](javascript/javascript.md)
 * [Document Object Model](javascript/dom.md)
 * [Javascript Events](javascript/events.md)
+* [JQuery](javascript/jquery.md)
 * [AJAX](javascript/ajax.md)
 * [AJAX Example](javascript/ajaxexample.md)
 * [Javascript Security](javascript/security.md)
