@@ -1,10 +1,8 @@
 {
-  "plugins": [ "page-toc", "code", "packt-fontsettings"],
+  "plugins": [ "page-toc", "code", "analytics"],
   "pluginsConfig": {
-    "fontsettings": {
-      "family": "serif",
-      "theme": "white",
-      "size": 2
+    "analytics": {
+      "google": "UA-62467780-1"
     }
   }
 }

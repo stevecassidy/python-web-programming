@@ -248,17 +248,37 @@ the function, not in the global scope.  So, the overall effect of this is to
 allow us to define and use some variables and functions without polluting the global
 scope and causing possible name collisions. 
 
+You might also see variations on this where the function is passed the window and
+even the document objects as a parameter:
+
+```javascript
+(function(window) {
+    /* your code here */
+    window.addEventListener("click", someEventHandler)
+})(window)
+```
+
+This looks very odd since the only effect of passing the window object into the 
+function is to make `window` a local variable in the function, any code would work
+just as well if it was global.   The reason for this construct is two-fold.  Firstly,
+accessing local variables is very slightly faster than accessing global ones, so
+if you referenced `window` a lot in this code, it would be a bit faster to do so. 
+Secondly, a common practice is to 'minify' Javascript code by replacing variable
+names with shorter ones.  This code can then be compressed by renaming `window` to
+`a` and the whole code block will be that little bit shorter.  These are good
+reasons but obscure, so in this text I'll leave out any parameters for
+the anonymous function. 
+
 So once again the pattern is:
 
 ```javascript
-(funciton() {
+(function() {
     // your code here
 })()
 ```
 Note that we can't use this if we want to define functions that are to be used
 by other code blocks.  In that case we sometimes do want to have functions defined in global
 scope. However, there are alternatives which we will see later in some examples.
-
 
 ### Arrays and Strings
 
@@ -522,6 +542,27 @@ console.log( x + 1 )
 ```
 the output will be `51` rather than `6` because the number `1` was converted to a string and
 we then get a string concatenation operation `'5' + '1'` rather than an addition.
+
+### Semicolons
+
+Javascript code can include semi-colons at the end of statements:
+
+```javascript
+x = '5';
+console.log( x + 1 );
+```
+
+however, the semi-colon is optional and can be left out in almost all cases.  One
+place it is required is if you want to include two statements on one line:
+
+```javascript
+x = '5'; console.log( x + 1 );
+```
+
+For the most part then you can write Javscript with no semi-colons and all will be well.
+There are though some obscure cases when a missing semi-colon might get you 
+in trouble.  
+
 
 
 ## Summary

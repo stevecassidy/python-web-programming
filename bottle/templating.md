@@ -209,7 +209,7 @@ content based on an input variable.  So if we want to include a subscription
 form for new users and a link to the profile for existing users we might say:
 
 ```html
-% if status='registered':
+% if status=='registered':
 <a href="/profile/">Your profile</a>
 % else:
 <form action="/subscribe/" method="POST">
