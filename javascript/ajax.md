@@ -199,12 +199,11 @@ get the name value from this document:
 
 ```javascript
 // get the first 'name' tag
-var nameNode = response.responseXML.getElementsByTagName("name")[0];
+var nameNode = response.responseXML.getElementsByTagName("name")[0]
 // get the first child (text) node
-var nameTextNode = nameNode.childNodes[0];
+var nameTextNode = nameNode.childNodes[0]
 // get the text content
-var name = nextTextNode.nodeValue;
-    
+var name = nextTextNode.nodeValue
 ```
 
 Having extracted the data from the XML document we could now update the
@@ -246,6 +245,48 @@ information in the XML DOM, we just access the Javascript object that is
 constructed. Add to this the faster parsing speed for JSON vs. XML and
 it is clear why JSON is preferred in most applications.
 
+## AJAX in jQuery
+
+[jQuery](jquery.md) is a Javascript library that makes many common Javascript
+tasks easier to express.  jQuery has support for AJAX requests that make
+the common cases a lot clearer in code. The code for the previous example 
+to make a request to the `/likes` endpoint and handle the returned 
+JSON data would look like this: 
+
+```javascript
+$.get({
+    url: '/likes',
+    success: {function(data) {
+        console.log(data.name)
+        console.log(data.dance)
+    }}
+})
+```
+
+The `$.get` function implements the common case of sending a GET request and takes
+an object parameter that has properties defining the URL to request and a function
+to call when the request returns.   This success function is called with the data
+that was returned and if this data was in JSON format, we can immediately make
+use of it (if the data was XML we can also handle it in a similar way to 
+the example above).   
+
+jQuery also provides a `$.post` function to make a POST request or the more general
+`$.ajax` function that can send any kind of request with the appropriate configuration. 
+For example, to send a POST request with two form variables: 
+
+```javascript
+$.post({
+    url: '/comment',
+    data: {
+            'user': 'Steve',
+            'message': 'Hello World!'
+    },
+    success: function(data) {
+        console.log("post succeeded")
+    }
+})
+```
+
 AJAX Application Architecture
 -----------------------------
 
@@ -268,12 +309,12 @@ page to the client, the rest of the data and interaction is done via
 AJAX requests.
 
 The AJAX model can be a lot more efficient and responsive than the older
-page based model. It can avoid redundancy since the data doesn't need to
+page based model. It can avoid redundancy since the data does not need to
 be re-sent for every page refresh and all of the HTML decoration around
 the data only needs to be sent once.
 
 If we look at the requirements for this kind of architecture it meshes
-very well with the kind of [Web API](../dataweb/webapi.html) that we
+very well with the kind of [Web API](../data/webapi.md) that we
 discussed in an earlier chapter. We want to be able to request data as
 JSON so that we can update the page. We want to be able to submit
 requests from Javascript and get JSON responses. All of this is provided
@@ -302,34 +343,3 @@ mobile development). These services provide the basic CRUD operations on
 a database via an HTTP JSON API that can be used from your web or mobile
 application.
 
-
-## Benefits of AJAX
-
-AJAX has the following benefits:
-better performance and efficiency
--   small amount of data transfer from the server
-
-more responsive interfaces
--   creating the illusion that updates happen instantly
-
-reduced or eliminated waiting time
--   only the relevant page elements are updated
-
-increased usability
--   client can communicate with the server without page loads.
-
-
-## Potential Problems
-
-Benefits look attractive, but there are a few drawbacks:
-writing and maintaining complex JavaScripts
--   requires substantial JavaScript skills
-
-breaking the page paradigm
--   the concept of a page is no longer valid
-
-accessibility
--   changes may not be detected by screen reader tools
-
-new UI interactivity requires learning
--   new and unexpected functionality might be confusing.

@@ -74,7 +74,7 @@ that they are addressed to them, and re-assembles the original message.
 Packets can arrive out of order (or not at all) and TCP/IP defines what
 the two communicating computers should do in this case.
 
-Each computer on the network is assigned a unique *IP address* wich is a
+Each computer on the network is assigned a unique *IP address* which is a
 32 bit number usually expressed as four 8 bit digits separated by dots.
 For example 192.168.1.2 or 137.111.158.22. These numbers are used as the
 addresses of the packets sent around the Internet. Within an

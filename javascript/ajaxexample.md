@@ -5,7 +5,7 @@ An AJAX Example
 To show an example of an AJAX application we will develop an AJAX
 version of the *likes* application that has been used in previous
 chapters. As a starting point we'll use the version that was developed
-in the [Web API](../dataweb/webapi.html) chapter but modified so that it
+in the [Web API](../data/webapi.md) chapter but modified so that it
 will only serve an HTML page for the root URL (`/`) - all other pages
 return JSON responses. The database (model) part of the application is
 the same; here is the controller part:
@@ -17,7 +17,7 @@ def index():
     info = dict()
     info['title'] = 'AJAX ListMaker!'
     return template('jsonlikes.tpl', info)
-    
+        
 @app.post('/likes')
 def like(db):
     """Handle the /likes POST request from a JSON submission"""
@@ -47,7 +47,7 @@ The application will accept a JSON POST submission to register one or
 more new likes and will respond to a GET request on '/likes' with a JSON
 list of likes. To build an AJAX application from this we need an HTML
 page that makes appropriate AJAX calls. The original page will not
-contain any data (the `index` handler doesn't reference the database)
+contain any data (the `index` handler does not reference the database)
 and so the first thing we will need to do is to retrieve the list of
 likes and include them in the page. Here is the outline of a function
 that creates a request object to query the `/likes` URL:

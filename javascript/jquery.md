@@ -207,3 +207,90 @@ $(window).load(function() {
 
 ## JQuery Examples
 
+### Form Handling
+
+In this example, we will intercept the submission of a form so that instead of the
+data being sent in a request back to the server, we run some Javascript code to update
+the page instead. 
+
+We start with an HTML page with the following structure:
+
+```html
+<body>
+  <h1>What do you like?</h1>
+  <form id=likeform>
+    <input name=thing placeholder="a thing you like" size=30>
+    <input type=submit>
+  </form>
+
+  <ul id=likes></ul>
+  
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+  <script src="scripts/index.js"></script>
+</body>
+```
+
+The page contains a form with a single input asking for a thing that we like.  The goal of the
+application is to capture these things as the form is submitted and add them to
+the unordered list element below the form on the page. Note that the page loads
+the jQuery library from the CDN and then our local Javascript file.  
+
+The key to implementing this application is to add a handler for the `submit` event
+on the target form.  Here is the framework for this in `index.js`:
+
+```javascript
+(function(){
+  $(document).ready(function() {
+      $("#likeform").submit(function(event) {
+        /* form handling code here */
+        /* prevent the submission of the form */
+        event.preventDefault()
+      })
+    })
+})()
+```
+This code block uses the *immediately called anonymous function* pattern to wrap the code 
+and then sets up the document ready handler to have some code run when the document has
+finished loading.  The code we run is to select the form `$('#likeform')` and then add
+a submit handler for the form.   The submit handler is an anonymous function with one
+argument `event` which will be a representation of the event that triggered the
+function call.   We'll look at the content of this function below but the last thing
+that this function does is to call `event.preventDefault()` which blocks the 
+default interpretation of the event which would be to to send an HTTP request back
+to the server.  
+
+The first step in handling the form submission is to get the input that has been 
+entered into the form by the user.  We can use jQuery to locate the input field 
+and get the value like this: 
+
+```javascript
+        var input = $(this).children("input[name='thing']")
+        var thing = $(input).val()
+```
+Here we are using `$(this)` to refer to the form being submitted.  The `children` method
+searches among the child elements of the form and we search for the `input` element
+with a `name` attribute with the value `thing`.   The next line then uses the `val` method
+to get the value entered into the form. 
+
+Now that we have this value, we can insert it into the page by appending some HTML to the 
+target element:
+
+```javascript
+        $("#likes").append("<li>" + thing + "</li>")
+```
+Our application is almost complete. If you try out this code up to this point you can
+enter text into the form, click on submit, and the text will be added as a list item
+in the page.  However, after inserting the text, the entry is left behind in the form
+and we need to delete it to add something new.   We can fix this by resetting the value
+in the form at the end of the function:
+```javascript
+    $(input).val("")
+```
+This completes our little application.  The data from the form is added into the page
+without any reference back to the server. Note that this is clearly not a useful application
+since as soon as the page is refreshed, the data disappears. However, it shows how this
+kind of in-page interaction can be implemented. 
+
