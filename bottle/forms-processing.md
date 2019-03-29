@@ -15,7 +15,7 @@ from the form and act on it. To do this, we need to understand how form
 data is sent along with the HTTP request and how the server encodes it
 and sends it to the application script in the WSGI environment.
 
-```
+```html
 <html>
  <body>
    <h1>Form Page</h1>
@@ -111,9 +111,6 @@ most of the time, the form is collecting user data and submitting it to
 the web application.
 
 
-
-
-
 Dealing with Form Data in Bottle
 --------------------------------
 
@@ -138,7 +135,7 @@ Here is an example application that illustrates basic form submission
 with Bottle. First we write a simple template that contains a form and a
 space for a message:
 
-```
+```html
 <html>
   <head>
       <title>Form Example</title>
@@ -170,7 +167,7 @@ the user so they can fill it out and submit it. Hence we write the
 handler for the root URL to just serve the template with a fixed
 message:
 
-```
+```python
 from bottle import Bottle, template, request
 
 app = Bottle()
@@ -190,7 +187,7 @@ with first and last names and click Submit. This will generate a POST
 request to the root URL; we now need to write code to handle that
 request:
 
-```
+```python
 @app.route('/', method="POST")
 def formhandler():
     """Handle the form submission"""
@@ -220,10 +217,8 @@ someone to submit their height in meters, you need to get a floating
 point value back from the form rather than a string. To achieve this you
 can supply a `type` keyword to the `request.forms.get` method:
 
-```
-   
+```python
        height = request.forms.get('height', type=float)
-   
 ```
 
 The type keyword can be used for other simple types such as `int` and
@@ -245,7 +240,7 @@ The result is that we get an empty string when we call `get` for this
 field. If we want to check whether the field 'first' has been filled in
 we'd use the following code:
 
-```
+```python
     first = request.forms.get('first')
     last = request.forms.get('last')
     
@@ -272,7 +267,7 @@ of field names and a form and checks that the value is neither the empty
 string or None for each required field. It will return a list of error
 messages that could be inserted into the resulting error page:
 
-```
+```python
 def validate_form(form, required):
     """Check that all fields in required are present
     in the form with a non-empty value.  Return
@@ -293,7 +288,7 @@ def validate_form(form, required):
 
 This could be used in our example as follows:
 
-```
+```python
 @app.post('/')
 def formhandler():
     """Handle the form submission"""
@@ -333,20 +328,172 @@ some kind of calculation. Here are some examples:
     enough to vote based on their date of birth, input the DOB with
     selection box. You could just do this with a naive algorithm that
     subtracts the current year from the year of birth, but for an extra
-    challenge look at [this
-    discussion](http://stackoverflow.com/questions/2217488/age-from-birthdate-in-python)
+    challenge look at [this discussion](http://stackoverflow.com/questions/2217488/age-from-birthdate-in-python)
     of calculating age from birthdate in Python.
 
 
 
+### Another Example: Form using GET
 
+Let's walk through another example application using forms, this time with
+a form submitted via the GET method.  This is appropriate if the form
+submission is really asking to retrieve a value given some input. In this
+example we will submit an amount and a currency and get back the amount
+converted to Australian Dollars (AUD).  
 
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+First I'll write a little function to do the conversion, it will be based
+on a dictionary of currency conversion rates.  The currency will be
+looked up and the amount multiplied by the relevant rate.  Here's the
+function:
+
+```python
+def convert(amount, currency):
+    """Convert an amount of some currency into AUD
+    return AUD amount as a float
+    """
+
+    exchange_rates = {
+        'USD': 1.41,
+        'GBP': 1.88,
+        'EUR': 1.60
+    }
+
+    if currency in exchange_rates:
+        return amount * exchange_rates[currency]
+    else:
+        return 0.0
+```
+
+If the currency name is not recognised it will return zero.  
+
+To make use of this in our application we need a form to allow the entry
+of the amount and currency.  The amount will be a simple text input but 
+the currency is one of a set of fixed values so we can use a select
+input: 
+
+```html
+    <form method="GET" action="/convert">
+        <label for="amount">Amount</label>
+        <input type="text" name="amount">
+
+        <label for="currency">Currency</label>
+        <select name="currency">
+            <option value="USD" selected>US Dollars</option>
+            <option value="GBP">British Pounds</option>
+            <option value="EUR">Euros</option>
+        </select>
+
+        <input type="submit">
+    </form>
+```
+
+Note that we've marked one of the select options as `selected` so that it will
+be the default option when the page loads. Here's what the form looks like:
+
+![currency form screenshot](currency-form-screenshot.png)
+
+To complete the page template we will add some code to display the result
+of the conversion. We will use the same template to display the initial
+page and the result of conversion so we need to display this fragment only
+if we provide a value for one of the variables, for example `result`.
+
+```html
+    % if result:
+    <h2>Result of Conversion</h2>
+    <p>{{currency}} {{amount}} = AUD {{result}}</p>
+    % end
+```
+
+Now let's being the application, we first need a handler for the root url to 
+deliver a page containing the form.  We need to pass a value for `result` in to
+the template with a value of `None` so that the if statement above will work.  Here's
+the code:
+
+```python
+@app.route('/')
+def index():
+    """Home Page"""
+
+    info = {
+        'result': None
+    }
+
+    return template("form.tpl", info)
+
+```
+
+Note that we've stored the template code above in `form.tpl` in the views directory.
+
+This application will deliver a page containing the form. When the user enters an amount
+and selects a currency then clicks the Submit button, the browser will send a GET request
+to the URL `/convert` with the form values appended to the URL.  Eg. 
+
+```html
+http://127.0.0.1:8080/convert?amount=12.4&currency=USD
+```
+
+If we do this now we'll get an error (404) because we've not written any code to handle the
+request for this URL.  So, we now need to add a handler for GET requests to`/convert`.  This
+handler needs to get the two form values and then call the `convert` function above.  
+Having done this we can use the `template` function to pass these values into the page
+template and generate the response.  Here's the code:
+
+```python
+@app.route('/convert')
+def convert_view():
+    """Process form data and return page with
+    result"""
+
+    amount = request.query.get('amount', type=float)
+    currency = request.query.get('currency')
+
+    info = {
+        'amount': amount,
+        'currency': currency,
+        'result': convert(amount, currency)
+    }
+
+    return template('form.tpl', info)
+```
+
+Things to note here.  We use `request.query.get` to access the form data (for the POST request
+earlier we used `request.forms.get`).  For the `amount` field we provide a `type` argument
+to ensure that the value we get back is a float rather than a string.  Having pulled the two
+form field values from the request we create a dictionary containing the form data and the
+result of the conversion; these three values are required for the template.   We then pass
+the `info` dictionary into the template function.  
+
+This completes the example. We have two route handlers, one generates the original page
+containing the form, the second processes the form data and generates a page containing 
+the form and a result.  
+
+One final modification would be to do some error handling.  The code above will crash if there is
+no value for one of the form variables - so if the user does not fill out a value for `amount`
+and clicks Submit, the app will crash and return a 500 Server Error response.  Similarly,
+if the value of `amount` is not a valid number, we'll get an error.  To deal with either
+of these situations we can use the `default` argument to `request.query.get`.  This provides
+a default if the value is not provided or if it can't be converted to a float.  Here is the 
+modified code:
+
+```python
+@app.route('/convert')
+def convert_view():
+    """Process form data and return page with
+    result"""
+
+    amount = request.query.get('amount', type=float, default=0.0)
+    currency = request.query.get('currency', default='USD')
+
+    info = {
+        'amount': amount,
+        'currency': currency,
+        'result': convert(amount, currency)
+    }
+
+    return template('form.tpl', info)
+```
+
+This version is a little more robust and will always return an answer.  We could do better
+by notifying the user that they should really fill out a value for `amount`, but we'll leave
+that as an exercise for the reader just now.
+

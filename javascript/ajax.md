@@ -338,7 +338,7 @@ the mobile device.
 This kind of design is now embodied in a new kind of service provider
 sometimes called 
 [Backend as a Service](http://en.wikipedia.org/wiki/Mobile_Backend_as_a_service) (BaaS
-- or sometimes Mobile Backend as a Service due to its popularity for
+or sometimes Mobile Backend as a Service due to its popularity for
 mobile development). These services provide the basic CRUD operations on
 a database via an HTTP JSON API that can be used from your web or mobile
 application.

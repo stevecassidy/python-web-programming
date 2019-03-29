@@ -127,7 +127,7 @@ application above to check for the 'visited' cookie when the page is
 requested. If the 'visited' cookie is found, Will use a different
 message from the page content. Here is the code for that example:
 
-```
+```python
 @app.route('/')
 def index():
     """Home page"""
@@ -186,7 +186,7 @@ First then, here's the page template we'll use. It will display the
 value of `likes` if it is not None, and display the form for submitting
 a like value:
 
-```
+```html
 <html>
     <head><title>{{title}}</title></head>
     <body>
@@ -206,7 +206,6 @@ a like value:
 
     </body>
 </html>
-   
 ```
 
 The application code to handle the form submission is as follows:

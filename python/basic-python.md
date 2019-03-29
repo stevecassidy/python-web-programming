@@ -99,104 +99,33 @@ the Python interpreter.
 The Python console on Windows
 
 
+### Python in PyCharm
 
-### Python in Eclipse
+[PyCharm](https://www.jetbrains.com/pycharm/) is an Integrated Development 
+Environment (IDE) for Python that provides a number of features to make
+writing and debugging Python code easier. It also supports web 
+development well with support for HTML and CSS files.  There is a
+free version of PyCharm labelled PycharmCE (Community Edition) which is 
+great for general development work. You can also get [student versions](https://www.jetbrains.com/student/) of
+the software to use while you are studying. 
 
-[Eclipse](http://eclipse.org/) is an integrated development environment
-(IDE) that supports Java by default but can be customised to support
-other languages. Support for Python comes from the [PyDev
-extension](http://pydev.org/). If you have installed this extension, you
-can write, run and debug Python code directly from within Eclipse. It's
-certainly possible to use other development environments, and nothing
-that we've written here assumes you are using Eclipse, but we've found
-Eclipse to be very useful and recommend it to students.
+![Image of PyCharm IDE](pycharm-ide.png)
 
-To install PyDev for Eclipse, first start up Eclipse, then select
-"Install New Software..." from the Help menu. In the window that pops up
-you need to enter the URL for PyDev in the "Work with:" entry at the
-top, the correct URL is `http://pydev.org/updates`, once you enter this
-and hit return, Eclipse will query the PyDev site and present you with a
-list of extensions to install. Select the checkbox next to the extension
-PyDev in the list and click on Next at the bottom of the window. You'll
-then walk through a series of steps which are hopefully self-explanatory
-and Eclipse will install the extension. It will need to re-start before
-you can work with PyDev.
+PyCharm allows you to open any working directory as a project and allows
+you to run Python code from within the IDE.  You can do this via a 
+Python Console as shown in the screenshot below or via the green
+'Run' icon.  Output from running your code is shown within the IDE. 
+PyCharm also supports the Python debugger and a test runner that
+will show you the results of running your Python unit tests in 
+an interactive way.  Finally, PyCharm integrates Version Control 
+and provides a nice interface to committing changes and interacting
+with remote repositories. 
 
-The most obvious thing that PyDev provides for you is knowledge of the
-structure of Python programs, so it will highlight code in the editor
-and provide tool tips for Python built in procedures and library
-modules. However, it also allows you to run and debug Python programs.
-To do this, Eclipse needs to know about the Python interpreter that you
-have installed on your machine.
-
-To configure PyDev, go to the Window menu and select Preferences. You
-should see PyDev in the list on the left side, click on the little
-triangle to the left of PyDev and it should open up to show more
-options, you want "Interpreter - Python". At the top right of the window
-there should be a button "Auto Config", click on this and it will look
-for the Python interpreters that you have installed. It should show you
-a list of folders it will add to the SYSTEM pythonpath, you should be
-able to just click "OK" here and then "OK" in the preferences window
-(bottom right) to save the changed preferences. Now Eclipse knows about
-your Python interpreter and can run your code for you.
-
-To work with Python code you will want to change to the *PyDev
-Perspective*. A perspective in Eclipse is just a pre-set arrangement of
-windows and menus, the default is the Java perspective. To change
-perspective, go to the Window menu and choose "Open Perspective", you'll
-need to choose "Other" and then select PyDev from the list you are
-shown. You should see PyDev on the right hand side of the menu bar next
-to Java. You can change perspectives by clicking on the names here. You
-can also customise perspectives to your own liking but I'll leave that
-to you.
-
-Eclipse works with *projects* to organise your code and so to start
-working on some Python code you need to create a new PyDev project. Do
-this from the File menu. In the dialogue box you get choose a project
-name and if you've done everything else right you should be able to
-click Finish and watch it create an empty project. Once you have a
-project you can select New... from the File menu and choose "PyDev
-Module". A module in PyDev is a single .py file, you just need to enter
-a name for the module (without the .py extension) and choose a kind of
-module (to start with, use &lt;Empty&gt;) and click on Finish. You
-should see a new file with some code already in place. In my case it
-looks like this:
-
-```
-'''
-Created on 22/02/2012
-
-@author: steve
-'''
-   
-```
-
-You can now enter your own code at the end of the file, eg.
-`print("Hello World")`, and save the file.
-
-To run your program, click the green run button (small circle with a
-white triangle) in the toolbar. It should ask you how to run the code
-(Run As), select Python Run and click Ok. You should then see a console
-window at the bottom of the Eclipse window with the output from your
-program (Hello World). Clicking the run button again will just re-run
-your code without asking (in most cases, sometimes it gets confused).
-
-There's more to Eclipse and PyDev but this is enough to get us started,
-consult the [PyDev manual](http://pydev.org/manual.html) for more
-details and help.
-
-<div class="figure">
-
-![Image of Eclipse running PyDev](windows-eclipse-pydev.png)
-
-
-
-Of course, Eclipse is not the only IDE that supports Python, you may
-already use another IDE or editor for programming and it may support
-Python or have extensions that do so. We will occasionally refer to
-Eclipse and PyDev when introducing things like the debugger, but
-generally this text doesn't presume that you are using any particular
-environment.
+Of course, PyCharm is not the only IDE that supports Python, you may 
+already use another IDE or editor for programming and it may support 
+Python or have extensions that do so.  We will sometimes refer to 
+PyCharm in this text but nothing here assumes that you are using 
+it over any other way of editing and running your code. 
 
 ### Summary
 
@@ -378,7 +307,7 @@ A string is a sequence of zero or more characters surrounded by singe
 quotes ('), double quotes (") or three single or double quotes (''' or
 """), called a triple-quoted string, for example:
 
-```
+```python
 >>> str1 = 'Alecia'
 >>> str1
 'Alecia'
@@ -401,10 +330,20 @@ Python concatenates the two lines to a single string with a newline
 (\\n) character. So, if you print the string, then the output looks as
 follows:
 
-```
+```python
 >>> print(str3)
 Alecia Beth Moore
 professionally known as Pink
+```
+
+Strings are sequences and like all sequence types in Python we can find
+their length with the `len` function:
+
+```python
+>>> len(str1)
+6
+>>> len(str2)
+17
 ```
 
 Strings are ordered sequences of characters and an individual character
@@ -527,8 +466,6 @@ example:
 
 
 
-
-
 Lists
 -----
 
@@ -543,10 +480,18 @@ create a list, simply enclose zero or more items in brackets:
 ['apple', 'peach', ['pumpkin', 'melon'], [1, 2, 3]]
 ```
 
+Like strings, lists are a sequence type and we can find the length
+of a list with the `len` function:
+
+```python
+>>> len(lst1)
+4
+```
+
 An individual item in a list is identified by its position similar to a
 character in a string, for example:
 
-```
+```python
 >>> lst1[2]
 ['pumpkin', 'melon']
 >>> lst1[-1]
@@ -657,6 +602,14 @@ As you can see above, if you attempt to use the "append()" method that
 works for lists on a tuple, Python will rise an AttributeError exception
 since tuples have no methods - you cannot append anything to a tuple.
 Remember: tuples are immutable.
+
+Tuples are another sequence type and we can find their length with the `len` 
+function:
+
+```python
+>>> len(tup1)
+4
+```
 
 An annoying feature of Python syntax is that parentheses do double duty
 as the delimiters of a tuple and for identifying parts of expressions.

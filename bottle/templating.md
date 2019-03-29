@@ -290,7 +290,7 @@ The third item in the list has been formatted as HTML and so needs to be
 inserted in the template without quoting. A template to render this
 might include:
 
-```HTML {% raw %}
+```html
  <div class='blogposts'>
      % for post in posts:
      <div class='post'>
@@ -298,7 +298,6 @@ might include:
 
          {{!post[2]}}
      % end
-{% endraw %}
 ```
 
 Here we use the three entries in each post to generate the content.

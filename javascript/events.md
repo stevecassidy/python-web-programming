@@ -58,7 +58,6 @@ of an event handler because of the way that events are managed in the DOM.
 In an event handler `this` refers to the element that captured or triggered
 the event that the handler is responding to.  Generally this is the element 
 that the event listener has been added to.   Here's an example:
-
 ```javascript
 var el = document.getElementById("outside")
 el.addEventListener("click", function(){
@@ -69,5 +68,16 @@ In the `click` handler defined here as an anonymous function, `this` will refer 
 whatever element received the click event. As the handler was bound to the element
 with id `outside`, then `this` will refer to that element. 
 
+## Event Handlers with jQuery
 
+The jQuery library provides a more compact syntax for adding event listeners to
+elements in the HTML page.  The most general of these is the `on` method but you can 
+also use event names like `click` and `focus` to add handlers.  For example, the following are
+equivalent:
 
+```javascript
+$("#outside").on("click", function() { modifyText("four") })
+$("#outside").click(function() { modifyText("four") })
+```
+
+For more details see the [jQuery documentation on events](https://api.jquery.com/category/events/).

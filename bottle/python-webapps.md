@@ -19,27 +19,7 @@ for different combinations of web server and application environment.
 
 In Python, the low-level interface to web applications is called WSGI
 (Web Server Gateway Interface). It defines a standard way of defining a
-procedure to act as as web application; the procedure takes two
-arguments and returns the content to be sent back as the response to the
-request. It is possible to use WSGI directly to write web applications.
-Here is a simple example:
-
-```
-def application(environ, start_response):
-
-    headers = [('content-type', 'text/plain')]
-    start_response('200 OK', headers)
-    return [b"Hello World", b" how are you"]
-    
-```
-
-The two arguments to this procedure are `environ`, which contains
-information about the request environment (not used in this example),
-and `start_response` which is a procedure that you must call to tell the
-server about your response to the request. The return value is a list of
-strings that will be sent back as the response - in this case we're just
-sending back a plain text response.
-
+procedure to act as as web application.  
 While it is possible to write an application using the low-level WSGI
 standard, it is usually much more convenient to use a higher level
 abstraction in the form of a *framework*. This means that we use a
@@ -55,7 +35,7 @@ hides all of the detail from you.
 We'll explore Bottle in lots of detail but to show you a simple example,
 a simple Bottle web application would be:
 
-```
+```python
 
 from bottle import Bottle
 
@@ -122,7 +102,7 @@ Bottle provides a development server that you can use by adding a single
 line to your application. Here's the entire code of our first example,
 including the server:
 
-```
+```python
 from bottle import Bottle
 
 app = Bottle()
@@ -189,8 +169,6 @@ examples, since I will concentrate on the definition of the application
 itself. To run all of the future examples you can use the same main part
 as in the example here.
 
-<div class="section exercises">
-
 ### Exercises
 
 1.  Make your own copy of the script above and run it to reproduce the
@@ -208,9 +186,6 @@ as in the example here.
     `http://127.0.0.1:8080/python` with a new message by adding a new
     route and a new procedure to the code.
 
-
-
-<div id="routes" class="section">
 
 More on Routes
 --------------
@@ -253,7 +228,7 @@ argument which is passed the text from the URL. It can then use this
 text in generating the page. The name of the argument must be the same
 as the name between angle brackets in the path. Here's the code:
 
-```
+```python
 @app.route('/person/<who>')
 def homepage(who):
     """Generate the home page for a person"""
@@ -278,7 +253,7 @@ page saying that the page is not found - this is because there is no
 route to match the URL. We can use more than one pattern in a URL to
 match more path elements; for example to match first and last names:
 
-```
+```python
 @app.route('/person/<first>/<last>')
 def homepage(first, last):
     """Generate the home page for a person"""
@@ -297,7 +272,7 @@ number of path elements at the end of a URL. We can do this in Bottle by
 using the `:path` modifier after the pattern name. This then allows the
 pattern to match the `/` character. Let's modify the earlier example:
 
-```
+```python
 @app.route('/person/<who:path>')
 def homepage(who):
     """Generate the home page for a person"""
@@ -326,9 +301,6 @@ populate the page. We'll look at examples like this later on in the
 text.
 
 
-
-<div id="request" class="section">
-
 Using the Request
 -----------------
 
@@ -352,7 +324,7 @@ simple example that includes one property of the request in the page
 that is returned. We'll use the IP address of the browser (client) and
 the user-agent header that the browser sends as part of the request.
 
-```
+```python
 from bottle import Bottle, response, request
 
 app = Bottle()
@@ -390,7 +362,7 @@ iterate over every key in turn. We then use the square bracket notation
 dictionary, here's the Python code to print out all of the key-value
 pairs:
 
-```
+```python
 d = {'name': 'Steve',
      'age': 21,
      'favourite_colour': 'green',
@@ -404,7 +376,7 @@ for key in d:
 Building on this, we can write a procedure to take a dictionary as a
 parameter and return an HTML string listing the keys and values:
 
-```
+```python
 def dict_to_html(dd):
     """Generate an HTML list of the keys and
     values in the dictionary dd, return a
@@ -421,7 +393,7 @@ def dict_to_html(dd):
 We can now make use of this procedure in a new WSGI application that
 returns an HTML page containing this information:
 
-```
+```python
 @app.route('/about')
 def about():
 
@@ -440,14 +412,12 @@ application gives me the following page:
 application](wsgi-environ.png)
 
 
-
 When you run the application you will see something different. Note that
 the environment that we are given in the `request.environ` parameter
 contains information about the request (e.g. HTTP\_HOST,
 REQUEST\_METHOD) but also general information about the execution
 environment (e.g. HOME, DISPLAY).
 
-<div class="section exercises">
 
 ### Exercises
 
@@ -461,10 +431,6 @@ environment (e.g. HOME, DISPLAY).
     -   http://localhost:8080/about?name=Steve
 
 
-
-
-
-<div id="response" class="section">
 
 Manipulating the Response
 -------------------------
@@ -480,7 +446,7 @@ is sent on to the client. Bottle provides a global object called
 sent back. Here's an example of changing the content type of the
 response:
 
-```
+```python
 from bottle import Bottle, response
 
 app = Bottle()
@@ -502,9 +468,6 @@ The response object allows us to manipulate other aspects of the
 response as we'll see when we start developing more complex applications
 later. For example you can change the status code to generate an error
 page or a redirect response.
-
-
-
 
 
 Static Files
@@ -547,13 +510,12 @@ implementation](https://bottlepy.org/docs/dev/tutorial.html?highlight=static#rou
 that is easy to use. Here is the standard route handler that we can
 include in our application to handle requests for static files:
 
-```
+```python
 from bottle import static_file
 
 @route('/static/<filepath:path>')
 def server_static(filepath):
     return static_file(filepath, root='static')
-        
 ```
 
 The route uses the `:path` qualifier which matches any path after the
@@ -563,22 +525,4 @@ In this example I've used a *relative path* which will be interpreted
 relative to the current working directory. This is convenient for
 development, we create a directory called `static` inside our project
 (next to `main.py`) and store static files in there.
-
-
-
-
-
-Copyright © 2009-2017, Rolf Schwitter, Steve Cassidy, Macquarie
-University
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
-
 

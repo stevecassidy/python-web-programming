@@ -1,5 +1,5 @@
 {
-  "plugins": [ "page-toc", "code", "analytics"],
+  "plugins": ["page-toc", "code", "analytics"],
   "pluginsConfig": {
     "analytics": {
       "google": "UA-62467780-1"

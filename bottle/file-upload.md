@@ -15,7 +15,7 @@ File Upload Forms
 An HTML form can include a special type of field that is designed to
 handle file uploads:
 
-```
+```html
 <input type='file' name='newfile'>
        
 ```
@@ -50,7 +50,7 @@ for attachments on email messages. To use this encoding we must set the
 `enctype` attribute on the form containing the file upload field. Here's
 an example of a complete form.
 
-```
+```html
 <form method='post' action='/upload' enctype='multipart/form-data'>
     <input type='file' name='newfile'>
     Username: <input type='text' name='user'>
@@ -58,9 +58,6 @@ an example of a complete form.
 </form>
           
 ```
-
-
-
 
 
 File Upload HTTP Requests
@@ -95,14 +92,11 @@ bob@here.com
     
 ```
 
-As seen in the example, the Content-Type header contains a boundary
+As seen in the example, the `Content-Type` header contains a boundary
 string value which is used in the body of the request to separate the
 various values being sent. In this case the form contains two fields, an
-uploaded file with the name "newfile" and a text field with the name
-"user".
-
-
-
+uploaded file with the name `newfile` and a text field with the name
+`user`.
 
 
 File Upload in Bottle
@@ -127,7 +121,7 @@ the file somewhere on the server. To do this you would use the `save`
 method on the `FileUpload` object. Here's an example handler that will
 use this method:
 
-```
+```python
 @app.post('/upload')
 def upload():
     """Handle file upload form"""
@@ -170,7 +164,7 @@ As an example, here is a form handler that checks the uploaded file for
 the presence of the word "Bobalooba". It first checks that the file is
 plain text, then reads one line at a time checking for the string.
 
-```
+```python
 @app.post('/bobcheck')
 def bobcheck():
     """Check to see if an uploaded file contains
@@ -202,16 +196,3 @@ worry about cleaning up after itself. This is a big advantage over the
 low-level methods that are needed for file handling in some other
 frameworks.
 
-
-
-
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).

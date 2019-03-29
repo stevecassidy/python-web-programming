@@ -34,7 +34,7 @@ which behaves just like opening a file but takes a URL instead of a
 filename as an argument. Here's an example of reading a web page from a
 given URL and returning the content as a Python string:
 
-```
+```python
 from urllib.request import urlopen
 
 def get_page(url):
@@ -67,7 +67,7 @@ do this shortly but a simple approach is to use a regular expression.
 Here's some code that uses a regular expression to find URLS after first
 getting the text of the page:
 
-```
+```python
 def get_links(url):
     """Scan the text for http URLs and return a set
     of URLs found, without duplicates"""
@@ -101,7 +101,7 @@ long time since we are never going to run out of links. So, as a
 demonstration, here's a function that will keep collecting links until
 it has more than a pre-determined number.
 
-```
+```python
 def crawl(url, maxurls=100):
     """Starting from this URL, crawl the web until
     you have collected maxurls URLS, then return them
@@ -127,7 +127,7 @@ each time around the loop just so we can see which pages are being
 requested. To tie this all together we can call the `crawl` function on
 a starting URL and print out the resulting set of links:
 
-```
+```python
 if __name__=='__main__':
     
     url = 'http://www.python.org/'
@@ -192,7 +192,7 @@ is Javascript where the DOM is used to expose the internal structure of
 the current HTML page to the in-page Javascript code. So a script that
 wanted to change the text in the main heading could write:
 
-```
+```python
  headings = document.find_element_by_tag_name('H1');
  headings[0].innerHTML = "Hello World";
      
@@ -216,7 +216,7 @@ Let's look at an version of the `get_links` method above to make the web
 crawler a bit smarter. This version will use Beautiful Soup to find all
 of the anchor elements in the page and return the `href` attribute.
 
-```
+```python
 from bs4 import BeautifulSoup
 
          
@@ -249,6 +249,7 @@ are harvesting all anchor links, we get relative as well as absolute
 URLs. Here's a sample of the results from crawling
 `http://www.python.org/`:
 
+```
     /events/python-events/past/
     /downloads/
     http://trac.edgewall.org/
@@ -259,7 +260,7 @@ URLs. Here's a sample of the results from crawling
     #content
     /events/python-user-group/past/
     #top
-         
+```
 
 In addition to the http URLs we have relative URLs starting with `/` and
 page-internal links starting with `#`. We can't just add these to the
@@ -273,7 +274,7 @@ do this for us; `urllib.parse.urljoin` takes an absolute URL and a
 relative one and returns the combined URL. So, we can modify `get_links`
 to make use of this as follows:
 
-```
+```python
 from urllib.parse import urljoin
          
 def get_links(url):
@@ -360,7 +361,7 @@ of the table, we can get the three columns that correspond to the
 assignment name, weighting and due date. Here is some code that will do
 this using Beautiful Soup:
 
-```
+```python
 def find_assignments(text):
     """Given the text of an HTML unit guide from 
     Macquarie University, return a list of the assignments for
@@ -400,12 +401,13 @@ anchor element to get the string content. Running this code over the
 above](http://unitguides.mq.edu.au/unit_offerings/49056/unit_guide#assessment-tasks-section)
 gives us:
 
+```
     [('Web Application Design', '5%', 'Week 4'),
     ('Workshop exams', '16%', 'Week 3, 6, 9, 12'),
     ('Web Application', '20%', 'Weeks 7 and 10'),
     ('Report', '14%', 'Week 12'),
     ('Exam', '45%', 'TBA')]         
-         
+```      
 
 Screen scraping is a very useful technique for extracting information
 from web pages but it relies heavily on the structure of the web page
@@ -419,8 +421,6 @@ we realise that the original source of this data was a relational
 database. This brings us to thinking that there should be a better way
 to make data available for machine consumption over the web. We'll look
 at some solutions to that problem in the next chapter.
-
-
 
 
 
@@ -440,7 +440,7 @@ weather readings that needs to query multiple remote sources to generate
 each page. For this reason, we need some way to tell remote users that
 it is not ok to automatically retrieve pages from a site with a script.
 The
-[`              robots.txt`](http://en.wikipedia.org/wiki/Robots_exclusion_standard)
+[`robots.txt`](http://en.wikipedia.org/wiki/Robots_exclusion_standard)
 file is the mechanism that is used to do this.
 
 The `robots.txt` file is placed in the document root of a web server so
@@ -491,14 +491,14 @@ some rules, things can be done.
 
 Understanding the `robots.txt` file would take some work, luckily as
 Python developers the work has been done for us and we can use the
-[`             urllib.robotparser`](https://docs.python.org/3/library/urllib.robotparser.html#module-urllib.robotparser)
+[`urllib.robotparser`](https://docs.python.org/3/library/urllib.robotparser.html#module-urllib.robotparser)
 module to do it for us. This module will read the `robots.txt` file for
 a site and then tell you whether or not you are allowed to retrieve a
 given URL. We can use it to modify our implementation of `get_page` from
 earlier in the chapter. First we write a function to check that the URL
 we want to access is allowed:
 
-```
+```python
 from urllib.parse import urljoin, urlparse
 from urllib.robotparser import RobotFileParser
 
@@ -516,7 +516,6 @@ def robot_check(url):
         ROBOTS[netloc].read()
 
     return ROBOTS[netloc].can_fetch('*', url)
-    
 ```
 
 This implementation takes care not to request the same robots file more
@@ -532,7 +531,7 @@ for the same URL.
 The next step is to modify `get_page` to run the check before retrieving
 the URL:
 
-```
+```python
 def get_page(url):
     """Get the text of the web page at the given URL
     return a string containing the content"""
@@ -562,7 +561,7 @@ much more complicated. We need to use a custom URL opener that is
 configured to send a different user agent header. Here's a final version
 of `get_page` that identifies our robot as "PWPBot":
 
-```
+```python
 def get_page(url):
     """Get the text of the web page at the given URL
     return a string containing the content"""
@@ -580,21 +579,4 @@ def get_page(url):
     else:
         print("Disallow: ", url)
         return ''
-    
 ```
-
-
-
-
-
-Copyright © 2015, Steve Cassidy, Macquarie University
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).

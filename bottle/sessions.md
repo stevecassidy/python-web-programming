@@ -187,7 +187,7 @@ def get_likes(db, key):
    cursor.execute("SELECT thing FROM likes WHERE key=?", (key,))
    result = []
    for row in cursor:
-       result.append(row[0])
+       result.append(row['thing'])
    return result
   
 ```
@@ -200,10 +200,8 @@ restrict the likes that we retrieve.
 
 ```python
 @app.route('/')
-def index():
+def index(db):
     """Home page"""
-
-    db = COMP249Db()
 
     key = get_session(db)
 
@@ -221,7 +219,7 @@ the call to `get_session`:
 
 ```python
 @app.post('/likes')
-def like():
+def like(db):
     """Process like form post request"""
 
     # get the form field
@@ -232,11 +230,7 @@ def like():
     if likes:
         store_like(db, key, likes)
 
-    response.set_header('Location', '/')
-    response.status = 303
-
-    return 'Redirect to /'
-  
+    return redirect('/')
 ```
 
 This is then the complete application that makes use of a session table.
@@ -302,8 +296,6 @@ again.
 
 See [the chapter on authentication](../web/authentication.md) for
 further discussion of user authentication issues in web applications.
-
-<div class="section exercises">
 
 ### Exercises
 

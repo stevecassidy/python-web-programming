@@ -107,10 +107,9 @@ connection object embodies all the required information to send queries
 to the database and get responses back. For SQLite all that is needed to
 create a connection is the name of the database file.
 
-```
->>> from sqlite3 import dbapi2 as sqlite
->>> conn = sqlite.connect("test.db")
-   
+```python
+>>> import sqlite3
+>>> db = sqlite3.connect("test.db")
 ```
 
 The next step is to create a cursor object from the connection; a cursor
@@ -118,20 +117,18 @@ is used to issue queries and retrieve results. Once we have a cursor we
 can issue a query; this example reproduces the database creation shown
 earlier.
 
-```
-cur = conn.cursor()
+```python
+cur = db.cursor()
 cur.execute("create table people (first varchar, last varchar, age integer)")
 cur.execute('insert into people values ("Steve", "Cassidy", 21)')
 cur.execute('insert into people values ("Mary", "Mullins", 23)')
-conn.commit()
+db.commit()
 ```
-
-
 
 Note the use of single quotes to enclose the SQL query that contains
 double quote characters. The above code creates the database and inserts
 two rows in the same way as the first example. The call to
-`conn.commit()` commits the changes that have been made, effectively
+`db.commit()` commits the changes that have been made, effectively
 ensuring that they are saved to the database. Note that the commit
 method is called via the connection object, not the cursor.
 
@@ -172,24 +169,50 @@ variables first, last and age in the query.
 
 In both of these examples I've explicitly named the values I want
 returned rather than using `select * from people`. It's a good idea to
-get into the habbit of doing this since you might change your database
+get into the habit of doing this since you might change your database
 schema to add more fields and doing so could then introduce subtle bugs
 into your code. If you name the fields, you know which the first second
 and third elements are going to be in your result.
+
+In the examples above, the result of a query is a tuple or a list of 
+tuples. This is fine but means that when we want to access parts of
+the result we need to use a numerical index - eg. `result[2]` to get the 
+third element of a result tuple.  The Python SQLite interface offers
+a more usable option to return `Row` objects which behave like 
+dictionaries.    To use this we configure the database connection 
+as follows:
+
+```python
+db = sqlite3.connect("mydbase.db")
+db.row_factory = sqlite3.Row
+```
+Then the results of a query can be accessed in this way:
+
+```python
+>>> cursor.execute("select first,last,age from people")
+<sqlite3.Cursor object at 0x106fd1ea0>
+>>> row = cursor.fetchone()
+>>> row['first']
+'Steve'
+>>> row['last']
+'Cassidy'
+>>> row['age']
+21
+```
 
 Using these methods we can write some simple code that runs a query and
 generates a string containing an HTML table:
 
 ```
-cur = conn.cursor()
+cur = db.cursor()
 cur.execute("select first, last, age from people")
 
 table = "<table>"
 table += "<tr><th>First</th><th>Last</th><th>Age</th></tr>"
 for row in cur.fetchall():
-     table += "<tr><td>" + row[0] + "</td>""
-     table += "<td>" + row[1] + "</td>"
-     table += "<td>" + row[2] + "</td></tr>"
+     table += "<tr><td>" + row['first'] + "</td>""
+     table += "<td>" + row['last'] + "</td>"
+     table += "<td>" + row['age'] + "</td></tr>"
 
 table += "</table>"
    
@@ -198,37 +221,13 @@ table += "</table>"
 All of the above conforms to the stanard Python database interface
 specification (`dbapi`) and will work with most databases you can access
 from Python. Pysqlite has a few extensions which make working with it a
-little easier but which are non-standard. I'll point out two of these
-here as they can make code a little neater.
+little easier but which are non-standard.   For the most part, any code
+that you write to work with SQLite will also work with many other
+database systems such as Postgres and MYSQL - the main difference
+is the way that connections are created.  There are minor differences
+in the SQL syntax understood by these systems but most simple 
+queries will be the same.
 
-Firstly, you can execute SQL directly via a connection object without
-having to first create a cursor. Calling the `execute` method of a
-connection runs the SQL and returns a cursor object that you can use as
-above. Secondly, Pysqlite has an extension that makes the resulting rows
-returned from a query behave like dictionaries rather than tuples. If
-you use this you can address the fields by name rather than by numerical
-position which makes your code more readable and less prone to bugs.
-Here's the above example again using these two extensions.
-
-```
-# first add the Row class to the connection
-# which makes all query results behave like dictionaries
-conn.row_factory = sqlite.Row
-
-# now run our query directly via the connection
-cur = conn.execute("select first, last, age from people")
-
-# and generate the table using names to index the results
-table = "<table>"
-table += "<tr><th>First</th><th>Last</th><th>Age</th></tr>"
-for row in cur.fetchall():
-     table += "<tr><td>" + row['first'] + "</td>""
-     table += "<td>" + row['last'] + "</td>"
-     table += "<td>" + row['age'] + "</td></tr>"
-
-table += "</table>"  
-    
-```
 
 ### Adding Parameters to Queries
 
@@ -237,10 +236,11 @@ of an SQL query. For example if we have the last name of a person in a
 variable and we want to find their age, the temptation is to construct
 an SQL query using the standard Python string functions:
 
-```
+```python
 lastname = "Cassidy"
+# note this is the _wrong_ way to do this!
 query = "select age from people where last='"+lastname+"'"
-cur = conn.execute(query)
+cur = db.execute(query)
 ...
     
 ```
@@ -267,10 +267,10 @@ this is a second argument to `execute` to carry the values to be
 inserted and question marks in the query string to show where the values
 should be inserted. Here's the above example done right:
 
-```
+```python
 lastname = "Cassidy"
 query = "select age from people where last=?"
-cur = conn.execute(query, [lastname])
+cur = db.execute(query, [lastname])
 ...
     
 ```
@@ -281,8 +281,8 @@ string, they are inserted automatically. The second argument to
 the question marks are substituted in order. Here's an example with two
 values:
 
-```
-cur = conn.execute("select age from people where first=? and last=?", [first, last])
+```python
+cur = db.execute("select age from people where first=? and last=?", [first, last])
     
 ```
 
@@ -292,27 +292,13 @@ scripts insecure.
 
 
 
-
-
 Summary
 -------
 
-I've only covered a small amount of SQLite and Pysqlite here but this
+I've only covered a small amount of SQLite and the Python interface here but this
 should be enough to enable you to write some very useful scripts to
 store and manipulate data. Further details are available on the web for
-[SQLite]() and [Pysqlite](http://pysqlite.org/).
-
-Copyright © 2009-2012, Rolf Schwitter, Steve Cassidy, Macquarie
-University
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+[SQLite](https://www.sqlite.org/index.html) and 
+the [Python SQLite module](https://docs.python.org/3/library/sqlite3.html).
 
 

@@ -496,7 +496,7 @@ released).
 ### A Sample Application
 
 As a sample application for deployment I will use a version of the AJAX
-list maker project from [chapter on AJAX](../web/ajax.html). This makes
+list maker project from [chapter on AJAX](../javascript/ajax.md). This makes
 use of a simple SQLite database and has a few resources that are served
 as static files (Javascript, stylesheet and an image). You can download
 these here:
@@ -507,6 +507,8 @@ these here:
 -   [static/likes.js](code/static/likes.js)
 -   [static/style.css](code/static/style.css)
 -   [static/logo.png](code/static/logo.png)
+
+or as a single zip file [jsonlikes.zip](code/jsonlikes.zip).
 
 If you are following along with this exercise you could download these
 files and copy them to a the shared folder that you set up earlier on
