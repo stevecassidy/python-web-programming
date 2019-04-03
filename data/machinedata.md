@@ -56,9 +56,6 @@ looked for links that resolved to image files so that we could save a
 local copy of all of the images on a site.
 
 
-
-<div id="accept" class="section">
-
 What Would You Prefer?
 ----------------------
 
@@ -110,9 +107,6 @@ data representation is more useful for machine processing. Later we'll
 see how to implement content negotiation in a Bottle script.
 
 
-
-
-
 XML
 ---
 
@@ -149,7 +143,7 @@ possible to omit the value all together; an example of this is the
 `border` attribute in HTML. Here is some example HTML illustrating these
 two shortcuts:
 
-```
+```html
 <p> 
     One problem with SMGL was that it was very flexible in what it accepted. Partly because
     it was intended to be written by people and so included a number of short-cuts to make
@@ -188,7 +182,7 @@ their own markup language for use in data exchange instead of relying on
 HTML or another generic standard. If I was publishing information about
 books I could make the following XML available:
 
-```
+```xml
 <booklist>
     <book>
         <title>Time and Tide</title>
@@ -249,7 +243,7 @@ list XML file shown above. This uses the `xml.dom.minidom` module to
 first parse the document, then find all of the book elements and extract
 the values from each property of the book.
 
-```
+```python
 from xml.dom.minidom import parseString
 
 # read the XML text from a file
@@ -326,7 +320,7 @@ version that used meaningful names for the parts of the data and omitted
 all of the additional markup that was only needed to present the page in
 the browser. An example could be:
 
-```
+```xml
 <searchresults search="example" hits="301502" time="0.003">
     <hit>
         <url>http://example.org/one</url>
@@ -372,7 +366,7 @@ if you want anything to be a block you need to say so explicitly. To add
 a stylesheet to the book example above we would insert a processing
 instruction:
 
-```
+```xml
 <?xml-stylesheet href="style.css"?>
 <booklist>
     <book>
@@ -393,7 +387,7 @@ Here's a sample stylesheet that can be applied to this document - store
 this in `style.css` and the above file in `books.xml` and you should be
 able to view it in any web browser and see the stylesheet applied.
 
-```
+```xml
 booklist, book, title, author, publisher{
     display: block;
 }
@@ -416,12 +410,7 @@ author {
 publisher {
     color: green;
 }
-    
 ```
-
-
-
-
 
 JSON
 ----
@@ -449,7 +438,7 @@ list or a collection of name-value pairs. In Python these correspond to
 lists and dictionaries. Here's a simple example of JSON representing the
 same data as our book list XML example.
 
-```
+```json
 [
     {
         "title": "Time and Tide",
@@ -468,16 +457,13 @@ same data as our book list XML example.
 This example encodes the data as a list with each element being a set of
 name-value pairs. This can be read into Python with the following code:
 
-```
+```python
 import json
 
 with open("books.json") as fd:
-    jsontext = fd.read()
-
-data = json.loads(jsontext)
+    data = json.load(fd)
 
 print(data)
-    
 ```
 
 The advantage of JSON over XML is that the overheads for parsing the
@@ -527,17 +513,105 @@ relying on the core language parser. Even given this added complexity,
 parsing JSON is usually much faster than parsing the equivalent XML.
 
 
+### Example: JSON in the Database
 
+One use of both XML and JSON is to store complex data structures in a relational
+database.   For example, if I want to store a list of values in a database then I 
+would need to store each list item as a separate record in a special table.  To avoid
+this complexity it is sometimes useful to convert a complex data structure into 
+a string and store the string value instead.  In this example we'll use JSON
+to store a list of integers in a database table.  
 
+First we'll set up a simple database table to store a name and a data value.
 
-Copyright © 2015, Steve Cassidy, Macquarie University
+```python
+import json
+import sqlite3
 
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+def create_tables(db):
+    """Create a sample table"""
+
+    sql = """
+DROP TABLE IF EXISTS samples;
+CREATE TABLE samples (
+    name text unique primary key,
+    data text
+);
+    """
+
+    db.executescript(sql)
+    db.commit()
+```
+
+To store some data in the database we write the function `set_sample` that takes a
+name and a data item.   The data is a Python list and to store it we need to 
+convert it to a JSON string using the Python `json` module.
+
+```python
+def set_sample(db, name, data):
+    """Set the data associated with a name"""
+
+    cur = db.cursor()
+    data_j = json.dumps(data)
+    sql = "INSERT INTO samples (name, data) VALUES (?, ?)"
+    cur.execute(sql, [name, data_j])
+
+    db.commit()
+```
+
+Here `data_j` will be the string version of `data` that we can store in the database table. 
+This could be a list but could also be any complex Python data structure such as a
+dictionary or list of dictionaries.    To retrieve the data associated with a name
+we write a function `get_sample`:
+
+```python
+def get_sample(db, name):
+    """Return the data associated with a name
+    or None if the name is not found"""
+
+    sql = "SELECT data FROM samples WHERE name=?"
+    cur = db.cursor()
+    cur.execute(sql, [name])
+    result = cur.fetchone()
+    if result:
+        data =  json.loads(result['data'])
+        return data
+    else:
+        return None
+```
+
+The first part of this function just queries the table for the record matching the
+given `name`.  If a result is found it converts the JSON data back to a Python 
+data structure with the `json.loads()` function.  This is then returned.  In the case
+when no record is found matching `name` we return `None`.  
+
+We can now use these functions:
+
+```python
+db = sqlite3.connect("sample.db")
+db.row_factory = sqlite3.Row
+create_tables(db)
+
+set_sample(db, "steve", [1, 2, 4, 5])
+set_sample(db, "diego", [4, 5])
+
+steve = get_sample(db, "steve") 
+diego = get_sample(db, "diego") 
+print("Steve:", steve) # prints [1, 2, 4, 5]
+print("Diego:", diego)# prints [4, 5]
+```
+
+This provides an example of storing serialised JSON data in a database field.   There 
+are some good reasons why you should not do this in a simple case like this one - using
+a properly normalised database design would allow you to store and query these lists directly
+in the database.  In some cases though the data we are storing is what is known as 
+[semi-structured data](https://en.wikipedia.org/wiki/Semi-structured_data) - it has
+structure but does not conform to a rigid schema.  In this case, XML or JSON can be 
+a good format to represent the data and storing 'blobs' of JSON or XML data in a 
+relational database can be a useful option.  
+
+A final alternative would be to use a non-relational database such as [CouchDB](http://couchdb.apache.org/)
+which stores JSON data natively and is optimised for this task.  Such databases
+are becoming popular in the web application domain because of their close fit
+to the JSON data objects that are often transferred between client and server. 
+
