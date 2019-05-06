@@ -294,3 +294,52 @@ without any reference back to the server. Note that this is clearly not a useful
 since as soon as the page is refreshed, the data disappears. However, it shows how this
 kind of in-page interaction can be implemented. 
 
+Bindings after Modifying the Page
+--
+
+We now have a way of interacting with the DOM to add content to the page and
+to bind events on elements of the page to track user interaction.
+
+One important consideration when dynamically modifying the page is to understand
+that any bindings that we place on an element (eg. with `$(something).click()`) 
+will only be active on elements that are selected at the time that this code
+is run. 
+
+For example, if I have part of a page:
+
+```HTML
+<ul id="mylist">
+  <li>This</li>
+  <li>That</li>
+</ul>
+```
+
+I can bind an action to trigger when the mouse hovers over either of the list items:
+
+```Javascript
+$("#mylist li").hover(function(){
+    $(this).css('color', 'red')
+})
+```
+
+Now, if I execute further code to add new list items to this list:
+
+```javascript
+$("#mylist").append("<li>The Other</li>")
+```
+
+this new list item will not inherit the binding created on the others.  To ensure that
+there is a binding on all list item children of the list I would need to re-run the
+binding code after insertion of the new list item. 
+
+However, note that if done blindly, this would result in there being two bindings on
+the first two list items and one on the third - adding a new binding does not remove
+the old ones.  Hence, after inserting new content I should first remove old bindings
+and then re-add them:
+
+```javascript
+$("#mylist li").off('hover')
+$("#mylist li").hover(function(){
+    $(this).css('color', 'red')
+})
+```

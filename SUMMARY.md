@@ -11,6 +11,7 @@
 * [The Uniform Resource Locator](web/urls.md)
 * [Introducing CSS](web/intro-css.md)
 * [Designing for Usability](web/usability.md)
+* [Web Applicaton Architecture](web/architectures.md)
 
 ## Python
 
@@ -39,6 +40,7 @@
 * [JQuery](javascript/jquery.md)
 * [AJAX](javascript/ajax.md)
 * [AJAX Example](javascript/ajaxexample.md)
+* [Handlebars](javascript/handlebars.md)
 * [Javascript Security](javascript/security.md)
 
 ## Web Security and Privacy

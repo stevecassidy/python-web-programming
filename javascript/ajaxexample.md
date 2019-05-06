@@ -118,8 +118,7 @@ of the page:
 ```HTML
 <script language='javascript'>
     window.onload = displayLikes;
-</script>
-        
+</script>        
 ```
 
 ### Handling Updates

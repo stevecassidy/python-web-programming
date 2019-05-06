@@ -280,7 +280,7 @@ def homepage(who):
     return "<p>This is the home page for " + who + ".</p>"
 ```
 
-Now when we access the URL `http://127.0.0.1:8080/people/Steve/Cassidy`
+Now when we access the URL `http://127.0.0.1:8080/person/Steve/Cassidy`
 the single pattern matches `Steve/Cassidy` and we get a page with the
 message *"This is the home page for Steve/Cassidy."*. Note that this
 pattern really just allows you to match names with the slash (/)

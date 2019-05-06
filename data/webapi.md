@@ -307,9 +307,6 @@ def add_likes(likes):
 ```
 
 
-
-
-
 Summary
 -------
 
@@ -322,19 +319,3 @@ For example, we might need to deal with authentication, which is
 complicated because we can't ask someone to fill in their username and
 password in a script. We also need to deal with the Create and Delete
 operations from CRUD.
-
-
-
-
-
-Copyright © 2015, Steve Cassidy, Macquarie University
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
