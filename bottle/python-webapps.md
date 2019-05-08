@@ -383,7 +383,7 @@ def dict_to_html(dd):
     string containing HTML"""
 
     html = "<ul>"
-    for key in dd:
+    for key in dd.keys():
         html += "<li><strong>%s: </strong>%s</li>" % (key, dd[key])
     html += "</ul>"
     return html
@@ -406,7 +406,6 @@ def about():
 On my machine, a request for http://localhost:8080/ when running this
 application gives me the following page:
 
-<div class="figure">
 
 ![screenshot of web browser showing the environment
 application](wsgi-environ.png)
