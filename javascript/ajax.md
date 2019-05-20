@@ -287,6 +287,63 @@ $.post({
 })
 ```
 
+To give a more complete example, consider an application that wants to have users
+register interest in something, so it includes the following form in the page:
+
+```html
+<form id="registerform">
+    <input name="name" type="text" required>
+    <input name="email" type="email" required>
+    <input type="submit">
+</form>
+```
+Rather than have the form submitted in the normal way, which would result in a page
+reload, the application will intercept the submit event and submit the form 
+data via an AJAX POST request.  When the request returns, the page will be updated
+with a message that is in the response.  
+
+The following code uses jQuery to bind to the submit event. In the event handler
+we first get the values of the input fields in the form, then construct a POST
+request using jQuery.   The data in the request is built from the form 
+inputs.  The success handler for the request is a function which receives the
+response and updates the page - in this case assuming that the server returns
+a JSON data structure containing a message to be displayed to the user.
+
+```javascript
+
+$(document).ready(function(){
+    
+    /* bind to the submit event on the form */
+    $('#registerform').submit(function(event){
+        /* get the form input values */
+        var name = $(this).children("input[name='name']").val()
+        var email = $(this).children("input[name='email']").val()
+        
+        /* send a post request */
+        $.post({
+            url: 'http://example.org/register',  /* target of POST request */
+            data: {
+                name: name,
+                email: email
+            },
+            success: function(data) {
+                /* assume data in response is a message to show the user */
+                $("#usermessage").innerHTML = data.message;
+            }
+        })
+        /* prevent the normal submission of the form */
+        event.preventDefault()
+    })
+    
+})
+```
+
+
+jQuery makes writing AJAX based applications a lot simpler than the raw Javascript
+versions.  In addition, the ability to easily bind to elements and get data
+from the form or other parts of the page makes jQuery code relatively clear.
+
+
 AJAX Application Architecture
 -----------------------------
 
