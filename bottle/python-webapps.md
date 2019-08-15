@@ -46,7 +46,7 @@ def index():
     return "Hello World, how are you?"
 
 @app.route('/about')
-def index():
+def about():
     return "Tell me about yourself."
 ```
 
