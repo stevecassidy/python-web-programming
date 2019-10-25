@@ -105,7 +105,7 @@ modules might also be needed.
 The most common web server is [Apache](http://httpd.apache.org/), an
 Open Source product that has been around since the very early days of
 the web. It is popular because it is free and included as a standard
-component in many server environemnts. It works and is reliable and
+component in many server environments. It works and is reliable and
 fast. As a web developer, you should get to know how to [configure
 Apache](http://httpd.apache.org/docs/2.4/) because you will probably be
 doing it a lot in the years to come.
@@ -113,7 +113,7 @@ doing it a lot in the years to come.
 To handle large amounts of traffic, Apache uses either multiple
 *threads* or *processes* for handling each request. The basic idea is
 that each request is sent to a thread or process so that it can run
-independantly of any others that arrive. A main supervisor
+independently of any others that arrive. A main supervisor
 process/thread listens for HTTP requests and then sends the work to a
 subprocess/thread to generate the response.
 
