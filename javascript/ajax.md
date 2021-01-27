@@ -99,14 +99,14 @@ object:
 ```javascript
   function makeRequest() {
     if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-      var httpRequest = new XMLHttpRequest();
+      let httpRequest = new XMLHttpRequest();
     } else if (window.ActiveXObject) { // IE
       try {
-        var httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+        let httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
       } 
       catch (e) {
         try {
-         var httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+         let httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
         } 
         catch (e) {}
       }
@@ -199,11 +199,11 @@ get the name value from this document:
 
 ```javascript
 // get the first 'name' tag
-var nameNode = response.responseXML.getElementsByTagName("name")[0]
+let nameNode = response.responseXML.getElementsByTagName("name")[0]
 // get the first child (text) node
-var nameTextNode = nameNode.childNodes[0]
+let nameTextNode = nameNode.childNodes[0]
 // get the text content
-var name = nextTextNode.nodeValue
+let name = nextTextNode.nodeValue
 ```
 
 Having extracted the data from the XML document we could now update the
@@ -233,9 +233,9 @@ representation of that data:
 To parse this we can use the built in `JSON` object as follows:
 
 ```javascript
-var result = JSON.parse(this.responseText);
-var name = result.name;
-var dance = result.dance;
+let result = JSON.parse(this.responseText);
+let name = result.name;
+let dance = result.dance;
     
 ```
 
@@ -316,8 +316,8 @@ $(document).ready(function(){
     /* bind to the submit event on the form */
     $('#registerform').submit(function(event){
         /* get the form input values */
-        var name = $(this).children("input[name='name']").val()
-        var email = $(this).children("input[name='email']").val()
+        let name = $(this).children("input[name='name']").val()
+        let email = $(this).children("input[name='email']").val()
         
         /* send a post request */
         $.post({

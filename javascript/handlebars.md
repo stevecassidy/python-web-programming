@@ -1,5 +1,4 @@
-Templating in Javascript with Handlebars
-==
+# Templating in Javascript with Handlebars
 
 When building a web application with Python on the server side we used the Bottle
 template system to generate HTML pages.   This formed the **View** part of the MVC
@@ -15,9 +14,9 @@ browser, we started by reverting to the model of generating HTML as part of
 the output of our code. For example in this code from [an earlier chapter](ajaxexample.md):
 
 ```javascript
-    var text = "";
-    var result = JSON.parse(this.responseText);
-    for(var i=0; i<result.likes.length; i++) {
+    let text = "";
+    let result = JSON.parse(this.responseText);
+    for(let i=0; i<result.likes.length; i++) {
         text += "<li>" + result.likes[i] + "</li>";
     }
     document.getElementById('things').innerHTML = text;
@@ -32,8 +31,7 @@ updating a part of the page with new data to display in response to
 interactions.   So, rather than needing a templating system for whole
 pages we want something we can use to create fragments of pages.  
 
-Handlebars
----
+## Handlebars
 
 [Handlebars](https://handlebarsjs.com/) is a templating system for Javascript. It is
 an extended implementation of the [Moustache](https://mustache.github.io/) family of
@@ -68,14 +66,14 @@ has been loaded, the following code fragment will create an HTML string that cou
 then be inserted into the page:
 
 ```Javascript
-var source = "<div class=entry><h1>{{title}}</h1><p>{{body}}</p></div>"
+let source = "<div class=entry><h1>{{title}}</h1><p>{{body}}</p></div>"
 
-var template = Handlebars.compile(source)
-var context = {
+let template = Handlebars.compile(source)
+let context = {
     title: 'Hello World',
     body: 'This is the text.'
 }
-var content = template(context)
+let content = template(context)
 ```
 Note that the template source string has been written in one line here
 because Javascript doesn't allow newlines in strings.
@@ -88,8 +86,7 @@ the different placeholders. The result in the `content` variable will be:
 <div class=entry><h1>Hello World</h1><p>This is the text.</p></div>
 ```
 
-Working with Templates
---
+## Working with Templates
 
 Handlebars provides the basic mechanism for using templates in Javascript
 but we need to develop a way of working with this as part of an application. 
@@ -104,8 +101,8 @@ are not parsed by the HTML parser in the browser, instead they are treated
 as a string but remain accessible from the DOM.   So, we can include the 
 following fragment in the HTML page:
 
-```HTML
-<script id=entry-template type=text/x-handlebars-template>
+```html
+<script id='entry-template' type='text/x-handlebars-template'>
     <div class=entry>
       <h1>{{title}}</h1>
       <p>
@@ -122,28 +119,48 @@ thing is that it is not `application/javascript` which would instruct
 the browser to try to execute the block as Javascript code.
 
 The Javascript code can now retrieve this from the page and compile it
-as a Handlebars template.  We'll use jQuery here to access the template
-in the page:
+as a Handlebars template:
 
 ```Javascript
-var source = $('#entry-template').text()
-var template = Handlebars.compile(source)
-var context = {
+let source = document.getElementById('entry-template').textContent
+let template = Handlebars.compile(source)
+let context = {
     title: 'Hello World',
     body: 'This is the text.'
 }
-var content = template(context)
+let content = template(context)
 ```
 
 The final step would be to insert the generated HTML into the page. We can use
 jQuery to do this as well:
 
 ```Javascript
-$('#target').html(content)
+document.getElementById('target').innerHTML = content;
 ```
 
-Writing View Functions
---
+Since the task of finding the template and compiling it with Handlebars is
+one we will repeat a lot, it makes sense to write utility function to avoid
+repeating ourselves. Here's an implementation:
+
+```javascript
+function get_template(id) {
+    return Handlebars.compile(document.getElementById(id).textContent);
+}
+```
+
+We can then use this function to retrive the template:
+
+```javascript
+let template = get_template('entry-template');
+let context = {
+    title: 'Hello World',
+    body: 'This is the text.'
+};
+let content = template(context);
+```
+
+## Writing View Functions
+
 
 The Model-View-Controller structure that we talked about in the context of
 Python applications is equally relevant to Javascript front-end applications. It is
@@ -155,12 +172,12 @@ a view function and associating this with a template.
 For example, if we have a data object representing a person:
 
 ```Javascript
-var bob = {
+let bob = {
     first_name: 'Bob',
     last_name: 'Bobalooba',
     dob: '1994-03-10',
     city: 'Sydney'
-}
+};
 ```
 
 we can write a view function to display objects of this type.  First, a template
@@ -183,10 +200,10 @@ used to select the HTML element to insert the result into and the person object
 to be displayed:
 
 ```Javascript
-function personView(selector, person) {
-    var template = Handlebars.compile($('#person-template').text())
-    var content = template(person)
-    $(selector).html(content)
+function personView(id, person) {
+    let template = get_template('person-template'));
+    let content = template(person);
+    document.getElementById(id).innerHTML = content;
 }
 ```
 
@@ -194,12 +211,12 @@ This function can then be called from our Controller code to include the
 display of a particular person's data in the page in the element with id `userinfo`:
 
 ```Javascript
-    var user = get_person(id)  /* assume some kind of model function */
-    personView('#userinfo', user)
+    let user = get_person(id)  /* assume some kind of model function */
+    personView('userinfo', user)
 ```
 
-More on Handlebars Templates
---
+## More on Handlebars Templates
+
 
 You can learn more about the capabilities of Handlebars from [the documentation](https://handlebarsjs.com/)
 but there are a few further features worth pointing out here. 
@@ -214,7 +231,7 @@ look like a for loop.
 As an example, consider a list of people objects and a view function:
 
 ```Javascript
-var members = [
+let members = [
     {
         first_name: 'Bob',
         last_name: 'Bobalooba',
@@ -235,9 +252,10 @@ var members = [
     }
 ]
 
-function peopleView(selector, people) {
-    var template = Handlebars.compile($('#people-template').text())
-    $(selector).html(template({people: people})
+function peopleView(id, people) {
+    let template = get_template('people-template');
+    let content = template({people: people});
+    document.getElementById(id).innerHTML = content;
 }
 ```
 
@@ -276,9 +294,7 @@ There are two conditional blocks in Handlebars templates.  An `if` block can be
 used to test a value but expressions are not allowed. Hence the main use is to 
 handle cases where data is missing:
 
-
 ```HTML
-<div class="person">
 <script id="person-template" type="text/x-handlebars-template">
     <div class="person">
         <dl>
@@ -292,7 +308,6 @@ handle cases where data is missing:
         </dl>
     </div>
 </script>
-</div>
 ```
 
 If you wanted to include a comparison test you'd need to do the test in your 
@@ -302,10 +317,12 @@ Javascript code.  For example:
 
 ```Javascript
 function personView(selector, person) {
-    var template = Handlebars.compile($('#person-template').text())
+    let template = get_template('people-template');
     /* set a property on person */
     person.sydneyResident = person.city === 'Sydney'
-    $(selector).html(template(person))
+
+    let content = template(person);
+    document.getElementById(id).innerHTML = content;
 }
 ```
 

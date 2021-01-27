@@ -55,7 +55,7 @@ that creates a request object to query the `/likes` URL:
 ```javascript
 function displayLikes() {
     
-    var httpRequest = makeRequest();
+    let httpRequest = makeRequest();
 
     httpRequest.onreadystatechange = function() {
         if (this.readyState === 4) {
@@ -93,9 +93,9 @@ starter HTML page we will add:
 We can now insert list items for each liked thing as follows:
 
 ```javascript
-    var text = "";
-    var result = JSON.parse(this.responseText);
-    for(var i=0; i<result.likes.length; i++) {
+    let text = "";
+    let result = JSON.parse(this.responseText);
+    for(let i=0; i<result.likes.length; i++) {
         text += "<li>" + result.likes[i] + "</li>";
     }
     document.getElementById('things').innerHTML = text;
@@ -158,7 +158,7 @@ of `formsubmit`:
 ```javascript
 function formsubmit(){
     
-    var httpRequest = makeRequest();
+    let httpRequest = makeRequest();
 
     httpRequest.onreadystatechange = function() {
         if (this.readyState === 4) {

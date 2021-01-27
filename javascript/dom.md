@@ -69,10 +69,10 @@ element can have more children - typically it will have `head` and `body` elemen
 below it.  The following code will show these children:
 
 ```javascript
-var root = document.children[0]
-var nodes = root.children
+let root = document.children[0]
+let nodes = root.children
 
-for(var i=0; i<nodes.length; i++) {
+for(let i=0; i<nodes.length; i++) {
     console.log(nodes[i])
 }
 ```
@@ -90,11 +90,11 @@ methods for each of these options illustrated in the following example:
 
 ```javascript
 // get all of the h1 elements in the document
-var headers = document.getElementsByTagName("h1")
+let headers = document.getElementsByTagName("h1")
 // get all of the elements with class='important'
-var important = document.getElementsByClassName('important')
+let important = document.getElementsByClassName('important')
 // get the element with id='content'
-var content = document.getElementById('content')
+let content = document.getElementById('content')
 ```
            
 These methods return either an array-like object (the first two `getElementsBy` methods) 
@@ -107,9 +107,9 @@ all of the table data (td) elements:
 
 ```javascript
 
-var table = document.getElementById('resulttable')
-var tdlist = table.getElementByTagName('td')
-for (var i=0; i<tdlist.length; i++) {
+let table = document.getElementById('resulttable')
+let tdlist = table.getElementByTagName('td')
+for (let i=0; i<tdlist.length; i++) {
     console.log(tdlist[i].innerHTML)
 }
 ```
@@ -138,8 +138,8 @@ content from the script as it executes.  So I might have a target
 and target this from my Javascript:
 
 ```javascript
-var contentdiv = document.getElementById('content')
-var newcontent = "<p>Demonstrating insertion of content.</p>"
+let contentdiv = document.getElementById('content')
+let newcontent = "<p>Demonstrating insertion of content.</p>"
 
 contentdiv.innerHTML = newcontent
 ```
@@ -149,7 +149,7 @@ the following code will create a new paragraph tag and add some text content
 to it, then insert it inside the content div selected above.
 
 ```javascript
-var newp = document.createElement('p')
+let newp = document.createElement('p')
 newp.innerText = "Another example of inserting content"
 contentdiv.appendChild(newp)
 ```

@@ -75,24 +75,22 @@ Running Javascript in the Browser
 ------------------
 
 To associate JavaScript code with a web page, the code is embedded in the page or
-linked to with
-`<script></script>` tags. 
+linked to with `<script></script>` tags. 
 
 We can embed the script directly:
 
-```javascript
-  <script language="Javascript">
+```html
+<script>
     // your script goes here
-    alert('Hello World')
-  </script>
-    
+        alert('Hello World')
+</script>
 ```
 This tag can go anywhere in the HTML page and there can be many script tags in one
 page.  The code is written directly inside the tag so this is only really suitable for
 short fragments of code.  **In practice, you would almost never use this way of embedding
 Javascript in a real application.**  Instead you would refer to an external script:
 
-```
+```html
   <script src="/static/sample.js">
 ```
 Either of these methods of including Javascript has the same effect, the
@@ -108,11 +106,22 @@ slow down the loading of a page if there are many scripts or if running some
 scripts takes a long time.   For this reason it is common to put all
 script tags that load external Javascript at the *end of the body section* of
 the HTML page.  In this way, the page is fully loaded before the Javascript is
-downloaded and executed.  (Note that there are 
-[alternatives to this](https://www.html5rocks.com/en/tutorials/speed/script-loading/)
-but that browser support is still not 100% and so they can't be relied on).
+downloaded and executed.  
 
+In modern browsers there is a solution to this problem in the `defer` attribute
+on the `script` tag.  For example:
 
+```html
+    <script src="/static/sample.js" defer>
+```
+
+In every modern browser, this will defer the execution of the Javascript code until
+the page has completely loaded. This means that we can add the `script` tags to load
+Javascript to the page `head` just as we do with CSS assets. 
+
+[This page on HTML5Rocks](https://www.html5rocks.com/en/tutorials/speed/script-loading/)
+discusses the range of issues around loading Javascript into the browser for 
+those who want a deeper view.
 
 Elements of Javascript
 ----------------------
@@ -131,7 +140,7 @@ language:
 
 ```javascript
 function write_times(message, count) {
-  for (var j=0; j<count; j++) {
+  for (let j=0; j<count; j++) {
     document.write(message)
   }
 }
@@ -144,7 +153,7 @@ C. The final line shows the newly defined function
 in use.
 
 This function also illustrates the use of the `for` loop which has the same syntax
-as in C++ or Java with the exception of the variable declaration using var instead
+as in C++ or Java with the exception of the variable declaration using let instead
 of a type specifier.  
 
 Functions in Javascript can also be anonymous - defined without a name. Also, since
@@ -152,15 +161,53 @@ functions are just values in the program (in the same way as in Python) they can
 assigned to variables. So we can achieve the same as the above with the following code:
 
 ```javascript
-var write_times = function (message, count) {
-    for (var j=0; j<count; j++) {
-      document.write(message)
+let write_times = function (message, count) {
+    for (let j=0; j<count; j++) {
+      document.write(message);
     }
 }
 ```
 
 This might seem a little odd but there are some common uses of this 
-idiom in Javascript so it is important to understand it.
+idiom in Javascript so it is important to understand it. 
+
+A very common example is to create an [event handler](events.md). This is a function that will be
+called when some event happens.  To do this we set a variable within the Document Object Model
+(representing the current page in the browser) to a function. For example, this function
+will be called when the page has finished loading:
+
+```javascript
+
+window.onload = function() {
+    console.log("Page Has Loaded");
+}
+```
+
+We also often pass functions as values to other functions. Here's an example from the 
+[events chapter](events.md) that adds a handler for the click event on an element. Notice
+that the anonymous function is the second argument to the `addEventListener` function:
+
+```javascript
+let el = document.getElementById("outside")
+el.addEventListener("click", function(event) {
+    alert("Event type: " + event.type );
+})
+```
+
+Since this is such a common thing to do in Javascript, there is a new more compact syntax
+for functions called __arrow functions__.   There are some subtle differences between 
+these and regular functions which we'll point out later but the two examples above
+could be re-written more compactly as:
+
+```javascript
+
+window.onload = () => { console.log("Page Has Loaded"); }
+```
+
+```javascript
+let el = document.getElementById("outside")
+el.addEventListener("click", (event) => { alert("Event type: " + event.type ); })
+```
 
 ### Debugging Output
 
@@ -176,16 +223,63 @@ developer tools!
 
 ### Variables and Scope
 
-Variables in Javascript should be introduced with the `var` keyword.  
+Variables in Javascript should be introduced with one of the keywords `var`, `let` or `const`.  
 This is optional when creating a variable - if it isn't present, Javascript will
 look for an existing variable in the current scope (eg. within a
 function) and if it does not find it, look in the next level until it
 gets to global scope - if it never finds a variable of that name it will
-be created in global scope. So, without the `var` keyword you are
-effectively using global variables inside your functions. Best practice
-is to always use `var` to make a new variable.
+be created in global scope. So, without one of these keywords you are
+effectively using global variables inside your functions. 
 
-One place you might forget to use `var` is in a for loop:
+The difference between these keywords is subtle.  Firstly `const` is the simplest,
+this defines a constant value - one that won't change. It can be global or local to
+a block of code (curly braces).   On the other hand `var` and `let` seem quite similar; 
+both introduce a variable that can be changed and can be used in global or local scope. 
+The difference is that inside a function, `var` declares a variable that will exist
+everywhere in the function while `let` declares a variable that will only exist within
+a particular block.   Some examples will help to illustrate this.
+
+```javascript
+var gg = 12;   
+
+function simple() {
+    var hh = gg;
+    gg = hh + 1;
+    return hh;
+}
+simple();
+```
+in this exmaple, the variable `gg` is a global variable, the reference to it inside the function
+will modify the global value.  The variable `hh` only exists within the function, so `hh` will be
+undefined after the function call.
+
+```javascript
+var gg = 12;   
+
+function simple() {
+    var gg = 99;
+    return gg;
+}
+simple();
+```
+Here, since we've used `var` to declare the variable in both places, the declaration inside 
+the function replaces the initial one - so after the function call `gg` will have the value 99.
+If the intention is to declare a local variable in the function, that can be done with `let`:
+
+```javascript
+var gg = 12;   
+
+function simple() {
+    let gg = 99;
+    return gg;
+}
+simple();
+```
+
+So, one rule would be to always use `let` within functions, but in fact you can really just use
+`let` all the itme. There aren't many situations when `var` is a better choice.  
+
+One place you might forget to declare a variable is in a for loop:
 
 ```javascript
 function counter() {
@@ -203,82 +297,18 @@ writing your for loop:
 
 ```javascript
 function counter() {
-    for(var i = 0; i<10; i++) {
+    for(let i = 0; i<10; i++) {
         console.log(i);
     }
 }
 ```
+Since `let` declares a block-scoped variable, the value of `i` will be undefined outside
+of the loop. This is what you would expect coming from another language like Java. 
 
-Scope can sometimes be confusing in Javascript and there is a real danger of 
-bugs caused by conflicting global variable and function names if two 
-Javascript files are loaded that both create names in global scope. 
-If two files define a function called `render`, then the file that is 
-loaded last will overwrite the first definition.  Even more problematic
-can be code that creates global variables -- if two functions rely on the same
-global variable that could result in very subtle bugs that are hard to track down.
+So, the general rule is to always declare variables before they are used. Use
+`const` for variables that won't change.  Use `let` for variables that will
+change. 
 
-To avoid this kind of problem, it is common to use one of a number of methods to
-avoid using global scope.  These are all ways of working around the fact that 
-Javascript does not provide an official way to define modules that do not 
-clash with each other.  In Python for example we can define functions inside
-one file (module) and we need to import these into another module to use them. 
-In Javascript, every file that is loaded comes into the global namespace. 
-
-One method, which we will use in this text, is to enclose code in an anonymous function
-that is immediately called.  Here's an example:
-
-```javascript
-(function() {
-    var name = 'Steve';
-    
-    function sayhello(who) {
-        console.log("Hello" + who);
-    }
-    sayhello(name);
-})()
-```
-This code defines an anonymous function with no arguments `(function() {...})`.
-The body of the function
-is the code we want to run, it defines a variable and a function and then calls the 
-function which will output 'Hello Steve' on the browser console.  Immediately after
-defining the function we call it - notice the parentheses right after the code block
-`(function() {...})()`.  Since we call the function, the body of code inside
-will be executed but the variable and function we defined will only exist within
-the function, not in the global scope.  So, the overall effect of this is to
-allow us to define and use some variables and functions without polluting the global
-scope and causing possible name collisions. 
-
-You might also see variations on this where the function is passed the window and
-even the document objects as a parameter:
-
-```javascript
-(function(window) {
-    /* your code here */
-    window.addEventListener("click", someEventHandler)
-})(window)
-```
-
-This looks very odd since the only effect of passing the window object into the 
-function is to make `window` a local variable in the function, any code would work
-just as well if it was global.   The reason for this construct is two-fold.  Firstly,
-accessing local variables is very slightly faster than accessing global ones, so
-if you referenced `window` a lot in this code, it would be a bit faster to do so. 
-Secondly, a common practice is to 'minify' Javascript code by replacing variable
-names with shorter ones.  This code can then be compressed by renaming `window` to
-`a` and the whole code block will be that little bit shorter.  These are good
-reasons but obscure, so in this text I'll leave out any parameters for
-the anonymous function. 
-
-So once again the pattern is:
-
-```javascript
-(function() {
-    // your code here
-})()
-```
-Note that we can't use this if we want to define functions that are to be used
-by other code blocks.  In that case we sometimes do want to have functions defined in global
-scope. However, there are alternatives which we will see later in some examples.
 
 ### Arrays and Strings
 
@@ -288,10 +318,10 @@ supported).  They can contain unicode characters with special symbols if
 you wish.
 
 ```javascript
-var s1 = "Hello World!"
-var s2 = 'Hello World!'
-var s3 = 'Hola món!'
-var s4 = 'မင်္ဂလာပါကမ္ဘာလောက'
+let s1 = "Hello World!"
+let s2 = 'Hello World!'
+let s3 = 'Hola món!'
+let s4 = 'မင်္ဂလာပါကမ္ဘာလောက'
 ```
 
 Strings are objects and can be operated on with methods (just like Python) and 
@@ -311,7 +341,7 @@ console.log(s1.length)
 Here is the definition of an array of strings in Javascript:
 
 ```javascript
-var months = ['January','February',
+let months = ['January','February',
               'March','April','May','June','July','August',
               'September','October','November','December'];
         
@@ -340,17 +370,17 @@ months.reverse()
 // and sort it in place too
 months.sort()
 // remove the last element
-var last = months.pop()
+let last = months.pop()
 // and the first
-var first = months.shift()
+let first = months.shift()
 // get the first three remaining months
-var three = months.slice(0, 3)
+let three = months.slice(0, 3)
 ```
 
 Strings can be concatenated using the `+` operator:
 
 ```javascript
-var newstring = s1 + 'How are you today!'
+let newstring = s1 + 'How are you today!'
 ```
 
 
@@ -367,7 +397,7 @@ Javascript objects can change at run time, getting new properties
 and new methods.  Here's an example:
 
 ```javascript
-var myCar = new Object()
+let myCar = new Object()
 myCar.make = 'Holden'
 myCar.model = 'Astra'
 myCar.year = 2009
@@ -392,7 +422,7 @@ be functions.  This is more obvious if we use an alternate syntax for
 making the object:
 
 ```javascript
-var myCar = {
+let myCar = {
     make: 'Holden',
     model: 'Astra',
     year: 2009,
@@ -451,8 +481,8 @@ list of all of them.  You'll see many of these in examples in later parts
 of this text.   One useful example is the `Date` prototype:
 
 ```javascript
-var today = new Date();
-var birthday = new Date("Dec 25, 1993")
+let today = new Date();
+let birthday = new Date("Dec 25, 1993")
 //show the date
 console.log(today.toString())
 // show the date in GMT timezone
@@ -479,7 +509,7 @@ the values be equal by converting the type of a value if necessary.  So comparin
 the string `"1"` to the integer `1` will succeed:
 
 ```javascript
-var x = 1
+let x = 1
 if (x == "1") {
     console.log("They are the same!")
 }
@@ -491,7 +521,7 @@ operator `===` the type coercion will not happen and the comparison will succeed
 if the values really are the same.  So this code will print the message in the else clause:
 
 ```javascript
-var x = 1
+let x = 1
 if (x === "1") {
     console.log("The are the same")
 } else {
@@ -527,7 +557,7 @@ everything else is considered to be `true`.  So I can use these values directly 
 statement:
 
 ```javascript
-var x = ''
+let x = ''
 if (x) {
     /* this will not run because '' is false */
 }
@@ -563,7 +593,127 @@ For the most part then you can write Javscript with no semi-colons and all will 
 There are though some obscure cases when a missing semi-colon might get you 
 in trouble.  
 
+## Modules
 
+In most programming languages, we break up an application into more than one file. This 
+helps with code management and also allows us to structure an application to put
+certain things into one module to make it self contained.  In Javascript it has 
+always been difficult to do this as it lacked a formal module mechanism.  People reverted
+to weird tricks to write code that could be used in a modular fashion.  Fortunately,
+the ES6 standard introduced module import/export and nearly all browsers now implement
+this feature (the main exception is the old Internet Explorer). 
+
+To write a Javascript module we make use of the [`export`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) keyword somewhere in the file. There are many options here
+but I'll just cover the simplest case which is to list the symbols to be exported
+at the top of the file.  Here's an example, assume it is stored in the file `namegen.js`:
+
+```javascript
+export {maxNameLength, generateName};
+
+const maxNameLength = 1024;
+const unexportedVariable = "useless";
+
+function generateName(length) {
+
+    if (length <= maxNameLength) {
+         length = maxNameLength;
+    } 
+    return 'a'.repeat(length);
+}
+```
+In this example, we define a variable and a function that are exported and a second variable that 
+is not.  Another module that imports this module can get access to `maxNameLength` and `generateName` 
+but not to `unexportedVariable` which is only usable inside this module.
+
+Importing is similarly simple, making use of the `import` keyword as you might expect. The simplest
+case is where we just name the symbols we want to import from another module. Here is an example:
+
+```javascript
+import {generateName} from './namegen.js'
+
+console.log(generateName(10));
+console.log(maxNameLength);   // will be undefined
+```
+
+Here we import only the `generateName` function and we can make use of it as if it was defined in 
+this file.  The variable `maxNameLength` will not be imported and so trying to use it will give a 
+result of `undefined` (that special Javascript value that means the variable doesn't exist).  
+
+In some cases you want to import everything from a module. In this case we need to give a
+prefix for the imports to prevent a symbol from the imported module clashing with one defined
+locally - this is more likely if you just say import everything since the list of exports might
+change at some point in the future.  So we would write:
+
+```javascript
+import * as namegen from './namegen.js'
+
+console.log(namegen.generateName(10));
+console.log(namegen.maxNameLength);   
+```
+
+Note that we need to refer to the function and variables with the defined prefix.  Trying to use
+them without the prefix won't work.
+
+One thing to understand is what is the path name we should use after the `from` keyword. This
+is either a relative or absolute path to the file that we want to import. This is a URL, it
+could begin with http and reference a file on another server (but see below for some caveats). 
+Most often though you will be referencing a module on the same server and will use either a
+relative or absolute path.  
+My example above is a relative path, it starts with `./` because a single period is an alias
+for the current directory (in Unix based systems, and this carries over to URL paths). A
+relative path can't be just the file name. So `'./namegen.js'`
+says look in the current directory for the file `namegen.js`.  You could also refer to a subdirectory
+like `'./modules/namegen.js'` if you want to keep all of your modules in a subdirectory - but note the
+relative path still begins with a period.  
+
+The second alternative is an absolute path. For example, `'/modules/namegen.js'` - the path begins
+with a forward slash and the browser will resolve it as it would if it saw this in the 
+`href` attribute of a link. It will make a request to the same server for this URL path. 
+
+It is possible to import a module from another server, something like:
+
+```javascript
+import {example} from 'http://example.org/some/module.js'
+```
+The browser will try to load this URL to get the module contents. However, there are rules as 
+to where you can load code from. By default, this will be blocked by a policy which says that
+a Javascript module can only load code from the same server: CORS or Cross Origin Resource Sharing policy.
+It is possible to configure your server to return HTTP headers that permit your Javascript
+to load modules from another site.  This prevents malicious code infecting your Javascript
+and loading bad code from some random evil hacker server.   So, in general you won't 
+use a full URL to import a module. 
+
+### Loading Modules into the Browser
+
+Once you have converted your code to use `import` statements your Javascript files become
+Javascript modules.  We are used to loading Javascript into the page with a `<script>` 
+tag:
+
+```html
+<script src="script.js" defer>
+```
+
+(where `defer` means we defer loading until the page has finished loading).   If you use `import` in
+`script.js` and try to do this you will get an error message in your console. Something like
+`"SyntaxError: import declarations may only appear at top level of a module"`.  To fix this
+we need to tell the browser that what we're importing is a module, which we do with the 
+`type` attribute:
+
+```html
+<script src="script.js" type=module defer>
+```
+This primes the browser to expect a module and it will then be happy with import statements. The big 
+difference is that when a module is loaded, the code is executed as normal but all of the 
+symbols defined in the module are not available in global scope in the browser.  Using modules
+also enforces the CORS policy for more secure coding. 
+
+We've been discussing the browser loading these modules since that is where we are running
+our Javascript most of the time. However, there might be other systems loading these modules, 
+in particular it might be running under the Node.js system which runs Javascript outside of
+the browser.  Import/export statements can also be used by so-called _bundlers_ which read
+your Javascript code and bundle it up into a compact form suitable for delivery to 
+the browser - eg. it might combine all of your modules into a single file to avoid the
+browser having to make many HTTP requests.  
 
 ## Summary
 

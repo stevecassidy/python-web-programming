@@ -267,8 +267,8 @@ entered into the form by the user.  We can use jQuery to locate the input field
 and get the value like this: 
 
 ```javascript
-        var input = $(this).children("input[name='thing']")
-        var thing = $(input).val()
+        let input = $(this).children("input[name='thing']")
+        let thing = $(input).val()
 ```
 Here we are using `$(this)` to refer to the form being submitted.  The `children` method
 searches among the child elements of the form and we search for the `input` element

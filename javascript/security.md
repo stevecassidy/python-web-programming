@@ -174,20 +174,40 @@ in the page.
 
 This method is so commonly useful that most HTML templating systems will by default
 carry out this conversion on any data that is inserted into the HTML page. For example in
-bottle I might have a template for my list of messages:
+a [Handlebars template](https://handlebarsjs.com/guide/#html-escaping)"
 
 ```html
-% for message in messages:
-<div class="message">
-    <div class="author">{{message.author}}</div>
-    <p>{{message.text}}</p>
-</div>
-% end
-```  
+<script id="book-template" type="text/x-handlebars-template">
+    <div class="message">
+        <div class="author">{{author}}</div>
+        <p>{{text}}</p>
+    </div>
+</script>
+```
+
 This will have the effect of escaping the content of the author and text fields before 
-inserting them into the page and will therefore prevent XSS attacks. I actually need to
-take a further step to prevent bottle from escaping the content by adding an exclamation
-mark at the start of the double curly braces: `{{!message.text}}`.
+inserting them into the page and will therefore prevent XSS attacks. For example:
+
+```javascript
+let template = get_template("book-template");
+let book = {
+    'author': "Mary & Bob",
+    'text': "Text with <em>markup</em>"
+}
+content = template(book)
+```
+The result will be:
+
+```html
+    <div class="message">
+        <div class="author">Mary &amp; Bob</div>
+        <p>Text with &lt;em&gt;markup&lt;/em&gt;</p>
+    </div>
+```
+
+I actually need to take a further step to prevent Handlebars
+from escaping the content by adding an extra
+set of curly braces: `{{{text}}}`.
 
 However, it may be that I want to allow my users to add HTML markup to their messages. After
 all it's nice to be able to format them nicely, add emphasis, bullet points etc. In that case, 

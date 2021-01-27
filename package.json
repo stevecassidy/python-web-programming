@@ -1,0 +1,14 @@
+{
+    "scripts": {
+        "serve": "gitbook serve",
+        "build": "gitbook build",
+        "install": "gitbook install"
+    },
+    "dependencies": {
+        "@gitbook-ng/gitbook": "3.3.6",
+        "gitbook-plugin-analytics": "^0.2.1",
+        "gitbook-plugin-code": "^0.1.0",
+        "gitbook-plugin-page-toc": "^1.1.1",
+        "gitbook-plugin-prism-ex": "0.0.2"
+    }
+}

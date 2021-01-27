@@ -13,6 +13,25 @@
 * [Designing for Usability](web/usability.md)
 * [Web Applicaton Architecture](web/architectures.md)
 
+## Javascript
+
+* [Introducing Javascript](javascript/javascript.md)
+* [Document Object Model](javascript/dom.md)
+* [Javascript Events](javascript/events.md)
+* [Handlebars](javascript/handlebars.md)
+* [Javascript Security](javascript/security.md)
+
+## Web Security and Privacy
+
+* [Web Security](security/security.md)
+
+## Data on the Web
+
+* [Crawling the HTML Web](data/crawling.md)
+* [Scripting Forms](data/scripting-forms.md)
+* [Web Data for Machines](data/machinedata.md)
+* [Building a Web API](data/webapi.md)
+
 ## Python
 
 * [Basic Python](python/basic-python.md)
@@ -32,27 +51,6 @@
 * [Handling Users - login and sessions](bottle/sessions.md)
 * [Uploading Files](bottle/file-upload.md)
 
-## Javascript
-
-* [Introducing Javascript](javascript/javascript.md)
-* [Document Object Model](javascript/dom.md)
-* [Javascript Events](javascript/events.md)
-* [JQuery](javascript/jquery.md)
-* [AJAX](javascript/ajax.md)
-* [AJAX Example](javascript/ajaxexample.md)
-* [Handlebars](javascript/handlebars.md)
-* [Javascript Security](javascript/security.md)
-
-## Web Security and Privacy
-
-* [Web Security](security/security.md)
-
-## Data on the Web
-
-* [Crawling the HTML Web](data/crawling.md)
-* [Scripting Forms](data/scripting-forms.md)
-* [Web Data for Machines](data/machinedata.md)
-* [Building a Web API](data/webapi.md)
 
 ## Advanced Web Topics
 
