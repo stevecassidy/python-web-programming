@@ -380,7 +380,7 @@ $ sudo apt-get install virtualbox-guest-utils
 The next step is to set up a shared folder via the VirtualBox
 application. From the menu select *Devices* and *Shared Folders* then
 *Shared Folder Settings...*. In the settings pane create a new shared
-folder via the + icon on the right. Enter "sf\_share" as the folder name
+folder via the + icon on the right. Enter `share` as the folder name
 and select the directory containing your application source code for the
 folder path. Make sure *Auto Mount* is checked and click Ok.
 
@@ -442,9 +442,9 @@ this shows an interface that allows you to enter a new mapping. Here you
 will enter a new rule to connect port 80 on the VM to a free port on the
 host machine, eg:
 
-  Name   Protocol   Host IP     Host Port   Guest IP   Guest Port
-  ------ ---------- ----------- ----------- ---------- ------------
-  HTTP   TCP        127.0.0.1   8500                   80
+    Name   Protocol   Host IP     Host Port   Guest IP   Guest Port
+    ------ ---------- ----------- ----------- ---------- ------------
+    HTTP   TCP        127.0.0.1   8500                   80
 
 This rule will forward traffic form port 80 on the VM to port 8500 on
 the host machine's 127.0.0.1 IP address (8500 is just an unused port
