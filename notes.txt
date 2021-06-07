@@ -1,0 +1,12 @@
+
+
+TODO:
+
+- discussion of forms in HTML chapter, hidden form elements, validation in some input
+  element types, labels and inputs, fieldsets, ids and names, submit inputs vs buttons.
+
+- Stateless protocols: service to add numbers two at a time vs service to tally a list
+  of numbers sent sequentially, second has to be statefull since it remembers total
+  first can be stateless, dealing with many clients easier for stateless version
+
+-

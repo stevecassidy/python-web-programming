@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-gitbook build
-rsync -avz _book/ stevecassidy@stevecassidy.net:webapps/pythonbook
+npm run build
+rsync -avz _book/ steve@stevecassidy.net:webapps/pwp
