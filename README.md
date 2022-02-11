@@ -5,6 +5,6 @@
 - Macquarie University
 - Sydney, Australia 
 
-These notes are being written to support COMP249 Web Technology at Macquarie University, Sydney. 
+These notes are being written to support COMP2110 Web Technology at Macquarie University, Sydney. 
 They are made available here in the hope that they will be useful to
 others. 
