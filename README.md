@@ -1,4 +1,4 @@
-# Python Web Programming
+# Practical Web Programming
 
 - Author: [Steve Cassidy](http://web.science.mq.edu.au/~cassidy/)  
 - Department of Computing 
