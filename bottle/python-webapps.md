@@ -194,7 +194,7 @@ The `@app.route('/about')` line before each procedure in a Bottle web
 application is a Python construct called a *decorator*. It is a way of
 changing the way a procedure works, in this case it is the way that
 Bottle associates your procedures with different URL paths. From the
-discussion of [the structure of URLs](../web/webworks.html#title5) we
+discussion of [the structure of URLs](../web/urls.md) we
 recall that the part of the URL after the network location is sent in
 the HTTP request to the server. So a request for
 `http://example.org/home/index.html` will result in an HTTP request

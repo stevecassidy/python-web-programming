@@ -59,6 +59,8 @@ local copy of all of the images on a site.
 What Would You Prefer?
 ----------------------
 
+<a name="accept"></a>
+
 A very important thing to recognise about the web is that a URL is an
 abstract name for a *resource*. As we said above, the URL doesn't imply
 anything about the format that this resource will be returned in. In

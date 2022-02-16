@@ -1,10 +1,10 @@
-The Uniform Resource Locator (URL)
-=======
+# The Uniform Resource Locator (URL)
 
 Let's look at the anatomy of a URL:
 
+```
     http://www.mq.edu.au/about/profile/history.html
-          
+```
 
 The first part of the URL is `http://`, this is often left out when URLs
 are written, so we might see the above as
@@ -26,11 +26,15 @@ that triggers the browser to start composing an email message. This has
 a slightly different form: `mailto:Steve.Cassidy@mq.edu.au` but it's
 still a URL. In fact, the pattern looks like this:
 
+```
     <scheme>:<scheme-specific-part>
+```
 
 For the HTTP scheme the pattern is:
 
+```
     http://<net_loc>/<path>;<params>?<query>#<fragment>
+```
 
 The first part `<net_loc>` is the network location of the resource: the
 domain name of the web server that holds the web page we want. This is
@@ -59,7 +63,6 @@ book-shop or library and use their catalogue to find the book. With a
 URL, there's no need for a catalogue or third party service to decode
 the identifier. The information on how to retrieve the resource is right
 there in the Uniform Resource Locator.
-
 
 The [Internet Engineering Task Force (IETF)](http://www.ietf.org/) is as
 close as we get to a governing body for the Internet and it's home to
@@ -94,13 +97,12 @@ change](http://www.w3.org/Provider/Style/URI)". It's a principle that
 all web designers should bear in mind as it is easy to violate as we
 re-build old web-sites.
 
-
 ## Absolute and relative URLs
 
 When we include a URL in a web page there are a number of choices about
 how it can be written.  The first option is to include the full URL:
 
-```
+```html
     <a href="http://example.org/static/style.css">
 ```
 
@@ -108,47 +110,53 @@ This is clearly a link to a resource on the server at _example.org_ using the ht
 However, if this page is being served by the server at _example.org_ then
 we could also write this link as:
 
-```
+```html
     <a href="/static/style.css">
 ```
-This is known as a _relative URL_ and is interpreted relative to the URL of the page that is currently
-being viewed.   Let's assume that this page is at the URL `http://example.org/about/info.html`.  Note 
-that the URL above starts with a `/` character, in this case, the browser will interpret this
-URL by adding the protocol (`http`) and domain (`example.org`) parts of the page URL
-to this one to get `http://example.org/static/style.css`.   
+
+This is known as a *relative URL* and is interpreted relative to the URL of the
+page that is currently being viewed.   Let's assume that this page is at the URL
+`http://example.org/about/info.html`.  Note that the URL above starts with a `/`
+character, in this case, the browser will interpret this URL by adding the
+protocol (`http`) and domain (`example.org`) parts of the page URL to this one
+to get `http://example.org/static/style.css`.   
 
 Another way to write a URL is:
 
-```
+```html
     <a href="static/style.css">
 ```
+
 In this case there is no `/` at the start of the URL and so this is interpreted relative to the 
 page URL by removing everything but the last part of the URL `http://example.org/about/` and
 then adding the new URL text to get `http://example.org/about/static/style.css`.  Note that
 this is different to the previous example.   If the intention was to reference the same 
 URL as before, you could use the URL:
 
-```
+```html
     <a href="../static/style.css">
 ```
+
 Here the `..` path refers to the parent directory (thinking of these paths as filenames)
 so the path becomes `/about/../static/style.css` which can be shortened to `/static/style.css`.
 
-The different URL styles have different uses.  If you are writing a static HTML page 
-that you will view on your local computer and perhaps host on the web somewhere (but you're
-not sure where) then you might put all of your files in one directory and use a
-relative URL like `static/style.css` to refer to linked resources.  This ensures that
-your directory of files could be dropped anywhere into a web server file system and
-it would be self-contained and the links would work.  
+The different URL styles have different uses.  If you are writing a static HTML
+page that you will view on your local computer and perhaps host on the web
+somewhere (but you're not sure where) then you might put all of your files in
+one directory and use a relative URL like `static/style.css` to refer to linked
+resources.  This ensures that your directory of files could be dropped anywhere
+into a web server file system and it would be self-contained and the links would
+work.  
 
-However, if you are writing a web application that will be hosted on some domain (like `example.org`)
-you know that you have control of all URLs on that site and so would more likely 
-use a relative URL starting with a `/` (like `/static/style.css`).  This is important
-if your web application has complex routes (eg. pages like `/users/steve/profile/edit`) and
-you want to ensure that whatever the page URL being served, the links to stylesheets
-and other resources will work.    The application can be deployed on different servers 
-(like `example.org` and `example.com`) and the links will still work because they don't 
-mention the domain name at all.  
+However, if you are writing a web application that will be hosted on some domain
+(like `example.org`) you know that you have control of all URLs on that site and
+so would more likely use a relative URL starting with a `/` (like
+`/static/style.css`).  This is important if your web application has complex
+routes (eg. pages like `/users/steve/profile/edit`) and you want to ensure that
+whatever the page URL being served, the links to stylesheets and other resources
+will work.    The application can be deployed on different servers (like
+`example.org` and `example.com`) and the links will still work because they
+don't mention the domain name at all.  
 
 Finally, absolute URLs (like `http://example.org/static/style.css`) will be used when we 
 know that this URL is fixed at this location.  It may be something external to our own 
@@ -160,9 +168,10 @@ of content if two URLs point to the same page (eg. `https://example.org/` and `h
 
 One final form of relative URL looks like this:
 
-```
+```html
     <a href="//example.org/static/style.css">
 ```
+
 This URL is only missing the protocol part and is turned into an absolute URL by adding 
 the protocol part of the current page URL.  So if the current page was requested over
 http or https, this URL will use the same protocol.  This is often useful if a site can
