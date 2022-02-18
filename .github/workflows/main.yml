@@ -26,11 +26,13 @@ jobs:
       - name: Run a multi-line script
         run: npm ci
       - run: npm run build
-    
-      # copy to web host with rsync
-      - uses: up9cloud/action-rsync@master
-        env:
-          HOST: stevecassidy.net
-          KEY: ${{secrets.DEPLOY_SSH_KEY}}
-          SOURCE: ./.retype/
-          TARGET: webapps/pwp
+
+    - name: rsync deployment
+      uses: burnett01/rsync-deployments@5.2
+      with:
+        switches: -avzr --delete
+        path: .retype/
+        remote_path: webapps/pwp/
+        remote_host: stevecassidy.net
+        remote_user: steve
+        remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
