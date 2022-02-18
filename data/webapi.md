@@ -82,7 +82,7 @@ Implementing a JSON Response
 Bottle makes it very easy to return JSON content in a response. If the
 return type of a handler is a Python dictionary, it will be converted to
 JSON in the response. Building on the [database backed
-'likes'](../bottle/bottle-sqlite.html) application from the earlier
+'likes'](../bottle/bottle-sqlite.md) application from the earlier
 chapter on databases, we'll develop a simple example JSON based API. As
 a reminder, here is the main page of that application that returns a
 list of the current likes and the form as an HTML page:

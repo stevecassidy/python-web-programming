@@ -294,7 +294,7 @@ table. In this way, if an old session key does arrive in a cookie, the
 application won't recognise it and the user will be forced to login once
 again.
 
-See [the chapter on authentication](../web/authentication.md) for
+See [the chapter on authentication](../advanced/authentication.md) for
 further discussion of user authentication issues in web applications.
 
 ### Exercises

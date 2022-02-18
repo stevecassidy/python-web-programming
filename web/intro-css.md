@@ -513,18 +513,6 @@ Summary
 -   CSS layouts promote: semantic markup, accessibility, efficiency.
 
 
-Resources
----------
 
--   [An example](examples/w3c-core.html) HTML page which allows
-    switching of stylesheets between [W3C Core
-    Styles](http://www.w3.org/StyleSheets/Core/).
--   Some sites promote the use of CSS: [CSS Zen
-    Garden](http://www.csszengarden.com/)
--   Most modern browsers support most of CSS1 and CSS2 but all browsers
-    have bugs in their implementation. There are many sites on the web
-    that summarise the compatibility of the main browsers, eg.
-    [WESTCIV](http://www.westciv.com/style_master/academy/browser_support/index.html)
-    or [Quirksmode](http://www.quirksmode.org/css/contents.html).
 
 
