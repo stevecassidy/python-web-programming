@@ -27,12 +27,12 @@ jobs:
         run: npm ci
       - run: npm run build
 
-    - name: rsync deployment
-      uses: burnett01/rsync-deployments@5.2
-      with:
-        switches: -avzr --delete
-        path: .retype/
-        remote_path: webapps/pwp/
-        remote_host: stevecassidy.net
-        remote_user: steve
-        remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
+      - name: rsync deployment
+        uses: burnett01/rsync-deployments@5.2
+        with:
+          switches: -avzr --delete
+          path: .retype/
+          remote_path: webapps/pwp/
+          remote_host: stevecassidy.net
+          remote_user: steve
+          remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
