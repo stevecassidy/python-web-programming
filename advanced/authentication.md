@@ -150,7 +150,7 @@ methods described above provide one mechanism for sending authentication
 information with each request, but as mentioned above, they don't
 provide a mechanism for logout and are generally managed by the server
 rather than the application. The method we describe here makes use of
-[cookies](../bottle/cookies.html) to maintain state between requests.
+[cookies](../bottle/cookies.md) to maintain state between requests.
 
 It is common for a web application to present a login form that asks for
 a username and password from the user. This form is submitted to the
@@ -210,7 +210,7 @@ Unique Identifier)](https://docs.python.org/3.6/library/uuid.html) which
 is a random string of characters; this is known as the *session key*. In
 order to keep track of who this session key was sent to, the application
 makes an entry in a session table as described in the [earlier
-chapter](/bottle/sessions.html). Once the entry is recorded in the
+chapter](/bottle/sessions.md). Once the entry is recorded in the
 session table, the cookie is returned to the user in the response.
 
 Each time the user now re-visits the site, the cookie can be used to
