@@ -160,7 +160,7 @@ cookies we can imagine.
 
 
 
-A Cookie Example {#a-cookie-example .index title="cookies!!python example"}
+A Cookie Example 
 ----------------
 
 Let's develop a simple application that makes use of a cookie to record

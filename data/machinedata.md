@@ -498,7 +498,7 @@ modern web applications where small data sets are exchanged between a
 server and a client, JSON is the most appropriate solution and has
 gained a lot of support over the last few year.
 
-### Security and JSON {#json-security}
+### Security and JSON
 
 Earlier I mentioned that parsing JSON in Javascript was particularly
 efficient since JSON is Javascript code. The reason for this is that the
