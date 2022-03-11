@@ -139,19 +139,3 @@ given the task, they are then observed as they try to complete it. They
 will be asked to comment on what they are doing or trying to do as they
 work through the task. These comments are recorded along with an image
 of the screen, so that they can be analysed later.
-
-
-
-
-
-Copyright © 2015, Steve Cassidy, Macquarie University
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
