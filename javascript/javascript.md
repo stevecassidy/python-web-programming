@@ -356,10 +356,10 @@ supported).  They can contain unicode characters with special symbols if
 you wish.
 
 ```javascript
-let s1 = "Hello World!"
-let s2 = 'Hello World!'
-let s3 = 'Hola món!'
-let s4 = 'မင်္ဂလာပါကမ္ဘာလောက'
+const s1 = "Hello World!"
+const s2 = 'Hello World!'
+const s3 = 'Hola món!'
+const s4 = 'မင်္ဂလာပါကမ္ဘာလောက'
 ```
 
 Strings are objects and can be operated on with methods (just like Python) and
@@ -379,7 +379,7 @@ console.log(s1.length)
 Here is the definition of an array of strings in Javascript:
 
 ```javascript
-let months = ['January','February',
+const months = ['January','February',
               'March','April','May','June','July','August',
               'September','October','November','December'];
         
@@ -408,17 +408,17 @@ months.reverse()
 // and sort it in place too
 months.sort()
 // remove the last element
-let last = months.pop()
+const last = months.pop()
 // and the first
-let first = months.shift()
+const first = months.shift()
 // get the first three remaining months
-let three = months.slice(0, 3)
+const three = months.slice(0, 3)
 ```
 
 Strings can be concatenated using the `+` operator:
 
 ```javascript
-let newstring = s1 + 'How are you today!'
+const newstring = s1 + 'How are you today!'
 ```
 
 ### Javascript Objects
@@ -434,7 +434,7 @@ Javascript objects can change at run time, getting new properties
 and new methods.  Here's an example:
 
 ```javascript
-let myCar = new Object()
+const myCar = new Object()
 myCar.make = 'Holden'
 myCar.model = 'Astra'
 myCar.year = 2009
@@ -459,7 +459,7 @@ be functions.  This is more obvious if we use an alternate syntax for
 making the object:
 
 ```javascript
-let myCar = {
+const myCar = {
     make: 'Holden',
     model: 'Astra',
     year: 2009,
@@ -492,7 +492,7 @@ Car.prototype.display = function() {
 }
 
 // create a new car
-myCar = new Car("Holden", "Astra", 2009)
+const myCar = new Car("Holden", "Astra", 2009)
 // call the display method
 console.log(myCar.display())
 ```
@@ -519,8 +519,8 @@ list of all of them.  You'll see many of these in examples in later parts
 of this text.   One useful example is the `Date` prototype:
 
 ```javascript
-let today = new Date();
-let birthday = new Date("Dec 25, 1993")
+const today = new Date();
+const birthday = new Date("Dec 25, 1993")
 //show the date
 console.log(today.toString())
 // show the date in GMT timezone
@@ -547,7 +547,7 @@ the values be equal by converting the type of a value if necessary.  So comparin
 the string `"1"` to the integer `1` will succeed:
 
 ```javascript
-let x = 1
+const x = 1
 if (x == "1") {
     console.log("They are the same!")
 }
@@ -559,7 +559,7 @@ operator `===` the type coercion will not happen and the comparison will succeed
 if the values really are the same.  So this code will print the message in the else clause:
 
 ```javascript
-let x = 1
+const x = 1
 if (x === "1") {
     console.log("The are the same")
 } else {
@@ -595,7 +595,7 @@ everything else is considered to be `true`.  So I can use these values directly 
 statement:
 
 ```javascript
-let x = ''
+const x = ''
 if (x) {
     /* this will not run because '' is false */
 }
@@ -605,7 +605,7 @@ Another case that can trip you up is the implicit conversion of types to strings
 the following:
 
 ```javascript
-x = '5'  /* a string */
+const x = '5'  /* a string */
 console.log( x + 1 )
 ```
 
