@@ -82,9 +82,6 @@ const context = {
 const content = template(context)
 ```
 
-Note that the template source string has been written in one line here
-because Javascript doesn't allow newlines in strings.
-
 The first step is to _compile_ the template source string.  This generates a
 function that can be applied to a context (an object) containing values for 
 the different placeholders. The result in the `content` variable will be:
@@ -118,7 +115,7 @@ const bob = {
 };
 ```
 
-we can write a view function to display objects of this type.  First we 
+we can write a view function to display objects of this type.  First we
 define a template that will generate the HTML we want to display:
 
 ```Javascript
@@ -284,11 +281,28 @@ This block will be rendered if there is no value for `licence` or if the value i
 'falsy' (`[]`, `""`, `null` or `[]`).  
 
 There are a [few other block helpers](https://handlebarsjs.com/builtin_helpers.html) in
-Handlebars but these are the main ones you will use. 
+Handlebars but these are the main ones you will use.
 
-It's also possible to [extend Handlebars](https://handlebarsjs.com/)
-with your own helpers in a few different ways. You can define helper functions
-to generate particular display elements that can be re-used and also define new
-block helpers to achieve different effects.  
+### Partials
 
+A very useful feature is the ability to use one template inside another.  In our people
+example we might want to write one template for a person and then 
+re-use it in the list of people.  This can be done with 
+[partials](https://handlebarsjs.com/guide/partials.html#basic-partials) in Handlebars.
+Here's a simple example that defines a partial template for a person:
 
+```Javascript
+Handlebars.registerPartial('person', '<li>Name: {{name}}</li>')
+
+const peopleTemplate = Handlebars.compile(`
+    <ul class="people">
+       {{#each people}}
+        {{> person}}
+       {{/each}}
+    </ul>
+    `)
+```
+
+The effect of this is as if the partial template is just pasted into the 
+containing template - the variables it can refer to are those in the
+main template.
