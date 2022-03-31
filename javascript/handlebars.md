@@ -188,7 +188,7 @@ const members = [
 ]
 ```
 
-To present this data we could use a template for a single person and call it 
+To present this data we could use a template for a single person and call it
 multiple times but Handlebars gives us an iteration construct that we can use.  
 The following template and view function illustrates this.
 
@@ -196,7 +196,7 @@ The following template and view function illustrates this.
 
 const peopleTemplate = Handlebars.compile(`
     <div class="people">
-       {{#each people}}
+       {{#each array}}
         <div class="person">
             <dl>
                 <dt>Name</dt> <dd>{{first_name}} {{last_name}}</dd>
@@ -208,16 +208,23 @@ const peopleTemplate = Handlebars.compile(`
     </div>
     `)
 
-function peopleView(id, people) { 
-    const content = peopleTemplate({people: people});
+function peopleView(id, peopleArray) { 
+    const content = peopleTemplate({array: peopleArray});
     document.getElementById(id).innerHTML = content;
 }
 ```
 
 Note that since the argument to the `template` function needs to be an object I've
-created an in-line object with one property `people` to contain the list of people.
+created an in-line object with one property `array` to contain the array of people.
 The template uses the [`#each`](https://handlebarsjs.com/guide/builtin-helpers.html#each) 
-construct to iterate over the people array.
+construct to iterate over the array.
+
+I can then use this view function to insert content based on the `members` global
+variable into the element with id `target` as follows:
+
+```javascript
+peopleView('target', members)
+```
 
 Note that here there is no _loop variable_, we just refer to the properties of the
 current object each time.  You can refer to `{{this}}` to get the current object and
