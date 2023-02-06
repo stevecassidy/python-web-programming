@@ -1,5 +1,3 @@
-
-
 Session Management
 ==================
 
@@ -26,7 +24,7 @@ identify themselves at the start of the session.
 Cookies and Sessions
 --------------------
 
-User sessions are implemented using the [HTTP cookie](cookies.html)
+User sessions are implemented using the [HTTP cookie](cookies.md)
 mechanism. As discussed earlier, cookies provide a means of maintaining
 state between HTTP requests by requiring that a client return a cookie
 with every request once it has been sent as part of an HTTP response.
@@ -63,7 +61,7 @@ Sessions Example
 
 To illustrate anonymous session management we'll develop a simple
 application that extends the *likes* application described in the
-[SQLite chapter](bottle-sqlite.html). In that version we used a single
+[SQLite chapter](bottle-sqlite.md). In that version we used a single
 database table to store likes, there were no users and everyone visiting
 the site would see the same list. This version will store the likes
 along with a user identifier that we will pass back to the user in a

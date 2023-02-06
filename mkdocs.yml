@@ -1,0 +1,8 @@
+site_name: Practical Web Programming
+site_url: https://pwp.stevecassidy.net/
+nav:
+  - 'index.md'
+  - 'about.md'
+theme: 
+  name: bootstrap4
+dev_addr: localhost:8109

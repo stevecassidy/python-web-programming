@@ -225,7 +225,7 @@ for SGML documents.
 
 ### Using XML
 
-We discussed parsing HTML in [the last chapter](crawling.html) and said
+We discussed parsing HTML in [the last chapter](crawling.md) and said
 that since HTML is a tree structure, a natural thing for a parser to do
 is return a tree-like data structure, usually called the Document Object
 Model or DOM. Since XML is just like HMTL in this respect we also make

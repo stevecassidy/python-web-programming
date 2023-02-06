@@ -1,4 +1,4 @@
-# Practical Web Programming
+# About This Site
 
 - Author: [Steve Cassidy](https://stevecassidy.net/)  
 - School of Computing

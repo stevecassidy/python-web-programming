@@ -2,14 +2,14 @@
 
 When building a web application with Python on the server side we used the Bottle
 template system to generate HTML pages.   This formed the **View** part of the MVC
-architecture and meant that we could separate out the design of the page from 
+architecture and meant that we could separate out the design of the page from
 the logic of the application and the database access layer.   The template
-is HTML code with bits of Python used only to insert data into the page. 
-This provides a good alternative to generating HTML code as part of the 
+is HTML code with bits of Python used only to insert data into the page.
+This provides a good alternative to generating HTML code as part of the
 Python application; this can lead to messy code and makes it hard to see where
 each part of the page comes from.
 
-As we move towards front-end based applications that construct HTML pages in the 
+As we move towards front-end based applications that construct HTML pages in the
 browser, we started by reverting to the model of generating HTML as part of
 the output of our code. For example in this code from [an earlier chapter](ajaxexample.md):
 
@@ -22,12 +22,12 @@ the output of our code. For example in this code from [an earlier chapter](ajaxe
     document.getElementById('things').innerHTML = text;
 ```
 
-The code is again messy and makes it harder to see how the final HTML 
+The code is again messy and makes it harder to see how the final HTML
 fragment comes together. It is clearly desirable to use some kind of templating
 engine again from Javascript.  However, the requirements now are different; when
-we are constructing pages on the server side we construct the entire HTML 
-page before delivering it to the client.  In Javascript we are usually 
-updating a part of the page with new data to display in response to 
+we are constructing pages on the server side we construct the entire HTML
+page before delivering it to the client.  In Javascript we are usually
+updating a part of the page with new data to display in response to
 interactions.   So, rather than needing a templating system for whole
 pages we want something we can use to create fragments of pages.  
 
@@ -38,7 +38,7 @@ an extended implementation of the [Moustache](https://mustache.github.io/) famil
 templating systems which are available in many langauges (there is an official Javascript
 implementation of Moustache but Handlebars has
 [a few advantages](http://nimbupani.com/mustache.html)). The name comes from
-the use of curly braces `{{   }}` to delimit variables to be inserted into 
+the use of curly braces `{{   }}` to delimit variables to be inserted into
 the template. This will be familiar from our use of the Bottle templating engine, however
 whereas Bottle templates allowed you to include Python code in the template, Handlebars
 is deliberately more limited in what templates are able to do.  We are limited
@@ -83,7 +83,7 @@ const content = template(context)
 ```
 
 The first step is to _compile_ the template source string.  This generates a
-function that can be applied to a context (an object) containing values for 
+function that can be applied to a context (an object) containing values for
 the different placeholders. The result in the `content` variable will be:
 
 ```HTML
@@ -102,7 +102,7 @@ Python applications is equally relevant to Javascript front-end applications. It
 a useful way to think about the structure of an application and separate out
 the application logic, data access and interface generation componenets. Handlebars
 can be used to write the View component by encapsulating the code above into
-a view function and associating this with a template. 
+a view function and associating this with a template.
 
 For example, if we have a data object representing a person:
 
@@ -150,7 +150,6 @@ display of a particular person's data in the page in the element with id `userin
 ```
 
 ## More on Handlebars Templates
-
 
 You can learn more about the capabilities of Handlebars from
 [the documentation](https://handlebarsjs.com/)
@@ -216,7 +215,7 @@ function peopleView(id, peopleArray) {
 
 Note that since the argument to the `template` function needs to be an object I've
 created an in-line object with one property `array` to contain the array of people.
-The template uses the [`#each`](https://handlebarsjs.com/guide/builtin-helpers.html#each) 
+The template uses the [`#each`](https://handlebarsjs.com/guide/builtin-helpers.html#each)
 construct to iterate over the array.
 
 I can then use this view function to insert content based on the `members` global
@@ -238,7 +237,7 @@ iterations respectively.
 
 There are two conditional blocks in Handlebars templates.  
 An [`#if`](https://handlebarsjs.com/guide/builtin-helpers.html#if) block can be
-used to test a value but expressions are not allowed. Hence the main use is to 
+used to test a value but expressions are not allowed. Hence the main use is to
 handle cases where data is missing:
 
 ```Javascript
@@ -293,8 +292,8 @@ Handlebars but these are the main ones you will use.
 ### Partials
 
 A very useful feature is the ability to use one template inside another.  In our people
-example we might want to write one template for a person and then 
-re-use it in the list of people.  This can be done with 
+example we might want to write one template for a person and then
+re-use it in the list of people.  This can be done with
 [partials](https://handlebarsjs.com/guide/partials.html#basic-partials) in Handlebars.
 Here's a simple example that defines a partial template for a person:
 
@@ -310,6 +309,6 @@ const peopleTemplate = Handlebars.compile(`
     `)
 ```
 
-The effect of this is as if the partial template is just pasted into the 
+The effect of this is as if the partial template is just pasted into the
 containing template - the variables it can refer to are those in the
 main template.

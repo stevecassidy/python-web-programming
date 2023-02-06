@@ -123,7 +123,6 @@ those who want a deeper view.
 
 ## Elements of Javascript
 
-
 This text does not attempt to teach you everything about the Javascript language.
 The goal is to point out some important features and show you how to
 achieve some common tasks with Javascript.  You should refer to
@@ -232,11 +231,11 @@ The difference between these keywords is subtle.  Firstly `const` is the simples
 this defines a constant value - one that won't change. It can be global or local to
 a block of code (curly braces).  
 
-Note that sometimes the values of `const` variables can actually change if they are 
-*mutable* objects.  So, if I have an variable holding an element from the DOM, I can 
+Note that sometimes the values of `const` variables can actually change if they are
+*mutable* objects.  So, if I have an variable holding an element from the DOM, I can
 change the content of that element (e.g. using `.innerHTML`) even if I hold the value
 in a `const` variable.  For this reason, most of the variables that we use in Javascript
-are actually `const`.  If the value might actually be a different number or string or 
+are actually `const`.  If the value might actually be a different number or string or
 a different button element from the DOM, then you need to use `let` or `var`.
 
 ```javascript
@@ -317,12 +316,11 @@ const one = (flag) => {
 one(true)
 ```
 
-Here I have a function that calls itself recursively if the `flag` argument is true. It 
-calls it with `false` so that we only get one level of recursion.   We might expect this 
+Here I have a function that calls itself recursively if the `flag` argument is true. It
+calls it with `false` so that we only get one level of recursion.   We might expect this
 to run the loop three times, each time calling `one(false)` recursively which would itself
 run the loop three times. However, since the variable `i` is global, it gets a value of 4 after
 the first recursive call and we only get four iterations of the loop in total.
-
 
 So, always use `let` in writing your for loop:
 
@@ -386,7 +384,7 @@ const months = ['January','February',
 ```
 
 Arrays in Javascript
-are just the same as those in most other languages; they 
+are just the same as those in most other languages; they
 can be indexed with a number starting from zero and
 they have various methods to manipulate the contents.
 

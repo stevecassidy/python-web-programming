@@ -1,7 +1,3 @@
-# Summary
-
-* [Python Web Programming](README.md)
-
 ## The World Wide Web
 
 * [How the Web Works](web/webworks.md)
@@ -18,6 +14,7 @@
 * [Introducing Javascript](javascript/javascript.md)
 * [Document Object Model](javascript/dom.md)
 * [Javascript Events](javascript/events.md)
+* [Single Page Web Applications](javascript/singlepage.md)
 * [Handlebars](javascript/handlebars.md)
 * [Javascript Security](javascript/security.md)
 
@@ -51,11 +48,9 @@
 * [Handling Users - login and sessions](bottle/sessions.md)
 * [Uploading Files](bottle/file-upload.md)
 
-
 ## Advanced Web Topics
 
 * [Authentication](advanced/authentication.md)
 * [Mobile Web Development](advanced/mobileweb.md)
 * [Deploying Web Applications](advanced/deployment.md)
 * [Deploying Python Applications on Virtual Servers](advanced/virtualserver.md)
-
