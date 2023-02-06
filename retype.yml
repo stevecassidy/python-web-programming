@@ -1,7 +1,0 @@
-input: .
-output: .retype
-url: https://pwp.stevecassidy.net/
-branding:
-  title: Practical Web Programming
-footer:
-  copyright: "&copy; Copyright {{ year }}. All rights reserved."
