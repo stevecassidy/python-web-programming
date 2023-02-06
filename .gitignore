@@ -7,12 +7,6 @@
 ## https://docs.npmjs.com/misc/faq#should-i-check-my-node_modules-folder-into-git
 node_modules/
 
-# Book build output
-.retype/
-
-# eBook build output
-*.epub
-*.mobi
-*.pdf
 
 venv
+site
