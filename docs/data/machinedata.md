@@ -1,12 +1,7 @@
 
+# Web Data for Machines
 
-Web Data for Machines
-=====================
-
-
-
-Not Just HTML
--------------
+## Not Just HTML
 
 HTML is the language of the web, it was invented at the same time as the
 HTTP protocol and is the format we think of when we think of web
@@ -18,9 +13,9 @@ images, video, audio, and every imaginable kind of digital resource.
 When we make an HTTP request we ask for a particular resource named by a
 URL. The name of the URL doesn't need to be related to the kind of data
 that we will get back. In some cases it is clear what is meant. So if I
-ask for `http://example.org/images/cats.jpg` I would expect to get back
+ask for <http://example.org/images/cats.jpg> I would expect to get back
 an image in JPEG format. In other cases it is not obvious what would
-come back, eg. `http://example.org/animals/cats` could be an HTML list
+come back, eg. <http://example.org/animals/cats> could be an HTML list
 of cats or a video about them or indeed an image. However, nothing in
 the URL name really defines what comes back. The server is free to
 return an HTML page for the first URL even though it ends in `jpg`. The
@@ -55,11 +50,7 @@ crawler to save a particular kind of content. For example, one that
 looked for links that resolved to image files so that we could save a
 local copy of all of the images on a site.
 
-
-What Would You Prefer?
-----------------------
-
-<a name="accept"></a>
+## What Would You Prefer?
 
 A very important thing to recognise about the web is that a URL is an
 abstract name for a *resource*. As we said above, the URL doesn't imply
@@ -69,9 +60,9 @@ multiple representations of the same thing. For example, my CV might be
 available as an HTML web page or as a nice PDF formatted for printing.
 The information is the same in each case but the format is different to
 support a different kind of use. I could give these different URLs
-(`http://example.org/cv.html` and `http://example.org/cv.pdf`) but since
+(<http://example.org/cv.html> and <http://example.org/cv.pdf>) but since
 they really are the same resource in a real sense, it might be better to
-use use `http://example.org/cv` and allow the client to let me know
+use use <http://example.org/cv> and allow the client to let me know
 which format they would prefer.
 
 This is made possible in HTTP with the `Accept` header in a request. The
@@ -108,9 +99,7 @@ Negotiation to achieve this. In this chapter we'll look at what kind of
 data representation is more useful for machine processing. Later we'll
 see how to implement content negotiation in a Bottle script.
 
-
-XML
----
+## XML
 
 ### History: SGML and HTML
 
@@ -414,8 +403,7 @@ publisher {
 }
 ```
 
-JSON
-----
+## JSON
 
 While XML provides an excellent solution for representing data in a
 machine readable format, it has come in for a lot of criticism. One of
@@ -513,7 +501,6 @@ be vulnerable. For this reason, even in Javascript, a separate JSON
 parser is usually implemented at the application level rather than
 relying on the core language parser. Even given this added complexity,
 parsing JSON is usually much faster than parsing the equivalent XML.
-
 
 ### Example: JSON in the Database
 
