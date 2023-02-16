@@ -1,3 +1,5 @@
+# Practical Web Programming
+
 ## The World Wide Web
 
 * [How the Web Works](web/webworks.md)
@@ -7,13 +9,14 @@
 * [The Uniform Resource Locator](web/urls.md)
 * [Introducing CSS](web/intro-css.md)
 * [Designing for Usability](web/usability.md)
-* [Web Applicaton Architecture](web/architectures.md)
+* [Web Application Architecture](web/architectures.md)
 
 ## Javascript
 
 * [Introducing Javascript](javascript/javascript.md)
 * [Document Object Model](javascript/dom.md)
 * [Javascript Events](javascript/events.md)
+* [Promises and Asynchronous Code](javascript/promises.md)
 * [Single Page Web Applications](javascript/singlepage.md)
 * [Handlebars](javascript/handlebars.md)
 * [Javascript Security](javascript/security.md)
