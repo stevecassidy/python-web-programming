@@ -18,6 +18,7 @@
 * [Javascript Events](javascript/events.md)
 * [Promises and Asynchronous Code](javascript/promises.md)
 * [Single Page Web Applications](javascript/singlepage.md)
+* [Web Components](javascript/web-components.md)
 * [Handlebars](javascript/handlebars.md)
 * [Javascript Security](javascript/security.md)
 
