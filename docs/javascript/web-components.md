@@ -320,3 +320,78 @@ protect it from being modified by global Javascript (if it is declared closed).
 
 ## Templates
 
+The final part of the web components puzzle is the HTML `<template>` element
+that provides a way to construct new HTML fragments from templates.  I won't say
+much about this here because in this text we'll use a different way of
+building HTML (the string templates used above and later we'll look at the
+[lit](https://lit.dev/) library).
+
+A template is written as part of the HTML page as follows:
+
+```HTML
+<template id="sample-template">
+    <style>
+    :host {
+        display: block;
+        background-color: cyan;
+        width: 200px;
+        height: 200px;
+    }
+    </style>
+    <h2>Template</h2>
+    <p class="demo">I am a demonstration of custom elements!</p>
+    <slot name="body-text">Default body text</slot>
+</template>
+```
+
+This is just a regular HTML element but when the browser sees it in the page
+it will not be rendered.   However, our Javascript code can find the template
+using the `id` attribute and this is how we make use of it.  The `<slot>`
+element is special as will be explained below.
+
+To use the template our custom element finds it in the DOM and makes a copy
+to insert into the shadow DOM:
+
+```Javascript
+class TemplateComponent extends HTMLElement {
+    constructor () {
+        super();
+        this.attachShadow({ mode: 'open'});
+        console.log('constructed template component');
+    }
+
+    connectedCallback () {
+        console.log('rendered', this);
+        const template = document.getElementById('sample-template').content;
+        this.shadowRoot.append(template.cloneNode(true));
+    }
+}
+
+customElements.define('template-component', TemplateComponent);
+```
+
+The Javascript code is similar to the previous examples but we use the
+standard DOM method `getElementById` to retrieve the template and then
+get its content.  We then insert a clone of that DOM node into the shadow
+DOM (the `true` argument means it should be a deep clone of the template).
+The result is similar to before, the shadow DOM now has the style and
+content that will appear in the page.
+
+The difference with this template is the `<slot>` element which is a
+placeholder for content.  Unlike the variables in our other examples,
+the slot is filled by the user of the element rather than the Javascript
+code in the custom element class.  Here's an example:
+
+```HTML
+<template-component>
+    <ul slot="body-text">
+        <li>One</li>
+        <li>Two</li>
+    </ul>
+</template-component>
+```
+
+The `<ul>` element here will be inserted where the `<slot>` element appears
+in the template.  
+
+Read more about the use of templates with more examples on the [MDN site](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots).
