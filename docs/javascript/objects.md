@@ -35,10 +35,10 @@ remaining lines add three properties and a method `describe` that
 returns a description of the car.  
 
 Note that the method uses the variable name `this` to refer to
-the instance (similar to Java and like `self` in Python).   Properties 
+the instance (similar to Java and like `self` in Python).   Properties
 can be accessed
 using the dot notation `myCar.year`, or alternately using
-square brackets `myCar['year']`.   
+square brackets `myCar['year']`.
 
 Note that this is then quite similar to a dictionary in Python or
 a HasMap in Java - a collection of properties and
@@ -60,19 +60,19 @@ const myCar = {
 
 Objects are often used as pure *data structures* in Javascript code without
 adding additional methods.  This is very apparent in the rise in popularity
-of the JSON format (Javascript Object Notation) for exchange of data over 
+of the JSON format (Javascript Object Notation) for exchange of data over
 the internet.   JSON documents hold data rather than code and translate
 directly to Javascript objects once parsed.
 
 If we are using objects as associative arrays it is useful to be able to
 get the property names of an object at run-time.  We can do this using the
 static method `Object.keys()` which takes an object and returns an array
-of the property names.  So, `Object.keys(myCar)` would return the array 
+of the property names.  So, `Object.keys(myCar)` would return the array
 `[ 'make', 'model', 'year', 'describe' ]`.  Note that the `describe` method
-is just another property name that happens to have a function as its value. 
+is just another property name that happens to have a function as its value.
 
 Another useful thing to do to an associative array is to iterate over
-the properties and values, we can do this in Javscript with the `for...in` 
+the properties and values, we can do this in Javscript with the `for...in`
 loop:
 
 ```Javascript
@@ -169,13 +169,39 @@ wheels = newCar.getWheels();
 Here the two classes define their own constructor.  The `Car` class constructor
 first calls the function `super` which invokes the constructor of its parent
 class `MotorVehicle` with the given arguments.  Since cars always have four
-wheels, we hard-code this value into the call to super.  The car class 
+wheels, we hard-code this value into the call to super.  The car class
 defines its own property `colour`.   When we create an instance of the `Car`
 class we can call methods defined on `Car` or on `MotorVehicle` which will be
 inherited.
 
 Inheritance like this can happen with objects created in other ways, it's just
 harder to establish the chain of inheritance than it is with class definitions.
+
+## Object Methods and `this`
+
+We've seen a few ways to create objects and define methods on those objects. In the first example I used the function keyword to define the describe method but what if
+I had used an arrow function?
+
+```Javascript
+const myCar = new Object()
+myCar.make = 'Holden'
+myCar.model = 'Astra'
+myCar.year = 2009
+myCar.describe = () => {
+    return 'Car: ' + this.make + ', ' + this.model + ', ' + this.year
+}
+```
+
+It turns out that this is one place where we can't interchange these two ways
+of writing functions.  Arrow functions *do not have access to the `this` keyword*
+and so can't operate on the object instance. In the example, the values
+of `this.make` etc would be `undefined` since `this` would refer to the global
+object rather than the car.  
+
+If you are using a class definition, then the methods are defined with
+property names and so will become regular functions.   If you are adding methods
+to functions dynamically or defining them as literal objects as in this example,
+then you need to be sure to use the function keyword if you want to use `this`.
 
 ## Built In Objects
 
