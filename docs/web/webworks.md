@@ -1,5 +1,6 @@
-What is the World Wide Web?
----------------------------
+title: How the Web Works
+
+# What is the World Wide Web?
 
 Perhaps the first thing to establish in our discussion of the web is
 what exactly it is. This chapter will look in brief overview at the core
@@ -16,13 +17,13 @@ documents) using the Hypertext Transfer Protocol (HTTP).
 
 Let's look briefly at the four basic ingredients of the Web:
 
--   TCP/IP - is a low level message protocol that is used to transfer
+- TCP/IP - is a low level message protocol that is used to transfer
     messages between computers on the Internet.
--   HTTP - is used by a Web Client to make a request to a Web Server and
+- HTTP - is used by a Web Client to make a request to a Web Server and
     for the server to return the response.
--   URL - is a way of writing down the address of something on the Web
+- URL - is a way of writing down the address of something on the Web
     so that a browser can work out where to get it from.
--   HTML - is a language for writing web pages containing text, images
+- HTML - is a language for writing web pages containing text, images
     and other content.
 
 Together, these four technologies allow a web client - the web browser
@@ -35,9 +36,7 @@ Let's look at each of these technologies in a little more detail;
 although we'll explore most of them a lot more throughout the rest of
 this book.
 
-
-TCP/IP and DNS
---------------
+## TCP/IP and DNS
 
 TCP/IP, the Transmission Control Protocol/Internet Protocol, is the
 standard way of exchanging messages on the Internet - in fact it
@@ -139,9 +138,7 @@ example.com, sales.example.com or test.example.com. We'll see later how
 this arrangement can be used to provide a lot of flexibility when
 setting up web servers.
 
-
-HTTP
-----
+## HTTP
 
 In 1991 Tim Berners-Lee invented the World Wide Web. He was building on
 the existing technology of the Internet that allowed computers to
@@ -224,29 +221,26 @@ and corporate adoption.
 We'll look at HTTP in more detail later, for now the take home message
 is:
 
--   HTTP is a simple text based protocol
--   The client (browser) sends a request to the server
--   The server receives the request and returns a response
--   The server doesn't need to remember the client - every request
+- HTTP is a simple text based protocol
+- The client (browser) sends a request to the server
+- The server receives the request and returns a response
+- The server doesn't need to remember the client - every request
     is independant.
--   The simple nature of HTTP makes it easy to understand and makes
+- The simple nature of HTTP makes it easy to understand and makes
     writing web servers relatively easy.
 
-
-Uniform Resource Locators: URL
-------------------------------
+## Uniform Resource Locators: URL
 
 Another part of Tim Berners-Lee's invention is the Uniform Resource
 Locator, URL. These days, URLs are ubiquitous. We see them on
-advertisments, on the TV, we send them to each other in email, even
+advertisements, on the TV, we send them to each other in email, even
 reference them in books and reports. Most organisations today will have
 at least one top-level URL for their website and often have many
 connected to particular services, departments or advertising campaigns.
 
-See [the URL chapter](urls.md) for a detaile discussion.
+See [the URL chapter](urls.md) for a detailed discussion.
 
-Hypertext Markup Language: HTML
--------------------------------
+## Hypertext Markup Language: HTML
 
 HTML is the last link in the chain that makes the Web. It is a language
 that allows authors to write Hypertext documents that include structure
@@ -294,21 +288,20 @@ look at how it is used today on the web later in this book.
 ```HTML
 <!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01//EN" >
 <html>
-<head>
-<title>COMP249 Basic HTML Page Structure</title>
-</head>
+    <head>
+        <title>COMP249 Basic HTML Page Structure</title>
+    </head>
 <body>
-<h1>COMP249 Basic HTML Page Structure</h1>
-<p>This is a paragraph, you know what a paragraph is don't you?</p>
+    <h1>COMP249 Basic HTML Page Structure</h1>
+    <p>This is a paragraph, you know what a paragraph is don't you?</p>
 
-<h2>Some Detail</h2>
-<p>This document contains a header which was encoded in the HTML
-source using the &lt;h1&gt; tag. Note how I wrote that in the
-source, it's an example of the need for <em>entities</em> in
-HTML.</p>
-<hr />
-<p>Copyright &copy; Steve Cassidy, 2004 </p>
+    <h2>Some Detail</h2>
+    <p>This document contains a header which was encoded in the HTML
+    source using the &lt;h1&gt; tag. Note how I wrote that in the
+    source, it's an example of the need for <em>entities</em> in
+    HTML.</p>
+    <hr />
+    <p>Copyright &copy; Steve Cassidy, 2004 </p>
 </body>
 </html>     
 ```
-

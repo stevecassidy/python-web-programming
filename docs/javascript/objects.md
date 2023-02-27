@@ -1,10 +1,10 @@
 # Javascript Objects and Classes
 
-## Javascript Objects
-
 Like Python, Java and C++, Javascript is an object oriented language but
 the way that objects work in Javascript is very different from any
-of those languages.  
+of those languages.
+
+## Javascript Objects
 
 Javascript objects are *prototype based*, meaning that every object
 has another object as its *prototype* (except for the base object

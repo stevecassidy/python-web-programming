@@ -1,0 +1,25 @@
+{% if page and page.meta.source %}
+<div class="source-links">
+{% for filename in page.meta.source %}
+    <span class="label label-primary">{{ filename }}</span>
+{% endfor %}
+</div>
+{% endif %}
+
+{% if page and not page.meta.no_breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    {% for doc in page.ancestors|reverse %}
+    {% if doc.link %}
+    <li class="breadcrumb-item"><a href="{{ doc.link|e }}">{{ doc.title }}</a></li>
+    {% else %}
+    <li class="breadcrumb-item">{{ doc.title }}</li>
+    {% endif %}
+    {% endfor %}
+    {% if page %}<li class="breadcrumb-item active" aria-current="page">{{ page.title }}</li>{% endif %}
+  </ol>
+</nav>
+{% endif %}
+
+{{ page.content }}
+

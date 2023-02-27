@@ -14,6 +14,7 @@
 ## Javascript
 
 * [Introducing Javascript](javascript/javascript.md)
+* [Javascript Objects](javascript/objects.md)
 * [Document Object Model](javascript/dom.md)
 * [Javascript Events](javascript/events.md)
 * [Promises and Asynchronous Code](javascript/promises.md)
