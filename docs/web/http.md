@@ -51,7 +51,6 @@ Content-Language: en
 
 ## Example HTTP POST Request
 
-
 ```HTTP
 POST /~steve/form.html HTTP/1.1
 Host: localhost
@@ -78,7 +77,7 @@ Note lines folded for display.
 This is a POST request, note how the data is encoded in the request
 body.
 
-##  Example HTTP GET Request
+## Example HTTP GET Request
 
 ```HTTP
 GET /~steve/form.html?name=Steve+Cassidy&interests=This+is+a+field+

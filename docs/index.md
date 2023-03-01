@@ -26,6 +26,7 @@
 ## Web Security and Privacy
 
 * [Web Security](security/security.md)
+* [Cookies and User Tracking](security/cookies.md)
 
 ## Data on the Web
 

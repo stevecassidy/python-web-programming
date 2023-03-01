@@ -1,22 +1,18 @@
+# Cookies
 
-
-Cookies
-=======
-
-<span class="index" title="cookies">Cookies</span> are a mechanism for
+Cookies are a mechanism for
 maintaining state in an HTTP transaction. They allow a server side
 application to store some data with the client which is returned each
 time the client makes a request to the same server. Cookies are sent to
-the browser via a Set-Cookie header in the HTTP response and returned to
-the server in a Cookie header. To make use of cookies in a WSGI web
+the browser via a `Set-Cookie` header in the HTTP response and returned to
+the server in a `Cookie` header. To make use of cookies in a WSGI web
 application we need to work out how to create and consume these headers
 and manipulate their contents in our programs.
 
 Let's look at an example of both kinds of header. Here's a response from
-a server that <span class="index" title="cookies!!header fields">sets a
-cookie</span>:
+a server that sets a cookie:
 
-```
+```HTTP
 HTTP/1.0 200 OK
 Date: Wed, 21 Mar 2012 03:18:25 GMT
 Server: WSGIServer/0.1 Python/2.7.2+
@@ -29,7 +25,7 @@ The last header like contains a cookie called 'likes' with a value
 back with any request to the same URL. Here is a request that includes
 the same cookie:
 
-```
+```HTTP
 GET / HTTP/1.1
 Host: localhost:8000
 Connection: keep-alive
@@ -46,10 +42,7 @@ Cookie: likes=cheese
 Again the last line contains the cookie 'likes' with the value 'cheese'.
 Let's look at how to generate and consume cookies with Python.
 
-
-
-<span class="index" title="cookies!!generating in bottle">Generating Cookies</span>
------------------------------------------------------------------------------------
+## Generating Cookies
 
 In Bottle, cookies are associated with the request and response objects.
 To create a cookie We use the `set_cookie` method of the response
@@ -57,7 +50,7 @@ object. This takes two parameters, the cookie name and the value, and
 sets a cookie that we sent back with the response to the browser. We can
 see this in this example:
 
-```
+```python
 >>> bottle.response.set_cookie('test', 'hello')
 >>> print(bottle.response)
 Content-Type: text/html; charset=UTF-8
@@ -74,7 +67,7 @@ Note that we don't yet have the other attributes of the cookie that were
 in the first example - the expiry date and the path. These can be added
 by adding more parameters to the set cookie call, for example:
 
-```
+```python
 >>> import datetime
 >>> ts = datetime.datetime.now()+datetime.timedelta(days=1)
 >>> bottle.response.set_cookie('test', 'hello', path='/', expires=ts)
@@ -91,7 +84,7 @@ response wishing extra fields in the cookie header.
 Let's look at this now in the context of a web application that sets a
 cookie.
 
-```
+```python
 @app.route('/')
 def index():
     """Home page"""
@@ -111,12 +104,7 @@ homepage is requested. The cookie will be returned with the response
 headers, and then the browser will send it back and every subsequent
 request. Analysis of how to consume the cookie with Bottle.
 
-
-
-
-
-<span class="index" title="cookies!!consuming in bottle">Consuming Cookies</span>
----------------------------------------------------------------------------------
+## Consuming Cookies
 
 If a browser sends a request after we set a cookie, the cookie header
 will be included with every request. To find out its any cookies we can
@@ -156,12 +144,7 @@ get value back from `get_cookie` and the statement Will modify the page
 content to 'You have been here before'. This is perhaps the simplest use
 cookies we can imagine.
 
-
-
-
-
-A Cookie Example 
-----------------
+## A Cookie Example
 
 Let's develop a simple application that makes use of a cookie to record
 some information. The application will present a form to ask us for
@@ -210,7 +193,7 @@ a like value:
 
 The application code to handle the form submission is as follows:
 
-```
+```python
 from bottle import Bottle, request, response, template, redirect
 
 app = Bottle()
@@ -245,7 +228,7 @@ template for display. If the cookie has no value then the template will
 just display the form; otherwise it will display the value passed in via
 the cookie.
 
-```
+```python
 @app.route('/')
 def index():
     """Home page"""
@@ -267,11 +250,9 @@ be unusual to store real user data in a cookie, much more normal to use
 database server side database. As we 'll see you later chapters cookies
 are used as keys into this database to retrieve user data.
 
-<div class="section exercises">
-
 ### Exercises
 
-1.  Write an application that keeps track of how many times a user has
+1. Write an application that keeps track of how many times a user has
     visited it using a cookie. The first time a user visits they are
     sent a cookie 'count' with a value 1, every subsequent request will
     include this cookie, and the application gets the value of the
@@ -280,7 +261,7 @@ are used as keys into this database to retrieve user data.
     the browser will overwrite its store with the new value). The
     application should return a page containing the count of number
     of visits.
-2.  Extend the 'likes' application above to allow more than one thing to
+2. Extend the 'likes' application above to allow more than one thing to
     be stored in the cookie. If you get a form submission and a cookie,
     add the new 'like' from the form to the existing cookie value
     separated by a delimiter like '|'. Then, when you get a cookie, use
@@ -288,25 +269,9 @@ are used as keys into this database to retrieve user data.
     things that the user likes. Hint: write procedures to join and split
     the cookie values and call them from your application to process the
     cookies that you get.
-3.  Write an application that uses cookies to enforce a 'license
+3. Write an application that uses cookies to enforce a 'license
     agreement' on its users. If a user has not visited before, they are
     shown a page that asks them to agree to some terms and conditions,
     if they accept them (e.g. check a checkbox and hit Submit) then they
     are given a cookie and shown the content page. If a request arrives
     with a cookie, they go straight to the content page.
-
-
-
-
-
-
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
