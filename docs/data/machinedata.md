@@ -329,8 +329,8 @@ A script could take this information and do whatever it wanted to
 process it - for example the script might be interested in the ranking
 of a particular site for a given set of search terms. In this case, the
 XML representation is an alternative to the HTML version. We could
-arrange for the application to serve this version if the [Accept
-header](#accept) preferred XML to HTML and so use the same URL for
+arrange for the application to serve this version if the
+Accept header preferred XML to HTML and so use the same URL for
 searches returning different formats of result.
 
 Another use of XML is in sending data to web applications. In a normal
@@ -345,8 +345,9 @@ structures. So, an application can be written to expect XML in the body
 of a POST request and use an XML parser to extract data rather than the
 standard form data parser.
 
-Finally, it is possible to use a [CSS stylesheet with an XML
-document](http://www.w3.org/Style/styling-XML.en.html) to make it more
+Finally, it is possible to use a 
+[CSS stylesheet with an XML document](http://www.w3.org/Style/styling-XML.en.html)
+to make it more
 human-readable in a web browser. Since there is no fixed XML vocabulary,
 we can't link a stylesheet in the same way as in an HTML page (with the
 `link` tag), so another mechanism is needed. XML uses a *processing
@@ -410,10 +411,9 @@ machine readable format, it has come in for a lot of criticism. One of
 the main ones is that there is a lot of overhead in dealing with XML
 data: it adds all of those start and end tags to the data meaning files
 are bigger and it needs to be parsed which adds processing time. This
-has been called the [angle bracket
-tax](http://blog.codinghorror.com/xml-the-angle-bracket-tax/) (and see
-[here for a
-followup](http://blog.codinghorror.com/revisiting-the-xml-angle-bracket-tax/)).
+has been called the 
+[angle bracket tax](http://blog.codinghorror.com/xml-the-angle-bracket-tax/)
+(and see [here for a followup](http://blog.codinghorror.com/revisiting-the-xml-angle-bracket-tax/)).
 Over time this has led to many people looking for alternatives to XML
 that would be easier to process and perhaps easier to read. One format
 that has now gained a lot of momentum is [JSON](http://www.json.org/).
@@ -505,9 +505,9 @@ parsing JSON is usually much faster than parsing the equivalent XML.
 ### Example: JSON in the Database
 
 One use of both XML and JSON is to store complex data structures in a relational
-database.   For example, if I want to store a list of values in a database then I 
+database.   For example, if I want to store a list of values in a database then I
 would need to store each list item as a separate record in a special table.  To avoid
-this complexity it is sometimes useful to convert a complex data structure into 
+this complexity it is sometimes useful to convert a complex data structure into
 a string and store the string value instead.  In this example we'll use JSON
 to store a list of integers in a database table.  
 
@@ -533,7 +533,7 @@ CREATE TABLE samples (
 ```
 
 To store some data in the database we write the function `set_sample` that takes a
-name and a data item.   The data is a Python list and to store it we need to 
+name and a data item.   The data is a Python list and to store it we need to
 convert it to a JSON string using the Python `json` module.
 
 ```python
@@ -548,7 +548,7 @@ def set_sample(db, name, data):
     db.commit()
 ```
 
-Here `data_j` will be the string version of `data` that we can store in the database table. 
+Here `data_j` will be the string version of `data` that we can store in the database table.
 This could be a list but could also be any complex Python data structure such as a
 dictionary or list of dictionaries.    To retrieve the data associated with a name
 we write a function `get_sample`:
@@ -570,7 +570,7 @@ def get_sample(db, name):
 ```
 
 The first part of this function just queries the table for the record matching the
-given `name`.  If a result is found it converts the JSON data back to a Python 
+given `name`.  If a result is found it converts the JSON data back to a Python
 data structure with the `json.loads()` function.  This is then returned.  In the case
 when no record is found matching `name` we return `None`.  
 
@@ -590,17 +590,16 @@ print("Steve:", steve) # prints [1, 2, 4, 5]
 print("Diego:", diego)# prints [4, 5]
 ```
 
-This provides an example of storing serialised JSON data in a database field.   There 
+This provides an example of storing serialised JSON data in a database field.   There
 are some good reasons why you should not do this in a simple case like this one - using
 a properly normalised database design would allow you to store and query these lists directly
-in the database.  In some cases though the data we are storing is what is known as 
+in the database.  In some cases though the data we are storing is what is known as
 [semi-structured data](https://en.wikipedia.org/wiki/Semi-structured_data) - it has
-structure but does not conform to a rigid schema.  In this case, XML or JSON can be 
-a good format to represent the data and storing 'blobs' of JSON or XML data in a 
+structure but does not conform to a rigid schema.  In this case, XML or JSON can be
+a good format to represent the data and storing 'blobs' of JSON or XML data in a
 relational database can be a useful option.  
 
 A final alternative would be to use a non-relational database such as [CouchDB](http://couchdb.apache.org/)
 which stores JSON data natively and is optimised for this task.  Such databases
 are becoming popular in the web application domain because of their close fit
-to the JSON data objects that are often transferred between client and server. 
-
+to the JSON data objects that are often transferred between client and server.

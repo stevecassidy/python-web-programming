@@ -18,6 +18,8 @@
 * [Document Object Model](javascript/dom.md)
 * [Javascript Events](javascript/events.md)
 * [Promises and Asynchronous Code](javascript/promises.md)
+* [Javascript Form Handling](javascript/forms.md)
+* [JSON for Data Exchange](javascript/json.md)
 * [Single Page Web Applications](javascript/singlepage.md)
 * [Web Components](javascript/web-components.md)
 * [Handlebars](javascript/handlebars.md)
