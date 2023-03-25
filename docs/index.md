@@ -22,6 +22,7 @@
 * [JSON for Data Exchange](javascript/json.md)
 * [Single Page Web Applications](javascript/singlepage.md)
 * [Web Components](javascript/web-components.md)
+* [Lit Web Components](javascript/lit.md)
 * [Handlebars](javascript/handlebars.md)
 * [Javascript Security](javascript/security.md)
 
