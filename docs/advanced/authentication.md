@@ -1,7 +1,5 @@
+# Authentication for Web Applications
 
-
-Authentication for Web Applications
-===================================
 
 Authentication is a common requirement for web applications, we want to
 know who is making requests and so that we can manage multi-stage
@@ -15,10 +13,7 @@ user identities for web appliciations. This chapter will review the
 different methods that are available for authentication in web
 applications.
 
-
-
-HTTP Authentication
--------------------
+## HTTP Authentication
 
 The HTTP protocol provides two mechanisms for authentication: Basic and
 Digest authentication. To trigger authentication, the server returns a
@@ -48,33 +43,30 @@ protect a directory of files in a web server like Apache.
 
 Here's an example HTTP conversation:
 
-```
+```HTTP
 GET / HTTP/1.1
 Host: example.org
-    
 ```
 
 The server responds with a 401 code and requests authentication, the
 *realm* is used to indicate to the user what they are providing a
 password for.
 
-```
+```HTTP
 HTTP/1.1 401 Authorization Required
 WWW-Authenticate: Basic realm="Secure Area"
 Content-Type: text/html
 Content-Length: 311
-    
 ```
 
 The user is prompted for a username and password and the browser then
 re-sends the original request with a new *Authorization* header
 containing the Base64 encoded username and password:
 
-```
+```HTTP
 GET / HTTP/1.1
 Host: example.org
 Authorization: Basic c3RldmU6c2VjcmV0
-    
 ```
 
 The server will now respond with the resource as with a normal HTTP
@@ -82,6 +74,9 @@ request. Note that from now on (until the browser session closes) the
 Authorization header will be sent back to the server with every request,
 so the user only needs to provide a username and password once. There is
 no provision for logging out using this mechanism.
+
+Basic authentication can also be used without
+
 
 ### Digest Authentication
 
@@ -104,7 +99,9 @@ compare the value it receives. If they are the same, then the user
 checks out and the response can be returned.
 
 The details of the algorithm used to generate the hash that is returned
-is detailed in the Wikipedia page on [Digest Authentication](). The
+is detailed in the Wikipedia page on 
+[Digest Authentication](https://en.wikipedia.org/wiki/Digest_access_authentication). 
+The
 take-home message is that the hash value encodes information known only
 to the client (username, password, request URL) and server (nonce) and
 that this information is sent in encrypted form. Because it contains
@@ -128,12 +125,7 @@ possible to manage HTTP based authentication within an application;
 there are a number of WSGI middleware packages that will provide this
 implementation.
 
-
-
-
-
-Application Based Authentication
---------------------------------
+## Application Based Authentication
 
 The most common approach to authentication in a web application is to
 manage it at the application level. This means that the application
@@ -150,11 +142,11 @@ methods described above provide one mechanism for sending authentication
 information with each request, but as mentioned above, they don't
 provide a mechanism for logout and are generally managed by the server
 rather than the application. The method we describe here makes use of
-[cookies](../bottle/cookies.md) to maintain state between requests.
+[cookies](../security/cookies.md) to maintain state between requests.
 
 It is common for a web application to present a login form that asks for
 a username and password from the user. This form is submitted to the
-applciation as a POST request to a URL like `/login` where user
+application as a POST request to a URL like `/login` where user
 authentication is handled. To respond to this request, the application
 must first check that the username and password correspond to the stored
 details of a real user.
@@ -178,8 +170,6 @@ comparing the password with the stored password, we compare the hash of
 the password with the stored hash. Should an attacker gain access to the
 database, they will only have a list of hashes, not the raw passwords.
 
-<div class="note">
-
 If an attacker gets access to the list of password hashes they can try
 to discover the original passwords using a *brute force* attack if they
 know the hash function that was used. Using a list of common words, they
@@ -196,8 +186,6 @@ which has an implementation of the [PKCS\#5 password-based key
 derivation function 2](https://docs.python.org/3/library/hashlib.html).
 At the time of writing this is the recommended method of generating a
 secure password hash.
-
-
 
 Having compared the submitted and stored passwords, the application is
 now sure that the login request is good and the user should be
@@ -227,12 +215,7 @@ sesion table. Once the entry is removed, even if a valid cookie is
 received, the session key will not be found in the database and so the
 user will not be identified.
 
-
-
-
-
-Third Party Authentication
---------------------------
+## Third Party Authentication
 
 A recent development in web applications has been the provision of
 authentication services by third parties. The idea here is that a new
@@ -261,28 +244,28 @@ and the relying party (the web application that will rely on the result
 of the authorisation). The sequence of operations is (roughly) as
 follows:
 
--   The user provides a URL to the relying party as their identity, eg.
-    http://openid.example.org/johnsmith
--   The relying party retrieves this URL to discover the OpenID
+* The user provides a URL to the relying party as their identity, eg. 
+  <http://openid.example.org/johnsmith>
+* The relying party retrieves this URL to discover the OpenID
     providers URL. This will either be in a &lt;link&gt; tag in the HTML
     page or in a special XML document, depending on the version of the
     standard being used.
--   The relying party makes a request to the OpenID provider and is
+* The relying party makes a request to the OpenID provider and is
     given a *shared secret* that can be used later as part of the
     authentication process. This allows the relying party to know that
     later messages really do come from the OpenID provider.
--   The relying party returns an HTTP redirect response to the user's
+* The relying party returns an HTTP redirect response to the user's
     browser so that they are redirected to the OpenID provider. The
     redirect includes some information about the relying party.
--   The user is authenticated by the OpenID provider, usually this means
+* The user is authenticated by the OpenID provider, usually this means
     they enter their password but there could be other methods. The
     OpenID provider then asks the user if they trust the relying party
     and want their details sent back to it.
--   If the user agrees, they are redirected back to the relying party,
+* If the user agrees, they are redirected back to the relying party,
     the redirect includes information about the user and the shared
     secret that was established earlier so that the relying party knows
     that this is genuine.
--   The relying party accepts the authentication of the user and allows
+* The relying party accepts the authentication of the user and allows
     them to view restricted content.
 
 There are further options and complexities that I've glossed over here,
@@ -336,76 +319,11 @@ so OpenID has distinct advantages. When you want to be able to trust the
 identity more, or when you want to know more about the person, other
 standards provide a better choice.
 
-### Shibboleth
+### OAuth - access to third party services
 
-Shibboleth is very similar to OpenID on the surface, the main difference
-is that it is designed to operate around a trust network such that all
-of the identity providers and relying parties are known to each other
-and trusted to provide and handle user details. In fact Shibboleth
-describes itself as *"a federated single sign-on and attribute exchange
-framework"*. One major difference with OpenID is that a web application
-using Shibboleth can request more information about a user - for example
-their email address, full name or status in the organisation (eg. staff
-or student).
+<http://softwareas.com/oauth-openid-youre-barking-up-the-wrong-tree-if-you-think-theyre-the-same-thing>
 
-In the Shibboleth world the web application that wants to identify
-someone is called the service provider while the server that knows who
-they are is the identity provider. The sequence of operations to
-authenticate with Shibboleth are a little different to OpenID:
+<https://developers.facebook.com/docs/guides/web/>
 
--   To identify a user, the service provider redirects them to the
-    trusted federation's central Where Are You From (WAYF) service along
-    with query parameters that will allow the WAYF server to return the
-    user to the service provider.
--   The user chooses their home institution from a menu provided by the
-    WAYF server and is redirected there.
--   The user authenticates with their home institution, if
-    authentication is successful they are redirected back to the service
-    provider along with a SAML (Security Access Markup Language)
-    document that contains an key that the service provider can use to
-    request details of this user.
--   The user is now authenticated. The service provider is now able to
-    request further details about this user from the identity provider
-    using the key that it was given.
-
-The fact that the identity provider is know to the service provider
-means that the level of trust in the authenticated identity can be much
-higher than with OpenID. A good example of the use of Shibboleth is the
-[Australian Access Federation](http://www.aaf.edu.au/) which is a
-federation of Universities and research organisations in Australia.
-Service providers that make use of AAF authentication can be sure that
-their users are members of staff at some University and can request
-details such as the full name of the user that they know they can rely
-on. Most Universities are members of the AAF and so it is a good choice
-for any web application that seeks to serve this community.
-
-Of course, the down-side to this is that if you aren't part of a
-federation then you can't really make use of Shibboleth. This is a
-solution designed for use by groups of institutions like Universities,
-not for the general public.
-
-
-
-
-
-OAuth - access to third party services
---------------------------------------
-
-http://softwareas.com/oauth-openid-youre-barking-up-the-wrong-tree-if-you-think-theyre-the-same-thing
-https://developers.facebook.com/docs/guides/web/
-https://developers.google.com/accounts/ OAuth - access to third party
-services on behalf of a user (as well as authentication) Facebook Google
-
-
-
-
-
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+<https://developers.google.com/accounts/> OAuth - access to third party
+services on behalf of a user (as well as authentication)
