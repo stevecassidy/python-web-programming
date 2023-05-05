@@ -26,6 +26,10 @@
 * [Handlebars](javascript/handlebars.md)
 * [Javascript Security](javascript/security.md)
 
+## Node on the Server
+
+* [A Simple Server Side App](node/express.md)
+
 ## Web Security and Privacy
 
 * [Web Security](security/security.md)
