@@ -1,39 +1,23 @@
-
-
-Security for Web Applications
-=============================
+# Web Security
 
 In the modern web environment, we must assume that any service or
 resource that is made available on the web will be subject to attack by
 malicious people. Any web server will be tested for weaknesses, any web
 application will have a range of attempts at getting past security and
 any data that we store will be the target of someone trying to find
-interesting or valuable information. What is more, the people doing the
+interesting or valuable information. 
+
+What is more, the people doing the
 attacking are clever and well funded - often cleverer and better funded
-than the people writing and maintaining the web applications. As web
+than the people writing and maintaining the web applications. 
+
+As web
 developers we need to be aware of the vulnerabilities that make our
 applications and servers susceptible to attack. We need to use tools and
 learn coding techniques to help prevent at least those exploits that are
 well understood. We need to understand how vulnerabilities come about so
 that we have a chance of seeing what the next wave of attacks might
-target. This chapter gives a brief introduction to the most common
-attacks on web applications and some ideas of how to prevent these.
-
-There are many ways to classify security issues. I've chosen three
-categories here but there would be other ways to group these. The
-categories are:
-
--   Server Security - issues or attacks on the web server, not
-    necessarily specific to a single web application
--   Application Security - weaknesses that are usually exposed by poor
-    programming of web applications
--   User Security - problems that arise because of the behaviour of
-    users
-
-
-
-Server Security
----------------
+target.
 
 A web server is a computer connected to the Internet that is running
 software to interpret HTTP requests and generate responses. Any computer
@@ -50,7 +34,7 @@ write. The problems discussed here are in system and server software
 that you will probably install from third parties - or which might be
 run for you by your service provider.
 
-### Attack Vectors - Open Channels
+## Attack Vectors - Open Channels
 
 Any attack on a server must happen over some kind of communication
 channel. The easiest way to secure a server would be to disconnect it
@@ -82,7 +66,7 @@ exposed and the system administrator needs to explicitly install and
 enable any further services. Note that this goes for desktop computers
 too if they are directly connected to the Internet.
 
-### Vulnerabilities
+## Vulnerabilities
 
 Once there is an open channel of communication with the server, we still
 need something to go wrong before an attacker can gain some kind of
@@ -97,6 +81,8 @@ some way. This leads to the source of all vulnerabilities which must
 stem from some property of that input that is outside of the
 expectations of the programmer.
 
+### Denial of Service
+
 A very simple kind of attack is a Denial of Service (DOS) attack where
 the aim is to overload the server so that legitimate clients can't make
 use of it. There are many ways to achieve this but a common approach is
@@ -110,6 +96,8 @@ Another kind of DOS attack is to try to crash the server software, for
 example by sending input that is badly formed. It could be, for example,
 that if the SMTP server gets binary data when it is expecting text, it
 will crash rendering the server unusable.
+
+### Buffer Overflow
 
 Another common kind of attack is a Buffer Overflow attack. In this case,
 the server software has been written to use a fixed size buffer to
@@ -149,22 +137,7 @@ access it would upload a copy of itself to the remote machine and the
 cycle was repeated. The Morris Worm quickly brought the Internet to a
 crawl because it kept re-infecting the same machines and overloading the
 processor. It was therefore a kind of *Denial of Service* attack that
-was perpitrated via a *Buffer Overflow* vulnerability.
-
-<div class="section exercises">
-
-### Exercises
-
-1.  The Code Red Worm is another example of a security vulnerability
-    caused by a buffer overflow bug. Find out what systems were affected
-    by this attack, how the attack would be carried out and what effect
-    the worm had on systems that it infected.
-2.  A *Trojan Horse* is a piece of software that appears to do one job
-    but in fact does something else behind the scenes. Find an example
-    of a security exploit that was carried out via a Trojan Horse. What
-    systems were affected by this exploit and how did it operate?
-
-
+was perpetrated via a *Buffer Overflow* vulnerability.
 
 The buffer overflow attack allows code to be executed on the target
 machine but there are other ways to achieve this. For example, if the
@@ -175,19 +148,77 @@ look for something to do. One target might be the passwords of
 legitimate users, another might be to launch an attack on another
 system.
 
+## Application Security
 
+Of course, the most obvious channel is the one we use to serve
+web applications. All web servers must listen for requests and it is
+via this route that most attacks are sent these days.  These
+are attacks either on the HTTP server itself or, more commonly, on web
+applications that are processing the requests.  
 
+Web applications are written in many languages, Python, Java, Javascript,
+and accept input from HTTP requests, generating HTML, JSON or other
+content in response.  These applications are subject to attack and can
+prove to be vulnerable.
 
+### Injection Attacks
 
-Copyright © 2009-2012 Rolf Schwitter, Steve Cassidy, Macquarie
-University
+An injection attack is one where the attacker tries to insert executable
+content into the input of a web application such that it will be
+run on a target system.   The two main examples are **SQL Injection** 
+and **Cross Site Scripting**.  The latter is covered in the chapter
+on [Front-end Security](frontend.md).
 
-[![Creative Commons
-License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)\
-<span dct="http://purl.org/dc/terms/"
-href="http://purl.org/dc/dcmitype/Text" property="dct:title"
-rel="dct:type">Python Web Programming</span> by <span
-cc="http://creativecommons.org/ns#" property="cc:attributionName">Steve
-Cassidy</span> is licensed under a [Creative Commons
-Attribution-NonCommercial-ShareAlike 4.0 International
-License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+An SQL injection attack will work on a web application that uses an
+SQL database for data storage and creates queries for that database
+based on user input.  For example, to find the details of a person
+given their last name we might have a query like:
+
+```SQL
+select * from people where last='Cassidy'    
+```
+
+The application might substitute input from the user in the last part
+of the query (instead of `'Cassidy'`).  Depending on how this is done,
+ it could lead to problems.
+
+In the above
+example all is well but if the last name of the person was `"D'Arcy"` then
+the query we would construct would be:
+
+```SQL
+select * from people where last='D'Arcy'
+```
+
+which is badly formed because of the extra single quote. This might cause
+the application to crash.  
+
+Even worse, if a malicious user senta last name of 
+`"x'; delete from people where 'a'='a"` the query would be:
+
+```SQL
+select * from people where last='x'; delete from people where 'a'='a'
+```
+
+which would delete every row from your database. This is the basis of
+the so-called SQL Injection attack that is a very common exploit on the
+web.
+
+To resolve this, the programmer needs to make sure that any value
+that is inserted into a query does not contain special characters
+like `'`.  Most programming interfaces to databases provide very easy
+ways to manage this and so there should never be a reason to write
+an application vulnerable to this kind of attack. For example, in
+a Node server application using the SQLite database via the
+[sqlite3](https://www.npmjs.com/package/sqlite3/) package, we would write the following:
+
+```Javascript
+  const result = await db.get(
+    'SELECT * FROM people WHERE last=?',
+    lastname);
+```
+
+Here, the question mark is a placeholder in the query and the database
+interface will insert the value of `lastname` in an appropriate way
+to make sure that the query is safe.   As long as this pattern is
+followed, the application is protected from SQL injection.

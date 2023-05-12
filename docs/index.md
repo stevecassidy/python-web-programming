@@ -32,7 +32,8 @@
 
 ## Web Security and Privacy
 
-* [Web Security](security/security.md)
+* [Server Security](security/backend.md)
+* [Front-end Security](security/frontend.md)
 * [Cookies and User Tracking](security/cookies.md)
 
 ## Data on the Web
