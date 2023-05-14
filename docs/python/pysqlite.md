@@ -231,7 +231,7 @@ queries will be the same.
 
 ### Adding Parameters to Queries
 
-Quote often you will want to use the value of a Python variable as part
+Quite often you will want to use the value of a Python variable as part
 of an SQL query. For example if we have the last name of a person in a
 variable and we want to find their age, the temptation is to construct
 an SQL query using the standard Python string functions:
