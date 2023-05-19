@@ -134,9 +134,9 @@ it still slows them down.
 
 Critically, the PBKDF2 algorithm runs the hashing function over and
 over again many times and this makes the overall process much
-slower.   The number of iterations is in the thousands, with
-1000 being the minimum recommendation and up to 100,000 being
-used in some applications.
+slower.   The number of iterations is in the many thousands,
+with 100,000 being common and 600,000 being recommended by
+[OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html#pbkdf2).
 
 The end result is a hash function that computes a one-way hash
 of an input password that can be stored in our database.  The
@@ -148,7 +148,10 @@ very hard or impossible to reverse.
 This is the current best-practice for storing passwords but as
 compute power increases, even this will not be enough.  One
 criticism of PBKDF2 is that it doesn't take a lot of memory; it
-could be made stronger by being a memory hog!  So new standards
+could be made stronger by being a memory hog!
+[OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html)
+is now recommending use of the Argon2id algorithm which
+is expensive in both time and memory.  So new standards
 will become the norm over time.  As developers, you need to
 stay on top of this as what you are learning now is best
 practice will one day be dangerously insecure!
