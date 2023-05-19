@@ -35,6 +35,7 @@
 * [Server Security](security/backend.md)
 * [Front-end Security](security/frontend.md)
 * [Cookies and User Tracking](security/cookies.md)
+* [Password Security](security/passwords.md)
 
 ## Data on the Web
 

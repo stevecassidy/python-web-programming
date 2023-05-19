@@ -1,6 +1,5 @@
 # Authentication for Web Applications
 
-
 Authentication is a common requirement for web applications, we want to
 know who is making requests and so that we can manage multi-stage
 transactions and protect confidential or private information. The HTTP
@@ -74,9 +73,6 @@ request. Note that from now on (until the browser session closes) the
 Authorization header will be sent back to the server with every request,
 so the user only needs to provide a username and password once. There is
 no provision for logging out using this mechanism.
-
-Basic authentication can also be used without
-
 
 ### Digest Authentication
 
