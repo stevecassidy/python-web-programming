@@ -1,7 +1,4 @@
-
-
-A View of HTML
-==============
+# A View of HTML
 
 Rather than being a chapter that will teach you the HTML language this
 will be a chapter about the language, how it works, why it has the
@@ -13,83 +10,27 @@ here is not to teach you HTML or act as a reference for the language,
 there are plenty of resources around that will do this. Some examples
 are:
 
--   [w3schools HTML tutorial](http://www.w3schools.com/html/default.asp)
+- [w3schools HTML tutorial](http://www.w3schools.com/html/default.asp)
     w3schools is one of the most widely used tutorial and reference
     sites on the web for HTML and other web technologies.
--   [Learn HTML](https://developer.mozilla.org/en-US/learn/html) from
+- [Learn HTML](https://developer.mozilla.org/en-US/learn/html) from
     the Mozilla Developer Network, the organisation that produces the
     Firefox browser. This page has pointers to a number of HTML
     tutorials and resources.
+- [Learn HTML](https://web.dev/learn/html/welcome) a similar resource
+from the Chrome development team within Google.
 
-
-
-About HTML
-----------
+## About HTML
 
 HTML is a *markup language*, which is a formal language used to add
 encode structured documents, often by mixing formal elements and plain
-text. Another example is the LaTeX language used to typeset scientific
-and technical documents. Here's a fragment of LaTeX that shows the use
-of commands preceded by a backslash character and curly braces to
-enclose text:
-
-```
-\subsubsection*{Constraints on tiers: sequence and hierarchy}
-
-Constraints are perhaps best illustrated in ELAN which has 
-perhaps the most elaborate set of alternate sequential and 
-hierarchical constraints within and between tiers called 
-the \emph{Linguistic Type Stereotype} \cite{elan-manual}:
-
-\begin{itemize}
-   \item None - the 'parent' tier has no restrictions 
-       except segments cannot overlap
-   \item  Time subdivision - annotation in parent can be 
-       subdivided in the child tier with segments linked 
-       to time intervals, no time gaps allowed
-\end{itemize}
-```
-
-These commands are interpreted by the LaTeX system which uses then to
-produce nicely typeset PDF output. Markup can also be used to identify
-regions of text for analysis. Here's an example from a language corpus
-used to study human interaction:
-
-```
- <$A> <#\><[>Oh no <#\>The diving</[></{> I'm sorry <#\>Yeah <#\>Diving
- <$B> <#\>PADI certificate
- <$A> <#\>What d'they call diving <#\>It's um<,,>
- <$B> <#\>Yeah <#\>There's a<,> P A D I PADI
- <$A> <#\>Oh is there
- <$B> <#\>And it's the Professional Aquatic Divers Institute and
-you can either get<,> you know a certificate or a diploma or
- <$A> <#\>Different grades
- <$B> <#\>Yeah
-```
-
-In this example, special character sequences are used to mark things
-like speaker turns, pauses, phrases and overlapping speech. This markup
-can be used to help analyse the language and find examples of certain
-linguistic phenomena (for example, find me examples of *'you know'* and
-show me what the next person says in response).
+text.
 
 HTML is the *Hypertext* Markup Language, meaning that it is designed to
 encode hypertext documents - that is, documents containing links to
 other documents on the World Wide Web. In fact, the hyperlink is just a
 small part of HTML and much more interesting are all the other parts of
 the language that allows us to produce useful documents for the web.
-
-HTML is based on an earlier standard called SGML (Standard Generalised
-Markup language) which had a successor called XML (eXtensible Markup
-Language). SGML and XML are both languages for defining markup
-languages, that is they define the syntax of a markup language but allow
-you to develop your own language for a specific purpose. The syntax is
-the angle brackets containing start and end tags &lt;p&gt; and
-&lt;/p&gt; that you will be familiar with (and a number of other rules).
-SGML and XML based languages all use this same syntax but allow the
-language designer to make up their own tags and define how they should
-be used together. HTML was designed originally by Tim Berners-Lee and
-later by the W3C as a language to encode pages of content for the web.
 
 Importantly, HTML is a *markup language* not a *programming language*.
 The job of a markup language is to record the structure of a document;
@@ -98,15 +39,13 @@ output. A programming language contains instructions that will be
 executed (or interpreted) to carry out some action or compute some
 result.
 
-
-Versions of HTML
-----------------
+## Versions of HTML
 
 The first version of HTML was developed by Tim Berners-Lee as part of
 his World Wide Web project along with the HTTP protocol and the URL
 syntax. At first it was a very simple language for encoding articles and
 so had tags for headings, paragraphs, lists etc. Later, the language
-evolved to encompas new features in the browser such as the ability to
+evolved to encompass new features in the browser such as the ability to
 display images, tables and modify the font that text was displayed in.
 The evolution of HTML has been quite gradual and at times part of
 intense competition between browser vendors (look up the [Browser
@@ -117,14 +56,14 @@ for industry practice to align with the W3C standards. Luckily now we
 are in a period of relative stability where the standards process aligns
 well with what the major browsers are able to understand.
 
-A version of HTML is defined by a Document Type Definintion (DTD) - a
+A version of HTML is defined by a
 formal definition of the allowed tags and attributes and the allowed
-structure of an HTML document. The DTD says that you can have a
-&lt;p&gt; tag and that it can contain a &lt;strong&gt; tag but that a
-&lt;li&gt; has to be inside a &lt;ul&gt; or &lt;ol&gt; tag and so on. If
-a document conforms to the DTD (follows the rules) we say that it is
+structure of an HTML document. This says that you can have a
+`<p>` tag and that it can contain a `<strong>` tag but that a
+`<li>` has to be inside a `<ul>` or `<ol>` tag and so on. If
+a document follows the rules, we say that it is
 *valid*, if it contains errors such as having an unknown tag or a tag in
-the wrong place it is invalid.
+the wrong place it is *invalid*.
 
 Early versions of HTML were subject to a lot of change and it wasn't
 until HTML version 4.0.1, released in 1999 that there was a bit of
@@ -139,58 +78,23 @@ Sheets (CSS) were becoming more widely adopted and the use of markup
 that explicitly referred to the visual appearance of the content was
 discouraged.
 
-HTML 4.0.1 is still the latest version of the official W3C standard
-although there have been a large number of changes implemented by the
-browser vendors since the time it was released.
+### Elements or Tags
 
-In 1997 the XML standard was introduced. XML was intended to generalise
-the use of markup on the web and allow developers to design thier own
-markup languages for specific purposes. XML is an evolution of the
-earlier SGML standard on which HTML had been based; it simplified the
-syntax rules a lot and made it easier to write parsers for XML. One of
-the early applications of XML was to develop XHTML - a version of HTML
-converted to adhere to the XML standard. XHTML 1.0 retained almost all
-of the tags in HTML 4.0.1 but introduced the constraints of XML. For
-example in an XML document every opening tag must have a corresponding
-close tag; in HTML, many close tags are optional (e.g. you can leave out
-the closing &lt;p&gt; tag for a paragraph since it is implied by the
-next opening &lt;p&gt; tag) and many tags never have a close tag because
-they never contain any text (e.g. &lt;img&gt; or &lt;br&gt;). In XHTML
-then, paragraphs always require a close tag and empty tags are written
-with the new XML syntax: &lt;br /&gt;.
+I will sometimes talk about the `<p>` tag or the `<p>` element when
+talking about HTML.  Tag is the textual form of the HTML page with
+angle brackets etc; there is an opening `<p>` tag and a closing `</p>`
+tag.   The element is what is created when the HTML
+is parsed by the browser for display in the page and includes
+the open/close tags and the content.
 
-One of the motivations for introducing XHTML was to try to encourage web
-developers to adhere more closely to the published standards. The web
-had grown up with a culture of view-source where people would learn how
-to encode web pages by looking at the source HTML of other web pages
-rather than by reading the standard. They would then write their own
-pages and if they looked ok in the browser, they would publish them. To
-cope with the amount of badly formed HTML content on the web, the
-browser vendors built thier HTML parsers to be very forgiving. If you
-put a paragraph inside an image tag or a header inside a paragraph it
-would have a go at rendering the content. As a consequence, very few web
-publishers cared about generating proper HTML and anyone who wanted to
-parse web content had to make very few assumptions about HTML structure.
+Most elements require both an open and close tag but in some cases
+the end tag can be left out.  Examples are `<meta>`, `<img>` and `<br>`.
+These elements don't have any content and so the end tag can be assumed.
+In some cases you will see the syntax `<br/>`; this is the so-called
+XHTML syntax borrowed from XML.  Effectively, `<br>` and `<br/>` are
+equivalent.
 
-Around this time there was a move towards having more automated clients
-consuming web content. One group was the search engine developers who
-were just interested in the textual content of pages but other groups
-were trying to glean real data from the web. For example, price
-comparison services were starting up which tried to extract pricing
-information from store listings. Other services might try to find event
-information from web pages. All of these services needed to parse the
-HTML structure and had problems when the HTML was badly structured; this
-became known as [Tag
-Soup](http://essaysfromexodus.scripting.com/whatIsTagSoup) since one
-could not rely on proper HTML structure it was just treated as an
-unstructured collection of tagged text. Permissive parsers such as
-[Beautiful Soup](http://www.crummy.com/software/BeautifulSoup/) (Python)
-and [Tagsoup](http://home.ccil.org/~cowan/XML/tagsoup/) (Java) were
-developed to cope with the messy markup and give the developer as much
-detail as possible from the page.
-
-HTML5
-=====
+### HTML5
 
 The most recent version of HTML is HTML5 - note the name with no spaces
 which is quite different to earlier versions.  HTML5 was a big change in
@@ -198,10 +102,137 @@ the way that the standard was put together and followed a long break in
 the development of standards for HTML: HTML 4.0.1 was last updated in 2000,
 HTML5 was finally released in 2012. The goal of HTML5 was to standardise
 current practice in browsers, rather than to define new structures or limit
-what was possible.   The W3C worked with the browser developers to 
-agree on standards for new technologies that they had introduced. For example, 
-being able to include audio and video elements in HTML had been possible 
+what was possible.   The W3C worked with the browser developers to
+agree on standards for new technologies that they had introduced. For example,
+being able to include audio and video elements in HTML had been possible
 in some browsers; HTML5 defined a standard for these that all browser
-vendors could agree on and implement. 
+vendors could agree on and implement.
 
+## The HTML Language
+
+This section will briefly cover some of the HTML language but is not
+intended to be a comprehensive guide.  The aim is to point out some
+of the high level ideas that you need to know to get started with HTML.
+
+### Document Structure
+
+Here's a simple HTML page showing the overall structure of the document.
+
+```HTML
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+        <title>Sample Page</title>
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <p>World</p>
+    </body>
+</html>
+```
+
+The first thing to mention is the low level syntax of HTML where
+we have start tags (`<body>`) and end tags (`</body>`) with content
+between these.   The content might be more tags or just text but each
+start tag generally has a matching end tag (there are exceptions, see later).
+
+The first line `<!DOCTYPE html>` is a declaration that this file is
+written according to the HTML5 standard.  This line is optional in the sense
+that your page will probably work without it, but including it let's the browser
+know that you know what you're doing and will stick to the HTML standard.  If you
+leave it out, the browser will assume that this is an older HTML page and might
+have to do more work to parse it properly.  Best practice is to put this in
+every page.
+
+The overall page consists of a `<head>` containing metadata about the page and
+a `<body>` with the page content. Certain tags are allowed only in the head
+section or the body.
+
+### Head Tags
+
+The content of the `<head>` tag is metadata about the page and is generally not
+visible directly, apart from the `<title>` element that will define the title
+appearing in the browser tab.  Two important tags that go here are the
+`<link>` tag that allows us to define a relationship to another resource
+such as a CSS stylesheet, and `<script>` that references Javascript code.  
+`<script>` can also be used inside the document body as we will see.
+
+Other tags in the head define metadata that describe aspects of the page. This
+can be to help the browser, search engines or other web clients.  Here's 
+some meta tags from [this MDN page](https://developer.mozilla.org/en-US/docs/Web/HTML) 
+as an example:
+
+```HTML
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="theme-color" content="#ffffff"/>
+    <meta name="robots" content="index, follow">
+    <meta name="description" content="HTML (HyperText Markup Language) is 
+       the most basic building block of the Web."/>
+```
+
+The `viewport` property tells the browser how to handle the page on a mobile device.
+The [theme-color](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name/theme-color)
+property provides hints about the color that could be used to display the UI elements
+surrounding the page.   The `robots` property is an instruction to an automated web
+crawler about what it is allowed to do with links in the page and the
+`description` is a summary of the page to help a search engine index the
+content.  Most of these are
+optional, the page will work for regular browser users without them, but they
+go towards making the page more useable and findable.
+
+### Body Tags
+
+The body contains the content of the web page and there are many elements
+that can appear here.   Most elements contain some text or other elements
+and define how their contents will appear on the page by default. For example, the
+`<p>` element denotes a paragraph and the content will be displayed as you
+would expect as a block of text; `<strong>` denotes some text that should
+be emphasised and will be shown in bold by default.
+
+We can talk about two things for each element: the meaning and the default
+visual appearance.   The meaning of an element is the intended use of the
+element to denote a part of the page.  For example, 'this text is a paragraph',
+'this is a table', 'here is a major heading'.  Each element then has a default
+visual appearance that makes sense for that type of content. Headings are set
+on their own in larger type. Paragraphs have space before and after them etc.  
+
+The visual appearance of any element can be changed via a [CSS stylesheet](intro-css.md)
+so what we get by default is only a default. You can make headings be small and
+green if you wish.
+
+#### Semantic Markup
+
+You will see references to [Semantic HTML](https://web.dev/learn/html/semantic-html)
+where 'semantic' means the meaning of each element.  The idea here is
+that there are many elements that have the same default visual appearance
+but we should chose the element that describes the meaning of the part of
+the document we're marking up.  So, use `<h1>` for the main heading
+in the page rather than using `<p>` and applying your own stylesheet.  Using
+the right elements makes your page more accessible. The browser will know where
+the headings are and a search engine will be able to understand the structure
+of your page more easily.   Blind users rely on well structured semantic
+HTML to help them to navigate your page using a screen-reader.  So, learn
+as much as you can about the different elements available to you and use
+one with the right meaning in your page.
+
+#### Inline or Block
+
+Some elements are intended to mark up 
+[blocks of content](https://developer.mozilla.org/en-US/docs/Glossary/Block-level_content)
+and by default will
+be displayed as rectangles with space around them in the page.  The obvious
+block is `<p>` which displays a block of text but there are many others
+such as `<header>`, `<footer>` which define larger sections of the page.
+One important example is `<div>` which is a block with no semantics. It is often
+used with an id or class attribute as a way of identifying part of the page
+to apply styles to. Eg. `<div id='main'>...</div>`.
+
+Another class of elements are those that are used inline in the content of
+a block.  Examples are `<strong>text</strong>` and `<a href="link.html">a link</a>`
+both of which could occur inside a paragraph for example and would affect how
+the enclosed text is displayed or behaves.  There is also a generic inline
+element `<span>` which can be used in a similar way to the `<div>` block tag
+to apply styles.
 
