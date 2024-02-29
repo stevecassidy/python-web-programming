@@ -252,6 +252,84 @@ the response could look just like the one we got from the GET request.   The eff
 of the request though might be more involved since the server is probably adding
 something to a database or creating a new resource in response to this request.
 
+## GET Requests with Form Data
+
+In the examples above we said that a `GET` request was for a simple
+resource and a `POST` request is often for submitting a form.  However, it is
+possible to send form data along with a `GET` request. Here we'll discuss how
+this is done and then how you might decide whether to use a `GET` or `POST`
+request for your form.
+
+In an [HTML form](html.md#html-forms) the _method_ attribute defines what
+HTTP request type will be used to send the form.  If this is `POST` then the
+data will be URL encoded and sent in the request body as in the example
+above.  If the method is `GET`, the form data is again URL encoded but this
+time it is appended to the URL defined in the _action_ attribute. 
+
+Assuming that the following form is included in the page at `http://example.org/`, 
+when the submit button is clicked a `GET` request will be generated.
+
+```HTML
+<form method="GET" action="/search">
+    <input name="q">
+    <input type="submit" value="Submit Message">
+</form>
+```
+
+The `GET` request will be sent to `http://example.org/search` - the URL is
+derived from the source page URL with the form action URL appended. The
+request will look something like:
+
+```HTTP
+GET /search?q=HTTP+Requests HTTP/1.1
+Host: example.org
+
+```
+
+As you can see, the form data has been appended to the URL after a question
+mark `?`. This whole request is then sent to the server which can respond
+as it sees fit.  In this example, we seem to be sending a search term and
+so the response may be a list of documents matching that search.
+
+Going back to the definition of the `GET` request we said that it should be
+_idempotent_ - it should not change the state of the world.   That would seem
+to be the case here; we are returned a list of the documents matching the search
+term and that would probably be the same whoever made the request.
+
+However, it would be possible to send a `GET` request with our new message
+in the `POST` example above:
+
+```HTTP
+GET /process?name=Steve+Cassidy&age=33&message=This+is+my+message+to+you. HTTP/1.1
+Host: example.org
+
+```
+
+If the effect of this request is to create a new message and send it to someone,
+that would not be an idempotent operation. Sending the request again would
+send a new message.   So, even though we could use a `GET` request here, we
+should not because it violates the meaning of `GET`.  Some parts of the
+web infrastructure such as [caching](#http-caches) rely on proper use of
+the request types.
+
+### Is GET more Secure?
+
+In a `GET` request including form data, the data is shown in the URL.  If the web
+server is keeping a log of requests, the data will be included in the log
+along with the IP address of the client machine.   If a `POST` request
+was used instead, the form data would be part of the request body and would
+not appear in any logs.  
+
+In both cases, the same form data is included in the HTTP request being sent. If
+someone was able to snoop on the request, they could see the data either way.
+
+The only case where `POST` might be considered more secure is if the web logs
+on the server are compromised.  In this case however, it is likely that the
+databases on the server are compromised too and the attacker will have all
+the access they need to the data.
+
+Ultimately, neither type of request is more secure.
+
 ## Other Request Types
 
 There are other kinds of request but all follow the pattern described above.

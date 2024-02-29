@@ -22,17 +22,17 @@ from the Chrome development team within Google.
 
 ## About HTML
 
-HTML is a *markup language*, which is a formal language used to add
+HTML is a _markup language_, which is a formal language used to add
 encode structured documents, often by mixing formal elements and plain
 text.
 
-HTML is the *Hypertext* Markup Language, meaning that it is designed to
+HTML is the _Hypertext_ Markup Language, meaning that it is designed to
 encode hypertext documents - that is, documents containing links to
 other documents on the World Wide Web. In fact, the hyperlink is just a
 small part of HTML and much more interesting are all the other parts of
 the language that allows us to produce useful documents for the web.
 
-Importantly, HTML is a *markup language* not a *programming language*.
+Importantly, HTML is a _markup language_ not a _programming language_.
 The job of a markup language is to record the structure of a document;
 that structure can then be interpreted by a program to generate some
 output. A programming language contains instructions that will be
@@ -62,14 +62,14 @@ structure of an HTML document. This says that you can have a
 `<p>` tag and that it can contain a `<strong>` tag but that a
 `<li>` has to be inside a `<ul>` or `<ol>` tag and so on. If
 a document follows the rules, we say that it is
-*valid*, if it contains errors such as having an unknown tag or a tag in
-the wrong place it is *invalid*.
+_valid_, if it contains errors such as having an unknown tag or a tag in
+the wrong place it is _invalid_.
 
 Early versions of HTML were subject to a lot of change and it wasn't
 until HTML version 4.0.1, released in 1999 that there was a bit of
 stability in the language and consensus about what should be included
 and what should be left out. Before then, HTML had grown to contain a
-lot of *visual* markup that had been developed by the browser vendors
+lot of _visual_ markup that had been developed by the browser vendors
 (Netscape and Microsoft) to try to make their browser look better than
 the competition. An example is the &lt;font&gt; tag introduced by
 Microsoft (and copied by Netscape) which could change the font used to
@@ -236,3 +236,65 @@ the enclosed text is displayed or behaves.  There is also a generic inline
 element `<span>` which can be used in a similar way to the `<div>` block tag
 to apply styles.
 
+## HTML Forms
+
+An important group of HTML tags are those that describe forms. Forms
+allow user interaction with the page - entering text, selecting from
+drop-down menus, clicking buttons.   The original design of forms
+was as a way of gathering user input to be sent back to the server
+for processing.  They are still used this way but in many cases these
+days, the form data may be processed in the page using Javascript 
+rather than being sent to the server.  Here we'll look at how forms
+are built and their default semantics.
+
+Here is an example form:
+
+```HTML
+<form method="POST" action="/process">
+   <div>
+       <label for="name">Name</label>
+       <input name="name">
+    </div>
+    <div>
+        <label for="age">Age</label>
+        <input name="age" type="number" min=0 max=110>
+    </div>
+    <div>
+        <label for="message">Message Text</label>
+        <textarea name="message"></textarea>
+    </div>
+    <div>
+        <input type="submit" value="Submit Message">
+    </div>
+</form>
+```
+
+The [`<form>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
+encloses the entire form and the two attributes on
+that element define what should happen when the form is submitted. In
+this case we will use a `POST` request (see [HTTP](http.md)) to the 
+URL `/process` to submit the form.  It would also be possible to use
+a `GET` request and for the action to be a full URL. 
+
+Inside the form, the first thing to note is that we can include structural
+tags like `<div>` to help lay out the form nicely.  In this case I would use
+CSS rules to make the form display appropriately.  The form specific
+tags are `<label>`, which defines a label for a given form input, and
+`<input>` or `<textarea>` which define input controls.
+
+The [`<input>` tag](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input)
+is very general and can be used for different kinds of user input. The simplest,
+ as in my _name_ input, is a text box where the user can enter text.  The next
+ example shows the use of the _type_ attribute, in this case to define the input
+ as a numeric entry.  As you'll see from the 
+ [MDN reference](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input#input_types)
+ there are many possible values for
+ the _type_ attribute from _button_ to _date_ to create different kinds of
+ input control. The `<textarea>` element defines a multi-line text entry.
+
+ Each of the input control elements has a _name_ attribute that defines
+ a name for the input.  These names will be sent to the server and can be
+ accessed from Javascript code running in the browser.  Input controls
+ can also have a _value_ attribute to define an initial value for the
+ input and a _placeholder_ attribute that defines some placeholder text
+ to show in the input if no value is present.
