@@ -369,7 +369,7 @@ for more details and some examples.
 ## HTTP Response Codes
 
 In the above examples we saw a response code of 200 which means that the request
-succeeded.   There are a different 
+succeeded.   There are a different
 [HTTP status codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 that can be returned by the server in different situations.
 

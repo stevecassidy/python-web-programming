@@ -1,7 +1,4 @@
-
-
-Introducing Cascading Style Sheets
-==================================
+# Introducing Cascading Style Sheets
 
 A few years ago, when teaching about CSS, we would spend some time
 justifying why using stylesheets was a good idea, relative to other ways
@@ -19,10 +16,7 @@ colours and fonts used to render the text. The language itself is very
 simple to understand; the complexity of CSS comes in the way that rules
 interact with each other in defining the whole layout of the page.
 
-
-
-CSS Syntax
-----------
+## CSS Syntax
 
 A CSS stylesheet consists of one or more 'rules' which define some
 visual properties of part of an HTML document. Each rule has two parts:
@@ -63,8 +57,7 @@ different properties have different formats; you need to look at
 examples and at [the documentation](https://adam-marsden.co.uk/css-cheat-sheet) to understand how
 each one works.
 
-Applying Stylesheets
---------------------
+## Applying Stylesheets
 
 A collection of CSS rules is called a stylesheet and the most common
 practice is to store these in a file with a .css extension which is then
@@ -186,11 +179,12 @@ priority
 Priority is then defined by how specific the rule is based on the
 selector
 If two rules have equal priority, the most recent rule will apply
--   The last STYLE or LINK element in the HEAD of a page takes priority
--   Within a stylesheet, later rules override earlier ones
--   Rules supplied by the author of a page take priority over user
+
+- The last STYLE or LINK element in the HEAD of a page takes priority
+- Within a stylesheet, later rules override earlier ones
+- Rules supplied by the author of a page take priority over user
     defined rules
--   User defined rules take priority over those defined by the web
+- User defined rules take priority over those defined by the web
     browser
 
 This priority order generally matches what you'd expect; later rules
@@ -215,8 +209,7 @@ In the example, the `text-indent` property is marked as important and
 would override any later rule for paragraphs. It would also override any
 user supplied stylesheet unless that was also marked as important.
 
-Developing Stylesheets
-----------------------
+## Using CSS
 
 The following sections describe some of the basic uses of CSS
 properties. It is by no means an exhaustive manual for CSS but is
@@ -224,8 +217,7 @@ intended to introduce the basics such that you can get started writing
 stylesheets. As a reference a more complete list of CSS properties is
 included [in this cheat sheet](https://adam-marsden.co.uk/css-cheat-sheet).
 
-CSS Font Properties
--------------------
+### CSS Font Properties
 
 One of the first things you might try in a stylesheet is to change the
 font of displayed text. There are a few properties that relate to the
@@ -250,7 +242,8 @@ p {
 ```
 
 To understand the effect of the font properties it is best to look in
-the [reference guide](https://adam-marsden.co.uk/css-cheat-sheet) at the different values that the
+the [reference guide](https://adam-marsden.co.uk/css-cheat-sheet) at the
+different values that the
 property can take. For example, the `font-weight` property can take
 values like `normal, bold, bolder, lighter`, meaning that this property
 is used to switch between bold and normal fonts.
@@ -264,7 +257,7 @@ common situation that the designers choice of font isn't installed on
 the target computer. Best practice is to always include at least one of
 the generic family names as the final alternative since these are
 guaranteed to be available in some form. The generic names are: `serif`,
-`sans-serif` and `fixed`. **CHECK THIS**
+`sans-serif` and `fixed`.
 
 It is generally bad practice to use absolute sizes (eg. 12pt) for fonts
 in CSS stylesheets. The reason for this is that unlike in a printed
@@ -280,10 +273,9 @@ relative to the default font for that element. So, if I define the font
 size for `H1` headings to be `150%` then it will appear 1.5 times as big
 as the default size for a top level header.
 
-Colour and Background Properties
---------------------------------
+### Colour and Background Properties
 
-```
+```CSS
 em {
   color: red;
   background-color: white;
@@ -297,11 +289,9 @@ body {
   background-repeat: repeat-y; /* repeat-x, no-repeat */
   background-attachment: fixed; /* scroll */
 }
-     
 ```
 
-CSS Formatting Model
---------------------
+### CSS Formatting Model
 
 The CSS standard defines a way of laying out the content of a web page
 according to what is called the *box model*. In this model there are two
@@ -373,7 +363,7 @@ effectively centering the block in the browser window. The next property
 defines the width of the block - without this the `auto` setting for the
 margin wouldn't have the desired effect because the block would take the
 width of it's parent. The width is measured in units of `ex` which is
-the width of a letter 'x' **CHECK THIS**, it is sometimes useful to use
+the height of a letter 'x', it is sometimes useful to use
 this unit as it scales with the font size used in the page.
 
 The `background-color` property sets the colour that will appear behind
@@ -408,64 +398,85 @@ This example would define a ten pixel margin on the left and right of
 paragraphs with zero pixel margins at the top and bottom and a border of
 1 pixel on the top and bottom and 5 pixels on the left and right.
 
-Selectors
----------
+### Selectors
 
-```
+Selectors are the first part of a CSS rule and define which elements in the page
+will be affected by the rule.
+
+```CSS
 selector { property: value;}
 ```
 
--   Element name, alone or in context:
+Element name, alone or in context:
 
-    ```
-    em { color: red }
-    h1 em { color: blue}
-    ul li { font-size: small}
-    ul ul li { font-size: x-small }
-    ```
+A single element name refers to all instances of that element.  To target
+an element contained somewhere within another element, use a space separated list:
 
--   Element id:
+```CSS
+em { color: red }
+h1 em { color: blue}
+ul li { font-size: small}
+ul ul li { font-size: x-small }
+```
 
-    ```
-    #maintitle { background-color: blue }
-    ```
+Immediate children of an element.
 
--   Element with class attribute:
+While a sequence of selectors targets elements anywhere within another element,
+we can also target the immediate children of an element using a `>` operator.
+This example would apply to list items in a nested `UL` but not to the top level list items.
 
-    ```
-    .relaxed { color: green }
-    .angry em { font-weight: bold }
-    ```
+```CSS
+ul ul > li { color: red}
+```
 
+```HTML
+<ul>
+  <li>Not this one</li>
+  <li><ul>
+        <li>this one</li>
+      </ul>
+  </li>
+</ul>
+```
 
-Pseudo-classes and Pseudo-elements
-----------------------------------
+Element id, id name starting with `#`:
+
+```CSS
+#maintitle { background-color: blue }
+```
+
+Element with class attribute, class name starting with `.`:
+
+```CSS
+.relaxed { color: green }
+.angry em { font-weight: bold }
+```
+
+### Pseudo-classes and Pseudo-elements
 
 Allow style to be applied to things that aren't marked up:
 
--   Anchor pseudo-classes:
+Anchor pseudo-classes:
 
-    ```CSS
-    A:link { color: red }       /* unvisited link */
-    A:visited { color: blue }   /* visited links */
-    A:active { color: lime }    /* active links */
-    A.external:visited { color: blue }
-      
-    ```
+```CSS
+A:link { color: red }       /* unvisited link */
+A:visited { color: blue }   /* visited links */
+A:active { color: lime }    /* active links */
+A.external:visited { color: blue }
+```
 
-    ```HTML
-    <a class=external href="http://out.side/">external link</a> 
-    ```
+```HTML
+<a class=external href="http://out.side/">external link</a> 
+```
 
--   Typographical pseudo-elements:
+Typographical pseudo-elements:
 
-    ```CSS
-    p:first-line { font-variant: small-caps }
-    p:first-letter { font-size: 200%; float: left }
-    ```
+```CSS
+p:first-line { font-variant: small-caps }
+p:first-letter { font-size: 200%; float: left }
+```
 
-Display Properties
-------------------
+### Display Properties
 
 These properties describe how the element should be displayed.
 
@@ -479,40 +490,33 @@ These properties describe how the element should be displayed.
 .secret { display: none; }
 ```
 
-CSS Page Layout
----------------
+### CSS Page Layout
 
--   Most of the above relates to the style of text on the page. What
+- Most of the above relates to the style of text on the page. What
     about page layout.
--   On most sites we need to place various page elements: headings,
+- On most sites we need to place various page elements: headings,
     navigation, content, advertising.
--   CSS provides the required level of control using *float*,
+- CSS provides the required level of control using *float*,
     *width/height* and *position* properties among others.
--   Examples of CSS layouts:
+- Examples of CSS layouts:
     [salia.com](http://www.saila.com/usage/layouts/), [little
     boxes](http://www.thenoodleincident.com/tutorials/box_lesson/boxes.html)
--   [css/edge](http://meyerweb.com/eric/css/edge/) has more advanced CSS
+- [css/edge](http://meyerweb.com/eric/css/edge/) has more advanced CSS
     examples
--   One goal is the [liquid
+- One goal is the [liquid
     layout](http://www.maxdesign.com.au/presentation/liquid/)
-
 
 Summary
 -------
 
--   HTML encodes the content of a web page.
+- HTML encodes the content of a web page.
 
--   CSS encodes the appearance of the page on the screen.
+- CSS encodes the appearance of the page on the screen.
 
--   Avoids the need for HTML to be extended to include specific display
+- Avoids the need for HTML to be extended to include specific display
     elements (eg. &lt;font&gt; or &lt;blink&gt;)
 
--   Facilitates a consistent look and feel across a web site which can
+- Facilitates a consistent look and feel across a web site which can
     be easily updated.
 
--   CSS layouts promote: semantic markup, accessibility, efficiency.
-
-
-
-
-
+- CSS layouts promote: semantic markup, accessibility, efficiency.
