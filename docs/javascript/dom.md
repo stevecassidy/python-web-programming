@@ -91,8 +91,10 @@ methods for each of these options illustrated in the following example:
 ```javascript
 // get all of the h1 elements in the document
 let headers = document.getElementsByTagName("h1")
+
 // get all of the elements with class='important'
 let important = document.getElementsByClassName('important')
+
 // get the element with id='content'
 let content = document.getElementById('content')
 ```
@@ -107,7 +109,7 @@ find an element with a particular id and then search within that for
 all of the table data (td) elements:
 
 ```javascript
-let table = document.getElementById('resulttable')
+let table = document.getElementById('result-table')
 let tdlist = table.getElementByTagName('td')
 for (let i=0; i<tdlist.length; i++) {
     console.log(tdlist[i].innerHTML)
@@ -115,11 +117,25 @@ for (let i=0; i<tdlist.length; i++) {
 ```
 
 This example also shows another part of the node interface. I can find the
-content of a node as an HTML string via the `innerHTML` property.  This is a very useful
+content of a node as an HTML string via the `innerHTML` property.  This is a
+very useful
 property because it also allows us to update the content of the element
 to modify the page as we'll see in the next section.  Another similar property
 is `innerText` which is the content of the element as text, with any HTML tags
 removed.  
+
+An alternate interface for finding elements is `querySelector`. This
+allows you to use CSS style element selectors to identify your target
+elements.  There are two methods: `querySelector` returns the first
+matched element while `querySelectorAll` returns all of them.
+
+```javascript
+// in this example, the first <img> elements inside the element with id="main"
+let image = document.querySelector('#main img');
+
+// and here, get all of the images inside "main"
+let images = document.querySelectorAll('#main img');
+```
 
 ## Modifying the Page
 
@@ -139,10 +155,10 @@ content from the script as it executes.  So I might have a target
 and target this from my Javascript:
 
 ```javascript
-let contentdiv = document.getElementById('content')
-let newcontent = "<p>Demonstrating insertion of content.</p>"
+let contentDiv = document.getElementById('content')
+let newContent = "<p>Demonstrating insertion of content.</p>"
 
-contentdiv.innerHTML = newcontent
+contentDiv.innerHTML = newContent
 ```
 
 There are other methods of modifying the content of an element, for example,
@@ -150,9 +166,9 @@ the following code will create a new paragraph tag and add some text content
 to it, then insert it inside the content div selected above.
 
 ```javascript
-let newp = document.createElement('p')
-newp.innerText = "Another example of inserting content"
-contentdiv.appendChild(newp)
+let newP = document.createElement('p')
+newP.innerText = "Another example of inserting content"
+contentDiv.appendChild(newP)
 ```
 
 These examples illustrate the way in which Javascript can update the
@@ -160,6 +176,19 @@ current page being shown in the browser. Any changes that are made
 to the `document` are reflected live in the page.  This is the basis of
 our ability to write Javascript applications with rich user interfaces
 running inside the web browser.
+
+## Other Parts of the DOM API
+
+There are many other things that can be done via the DOM; in fact, most of
+what we will discus in these chapters on Javascript is about the DOM.
+For example, when we look at [event handlers](events.md) we will learn about
+the event handler interface linked to DOM nodes and the `addEventListener`
+function that interacts with it.  Form elements make up a subset of the
+collection of HTML elements and have particular interfaces to handle user
+interaction etc.
+
+We use the DOM to interact with the HTML page and hence the user.  It is
+the basic building block of client side web application programming.
 
 ## Exercise: Fake News
 
@@ -211,7 +240,7 @@ Check the page to see your updated headline.
 
 Ok, so we can fake the news, that's good but we can go further.  
 
-1. Write a for loop that changes the content of all of the headlines to 
+1. Write a for loop that changes the content of all of the headlines to
 your chosen message
-2. Write a function that takes your new message as an argument and modifies 
+2. Write a function that takes your new message as an argument and modifies
 the headlines when it is called
