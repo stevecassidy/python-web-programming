@@ -298,3 +298,91 @@ is very general and can be used for different kinds of user input. The simplest,
  can also have a _value_ attribute to define an initial value for the
  input and a _placeholder_ attribute that defines some placeholder text
  to show in the input if no value is present.
+
+## Some Newer HTML Features
+
+These examples are intended to show some more recent features of the HTML
+standard that you might not have seen before.  They are not the only
+recent additions and illustrate the value of keeping up to date
+with the standard as it evolves.  If you have some experience with
+using higher level toolkits, you might have used implementations of
+some of these features.  It's good to know that you can achieve the same
+outcome with simpler HTML.
+
+### Modals with the `<dialog>` Element
+
+A common feature of web applications is a dialog box that pops up to
+ask the user to confirm an action or to enter some data.  In the past
+this has required Javascript code to be written to control the behaviour
+of the dialog box.  The HTML5 specification introduced a new element
+called `<dialog>` that can be used for this purpose.  It is a block
+level element that can be used to create modal (takes over the page until closed)
+and non-modal (just appears in the page).
+
+To implement a modal dialog, we still need some Javascript but the code is
+very simple and uses methods on the dialog element to manipulate it's state.
+Here's a very simple example:
+
+```HTML
+<dialog id="sample-dialog">
+ <button onclick="closeDialog>Close</button>
+  <p>This is the content of the dialog.</p>
+</dialog>
+<button onclick="openDialog">Show the Dialog</button>
+
+<script>
+const openDialog = () => {
+    const dialog = document.querySelector("#sample-dialog");
+    dialog.showModal();
+};
+
+const closeDialog = () => {
+    const dialog = document.querySelector("#sample-dialog");
+    dialog.close();
+};
+</script>
+```
+
+Since this is just a regular HTML element, you can apply whatever style
+you choose with CSS.  This can include bluring out the background when
+the dialog is open, rounding the corners of the dialog etc.  The
+[MDN page](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog) 
+has some examples.
+
+### Show/hide content with `<details>`
+
+Another common UI construct that has developed on the web is to show a
+small bit of content with a button to display more detail.  Again, in the past
+this has required Javascript to implement but with HTML5 there is now
+the [`<detail>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details)
+that can be used in plain HTML:
+
+```HTML
+<details>
+    <summary>This is the summary</summary>
+    <p>And here is some more detail on this topic.</p>
+</details>
+```
+
+### Input Completion with `<datalist>`
+
+Having a form input element that shows suggestions as you type is very
+common and often uses Javascript to generate the options.  HTML now
+has a native way to encode options if they are known in advance.
+
+```HTML
+<label for="ice-cream-choice">Choose a flavor:</label>
+<input list="ice-cream-flavors" id="ice-cream-choice" name="ice-cream-choice" />
+
+<datalist id="ice-cream-flavors">
+  <option value="Chocolate"></option>
+  <option value="Coconut"></option>
+  <option value="Mint"></option>
+  <option value="Strawberry"></option>
+  <option value="Vanilla"></option>
+</datalist>
+```
+
+In this example ([from MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/datalist))
+we provide a list of options via the `<datalist>` element
+to provide completions for an input form control.  
