@@ -9,3 +9,6 @@ theme:
 dev_addr: localhost:8109
 plugins:
   - search
+markdown_extensions:
+  - codehilite
+  
