@@ -536,8 +536,9 @@ this feature (the main exception is the old Internet Explorer).
 
 To write a Javascript module we make use of the [`export`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
 keyword somewhere in the file. There are many options here
-but I'll just cover the simplest case which is to list the symbols to be exported
-at the top of the file.  Here's an example, assume it is stored in the file `namegen.js`:
+but I'll just cover the simplest case which is to prefix any variable or function
+that is to be exported with the `export` keyword.
+Here's an example, assume it is stored in the file `namegen.js`:
 
 ```javascript
 export const maxNameLength = 1024;
