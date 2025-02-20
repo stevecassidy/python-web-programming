@@ -9,7 +9,7 @@ a JSON API.
 
 On the client-side we operate in a web browser environment that provides
 a built-in Javascript engine.  On the server side we need to find a suitable
-Javascript run-time environment; this is provided by [Node.js](nodejs.org).
+Javascript run-time environment; this is provided by [Node.js](https://nodejs.org).
 Node.js runs almost the same variety of Javascript as a modern browser and has
 additional libraries that implement things like file-system access etc. - things
 that aren't allowed in the browser for security reasons.  Once you install
@@ -28,7 +28,7 @@ directory into a folder called `node_modules`.   This means that the packages
 that you have installed can be different for different projects.  There is a way
 to install things globally, but that is much less common in the Javascript world.
 
-We'll see some examples of installing packages later in this chapter. 
+We'll see some examples of installing packages later in this chapter.
 
 ### Initialising a Node Project
 

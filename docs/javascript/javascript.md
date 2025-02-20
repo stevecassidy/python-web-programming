@@ -534,17 +534,16 @@ to weird tricks to write code that could be used in a modular fashion.  Fortunat
 the ES6 standard introduced module import/export and nearly all browsers now implement
 this feature (the main exception is the old Internet Explorer).
 
-To write a Javascript module we make use of the [`export`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export) keyword somewhere in the file. There are many options here
+To write a Javascript module we make use of the [`export`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export)
+keyword somewhere in the file. There are many options here
 but I'll just cover the simplest case which is to list the symbols to be exported
 at the top of the file.  Here's an example, assume it is stored in the file `namegen.js`:
 
 ```javascript
-export {maxNameLength, generateName};
-
-const maxNameLength = 1024;
+export const maxNameLength = 1024;
 const unexportedVariable = "useless";
 
-function generateName(length) {
+export function generateName(length) {
 
     if (length <= maxNameLength) {
          length = maxNameLength;
@@ -553,12 +552,16 @@ function generateName(length) {
 }
 ```
 
-In this example, we define a variable and a function that are exported and a second variable that
-is not.  Another module that imports this module can get access to `maxNameLength` and `generateName`
+In this example, we define a variable and a function that are exported and a
+second variable that
+is not.  Another module that imports this module can get access to
+`maxNameLength` and `generateName`
 but not to `unexportedVariable` which is only usable inside this module.
 
-Importing is similarly simple, making use of the `import` keyword as you might expect. The simplest
-case is where we just name the symbols we want to import from another module. Here is an example:
+Importing is similarly simple, making use of the `import` keyword as you might
+expect. The simplest
+case is where we just name the symbols we want to import from another module.
+Here is an example:s
 
 ```javascript
 import {generateName} from './namegen.js'
@@ -591,6 +594,7 @@ is either a relative or absolute path to the file that we want to import. This i
 could begin with http and reference a file on another server (but see below for some caveats).
 Most often though you will be referencing a module on the same server and will use either a
 relative or absolute path.  
+
 My example above is a relative path, it starts with `./` because a single period is an alias
 for the current directory (in Unix based systems, and this carries over to URL paths). A
 relative path can't be just the file name. So `'./namegen.js'`

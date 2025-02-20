@@ -272,9 +272,22 @@ Here is an example form:
 The [`<form>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form)
 encloses the entire form and the two attributes on
 that element define what should happen when the form is submitted. In
-this case we will use a `POST` request (see [HTTP](http.md)) to the 
+this case we will use a `POST` request (see [HTTP](http.md)) to the
 URL `/process` to submit the form.  It would also be possible to use
-a `GET` request and for the action to be a full URL. 
+a `GET` request and for the action to be a full URL.
+
+The action of a form is carried out when the form is submitted. By default
+this is when the submit button is clicked; the submit button is a special
+case of an `<input>` element with `type="submit"` or it can be a `<button>`
+element inside the form.
+
+```HTML
+<form>
+    <input type="text" name="name">
+    <input type="submit" value="This button will submit the form">
+    <button>So will this button</button>
+</form>
+```
 
 Inside the form, the first thing to note is that we can include structural
 tags like `<div>` to help lay out the form nicely.  In this case I would use
@@ -298,6 +311,9 @@ is very general and can be used for different kinds of user input. The simplest,
  can also have a _value_ attribute to define an initial value for the
  input and a _placeholder_ attribute that defines some placeholder text
  to show in the input if no value is present.
+
+
+
 
 ## Some Newer HTML Features
 

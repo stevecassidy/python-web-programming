@@ -84,16 +84,19 @@ to the event handler).
 The next step is to find the form and the colour value entered by the user.
 The form element will be the `target` attribute of the event since this event
 originated by interaction with the form.   To get the colour value, we
-find the input element within the form and get it's `value` property. In
-this example I've used `querySelector` to find the input but you could
-also use `getElementById` if it had an id.
+find the input element within the form and get it's `value` property. There
+are a few different ways to find the input element including:
+
+- use`querySelector` to find the input element
+- use the [`.elements` property of the form](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement/elements)
+index by the form name or id (`form.elements['color']`).
 
 ```Javascript
 form.onsubmit = (event) => {
     event.preventDefault();
     const form = event.target; 
     const colour = form.querySelector('[name="colour"]').value; 
-    
+    // or.. form.elements['colour'].value
 }
 ```
 
@@ -195,9 +198,9 @@ the order is placed.
 ```HTML
 <form id="order-form">
     <select name="product">
-        <option name="x1000">Panoptic X1000</option>
-        <option name="pretank">Pre-tank Caltigulator</option>
-        <option name="frobulator">Cryostatic Frobulator</option>
+        <option value="x1000">Panoptic X1000</option>
+        <option value="pretank">Pre-tank Caltigulator</option>
+        <option value="frobulator">Cryostatic Frobulator</option>
     </select>
     <input type="number" name="quantity" value="1">
 
@@ -215,8 +218,8 @@ orderForm.onsubmit = (event) => {
     event.preventDefault();
     const form = event.target;
     const data = {
-        product: form.querySelector('[name="product"]').value,
-        quantity: form.querySelector('[name="quantity"]').value
+        product: form.elements['product'].value,
+        quantity: form.elements['quantity'].value
     };
 
     fetch('https://example.com/order', 
@@ -239,7 +242,7 @@ The fetch request body is a JSON version of the form data.  The request
 body will look like this:
 
 ```JSON
-{"product":"Panoptic X1000","quantity":"1"}
+{"product":"x1000","quantity":"1"}
 ```
 
 In many cases, the remote API will want you to send data like this as JSON,
